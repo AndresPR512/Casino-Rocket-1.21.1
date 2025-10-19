@@ -55,6 +55,7 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+        // ITEM MODELS FOR CHIPS
         itemModelGenerator.register(ModItems.BASIC_CHIP, Models.GENERATED);
         itemModelGenerator.register(ModItems.COPPER_CHIP, Models.GENERATED);
         itemModelGenerator.register(ModItems.IRON_CHIP, Models.GENERATED);
@@ -63,6 +64,17 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.EMERALD_CHIP, Models.GENERATED);
         itemModelGenerator.register(ModItems.DIAMOND_CHIP, Models.GENERATED);
         itemModelGenerator.register(ModItems.NETHERITE_CHIP, Models.GENERATED);
+        // ITEM MODELS FOR POKEMON PINS
+        itemModelGenerator.register(ModItems.LITWICK_PIN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.STARYU_PIN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.BELLSPROUT_PIN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.TYROGUE_PIN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SCYTHER_PIN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.EEVEE_PIN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.DRATINI_PIN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.ROTOM_PIN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.DITTO_PIN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.PORYGON_PIN, Models.GENERATED);
     }
 
 }

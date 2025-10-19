@@ -2,32 +2,20 @@ package net.andrespr.casinorocket.nbt;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * Utility para crear el "tronco" NBT común de los villager que usamos.
- * Devuelve un NbtCompound fresco por cada llamada.
- */
 public final class VillagerNbtFactory {
 
     private VillagerNbtFactory() {}
 
-    /**
-     * Crea un NbtCompound base para un villager.
-     * @param displayName full text (p. ej. "Dealer")
-     * @param jobPos      posición del job site (si null no añade Brain.memories)
-     * @param profession  id de la profesión (p. ej. "cobbledollars:cobble_merchant")
-     * @param noAI        poner NoAI: true
-     * @param persistent  poner PersistenceRequired: true
-     * @return NbtCompound con el tronco listo (sin CobbleMerchantShop)
-     */
-    public static NbtCompound createBaseVillagerNbt(String displayName, BlockPos jobPos,
-                                                    String profession, boolean noAI, boolean persistent) {
+    public static NbtCompound createBaseVillagerNbt(String displayName, BlockPos jobPos, String profession) {
+
         NbtCompound root = new NbtCompound();
 
-        // id
+        // Villager ID
         root.putString("id", "minecraft:villager");
 
-        // CustomName (JSON simple)
+        // Custom Name
         String nameJson = "{\"text\":\"" + escapeJson(displayName) + "\"}";
         root.putString("CustomName", nameJson);
 
@@ -39,10 +27,10 @@ public final class VillagerNbtFactory {
         root.put("VillagerData", villagerData);
 
         // Flags
-        if (noAI) root.putBoolean("NoAI", true);
-        if (persistent) root.putBoolean("PersistenceRequired", true);
+        root.putBoolean("NoAI", true);
+        root.putBoolean("PersistenceRequired", true);
 
-        // Brain.memories.minecraft:job_site -> { value: { pos: [I; x,y,z], dimension: "minecraft:overworld" } }
+        // JobPos Memories
         if (jobPos != null) {
             NbtCompound brain = new NbtCompound();
             NbtCompound memories = new NbtCompound();
@@ -60,9 +48,11 @@ public final class VillagerNbtFactory {
         }
 
         return root;
+
     }
 
-    private static String escapeJson(String s) {
+    private static @NotNull String escapeJson(String s) {
         return s.replace("\\", "\\\\").replace("\"", "\\\"");
     }
+
 }

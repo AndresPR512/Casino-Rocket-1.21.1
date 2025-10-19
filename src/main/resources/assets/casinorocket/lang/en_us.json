@@ -8,6 +8,17 @@
   "item.casinorocket.diamond_chip": "Diamond Chip",
   "item.casinorocket.netherite_chip": "Netherite Chip",
 
+  "item.casinorocket.litwick_pin": "Litwick",
+  "item.casinorocket.staryu_pin": "Staryu",
+  "item.casinorocket.bellsprout_pin": "Bellsprout",
+  "item.casinorocket.tyrogue_pin": "Tyrogue",
+  "item.casinorocket.scyther_pin": "Scyther",
+  "item.casinorocket.eevee_pin": "Eevee",
+  "item.casinorocket.dratini_pin": "Dratini",
+  "item.casinorocket.rotom_pin": "Rotom",
+  "item.casinorocket.ditto_pin": "Ditto (6 IV's)",
+  "item.casinorocket.porygon_pin": "Porygon",
+
   "block.casinorocket.cut_gold_block": "Cut Gold Block",
   "block.casinorocket.cut_gold_stairs": "Cut Gold Stairs",
   "block.casinorocket.cut_gold_slab": "Cut Gold Slab",
@@ -54,6 +65,6 @@
   "tooltip.casinorocket.diamond_chip": "§9Value:§r §6$10M§r",
   "tooltip.casinorocket.netherite_chip": "§9Value:§r §6$100M§r",
 
-  "entity.minecraft.villager.casino_worker": "Casino Worker"
+  "tooltip.casinorocket.pokemon_pin": "Get this §especial pokemon§r!"
 
 }

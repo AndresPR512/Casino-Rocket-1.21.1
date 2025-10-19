@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    {
-      "id": "casinorocket:casino_worker_poi",
-      "required": false
-    }
-  ]
-}

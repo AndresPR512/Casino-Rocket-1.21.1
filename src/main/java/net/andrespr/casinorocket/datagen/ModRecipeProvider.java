@@ -212,4 +212,5 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(input), conditionsFromItem(input))
                 .offerTo(exporter, Identifier.of(CasinoRocket.MOD_ID, getRecipeName(output)));
     }
+
 }
