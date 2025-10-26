@@ -1,0 +1,12 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "casinorocket:item/bills/bill_10m"
+  },
+  "overrides": [
+    {
+      "predicate": { "stacked": 1 },
+      "model": "casinorocket:item/stacked_bill_10m"
+    }
+  ]
+}

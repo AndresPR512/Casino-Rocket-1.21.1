@@ -19,6 +19,24 @@
   "item.casinorocket.ditto_pin": "Ditto (6 IV's)",
   "item.casinorocket.porygon_pin": "Porygon",
 
+  "item.casinorocket.copper_coin": "Copper Coin",
+  "item.casinorocket.iron_coin": "Iron Coin",
+  "item.casinorocket.gold_coin": "Gold Coin",
+  "item.casinorocket.diamond_coin": "Diamond Coin",
+
+  "item.casinorocket.bill_100": "$100 Bill",
+  "item.casinorocket.bill_500": "$500 Bill",
+  "item.casinorocket.bill_1k": "$1k Bill",
+  "item.casinorocket.bill_5k": "$5k Bill",
+  "item.casinorocket.bill_10k": "$10k Bill",
+  "item.casinorocket.bill_25k": "$25k Bill",
+  "item.casinorocket.bill_50k": "$50k Bill",
+  "item.casinorocket.bill_100k": "$100k Bill",
+  "item.casinorocket.bill_500k": "$500k Bill",
+  "item.casinorocket.bill_1m": "$1M Bill",
+  "item.casinorocket.bill_10m": "$10M Bill",
+  "item.casinorocket.bill_100m": "$100M Bill",
+
   "block.casinorocket.cut_gold_block": "Cut Gold Block",
   "block.casinorocket.cut_gold_stairs": "Cut Gold Stairs",
   "block.casinorocket.cut_gold_slab": "Cut Gold Slab",
@@ -53,18 +71,25 @@
   "block.casinorocket.diamond_door": "Diamond Door",
   "block.casinorocket.diamond_trapdoor": "Diamond Trapdoor",
 
+  "block.casinorocket.gacha_machine": "Gacha Machine",
+
   "itemgroup.casinorocket.casino_rocket_items": "Casino Rocket",
   "itemgroup.casinorocket.casino_rocket_blocks": "Casino Rocket Blocks",
 
-  "tooltip.casinorocket.basic_chip": "§9Value:§r §6$100§r",
-  "tooltip.casinorocket.copper_chip": "§9Value:§r §6$1K§r",
-  "tooltip.casinorocket.iron_chip": "§9Value:§r §6$10K§r",
-  "tooltip.casinorocket.amethyst_chip": "§9Value:§r §6$25K§r",
-  "tooltip.casinorocket.golden_chip": "§9Value:§r §6$100K§r",
-  "tooltip.casinorocket.emerald_chip": "§9Value:§r §6$1M§r",
-  "tooltip.casinorocket.diamond_chip": "§9Value:§r §6$10M§r",
-  "tooltip.casinorocket.netherite_chip": "§9Value:§r §6$100M§r",
+  "tooltip.casinorocket.basic_chip": "§9Value:§r §6$%s§r",
+  "tooltip.casinorocket.copper_chip": "§9Value:§r §6$%s§r",
+  "tooltip.casinorocket.iron_chip": "§9Value:§r §6$%s§r",
+  "tooltip.casinorocket.amethyst_chip": "§9Value:§r §6$%s§r",
+  "tooltip.casinorocket.golden_chip": "§9Value:§r §6$%s§r",
+  "tooltip.casinorocket.emerald_chip": "§9Value:§r §6$%s§r",
+  "tooltip.casinorocket.diamond_chip": "§9Value:§r §6$%s§r",
+  "tooltip.casinorocket.netherite_chip": "§9Value:§r §6$%s§r",
 
-  "tooltip.casinorocket.pokemon_pin": "Get this §especial pokemon§r!"
+  "tooltip.casinorocket.pokemon_pin": "Get this §especial pokemon§r!",
 
+  "tooltip.casinorocket.bill": "Press >§eRight Click§r< while sneaking to add to your pocket!",
+
+  "message.casinorocket.pokemon_received_party": "You received a %s!",
+  "message.casinorocket.pokemon_received_box": "Your team is full! %s was sent to your boxes.",
+  "message.casinorocket.pokemon_received_box_full": "Your team and PC are full. %s couldn't be added."
 }

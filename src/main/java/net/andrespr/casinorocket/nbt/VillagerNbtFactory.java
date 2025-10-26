@@ -9,6 +9,10 @@ public final class VillagerNbtFactory {
     private VillagerNbtFactory() {}
 
     public static NbtCompound createBaseVillagerNbt(String displayName, BlockPos jobPos, String profession) {
+        return createBaseVillagerNbt(displayName, jobPos, profession, 0);
+    }
+
+    public static NbtCompound createBaseVillagerNbt(String displayName, BlockPos jobPos, String profession, int suitId) {
 
         NbtCompound root = new NbtCompound();
 
@@ -22,7 +26,7 @@ public final class VillagerNbtFactory {
         // VillagerData
         NbtCompound villagerData = new NbtCompound();
         villagerData.putString("profession", profession);
-        villagerData.putInt("level", 1);
+        villagerData.putInt("level", 5);
         villagerData.putString("type", "minecraft:plains");
         root.put("VillagerData", villagerData);
 
@@ -45,6 +49,10 @@ public final class VillagerNbtFactory {
             memories.put("minecraft:job_site", jobSiteEntry);
             brain.put("memories", memories);
             root.put("Brain", brain);
+        }
+
+        if (suitId > 0) {
+            root.putInt("casinorocket.CustomSuit", suitId);
         }
 
         return root;

@@ -27,6 +27,24 @@ public class ModItemsGroup {
                         entries.add(ModItems.EMERALD_CHIP);
                         entries.add(ModItems.DIAMOND_CHIP);
                         entries.add(ModItems.NETHERITE_CHIP);
+                        // COINS
+                        entries.add(ModItems.COPPER_COIN);
+                        entries.add(ModItems.IRON_COIN);
+                        entries.add(ModItems.GOLD_COIN);
+                        entries.add(ModItems.DIAMOND_COIN);
+                        // BILLS
+                        entries.add(ModItems.BILL_100);
+                        entries.add(ModItems.BILL_500);
+                        entries.add(ModItems.BILL_1K);
+                        entries.add(ModItems.BILL_5K);
+                        entries.add(ModItems.BILL_10K);
+                        entries.add(ModItems.BILL_25K);
+                        entries.add(ModItems.BILL_50K);
+                        entries.add(ModItems.BILL_100K);
+                        entries.add(ModItems.BILL_500K);
+                        entries.add(ModItems.BILL_1M);
+                        entries.add(ModItems.BILL_10M);
+                        entries.add(ModItems.BILL_100M);
                         // POKEMON PINS
                         entries.add(ModItems.LITWICK_PIN);
                         entries.add(ModItems.STARYU_PIN);
@@ -79,6 +97,8 @@ public class ModItemsGroup {
                         entries.add(ModBlocks.HEAVY_DIAMOND_PILLAR);
                         entries.add(ModBlocks.DIAMOND_DOOR);
                         entries.add(ModBlocks.DIAMOND_TRAPDOOR);
+
+                        entries.add(ModBlocks.GACHA_MACHINE);
                     }).build());
 
     public static void registerItemGroups() {

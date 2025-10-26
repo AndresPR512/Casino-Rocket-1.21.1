@@ -64,6 +64,11 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.EMERALD_CHIP, Models.GENERATED);
         itemModelGenerator.register(ModItems.DIAMOND_CHIP, Models.GENERATED);
         itemModelGenerator.register(ModItems.NETHERITE_CHIP, Models.GENERATED);
+        // ITEM MODELS FOR COINS
+        itemModelGenerator.register(ModItems.COPPER_COIN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.IRON_COIN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.GOLD_COIN, Models.GENERATED);
+        itemModelGenerator.register(ModItems.DIAMOND_COIN, Models.GENERATED);
         // ITEM MODELS FOR POKEMON PINS
         itemModelGenerator.register(ModItems.LITWICK_PIN, Models.GENERATED);
         itemModelGenerator.register(ModItems.STARYU_PIN, Models.GENERATED);

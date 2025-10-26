@@ -2,10 +2,15 @@
 	"required": true,
 	"package": "net.andrespr.casinorocket.mixin",
 	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-        "CustomVillagerTextureMixin",
-        "VillagerClothingFeatureRendererMixin"
-	],
+    "mixins": [
+      "EntityPersistentDataMixin",
+      "EntityStartTrackingMixin"
+    ],
+    "client": [
+      "CustomVillagerTextureMixin",
+      "LivingEntityRendererAccessor",
+      "VillagerClothingFeatureRendererMixin"
+    ],
 	"injectors": {
 		"defaultRequire": 1
 	},

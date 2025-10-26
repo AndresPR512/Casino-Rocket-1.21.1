@@ -1,6 +1,8 @@
 package net.andrespr.casinorocket.block;
 
 import net.andrespr.casinorocket.CasinoRocket;
+import net.andrespr.casinorocket.block.custom.GachaMachineBlock;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.item.BlockItem;
@@ -150,6 +152,11 @@ public class ModBlocks {
 
     public static final Block DIAMOND_TRAPDOOR = registerBlock("diamond_trapdoor",
             new TrapdoorBlock(BlockSetType.GOLD, AbstractBlock.Settings.copy(CUT_DIAMOND_BLOCK).nonOpaque()));
+
+    // ENTITIES
+
+    public static final Block GACHA_MACHINE = registerBlock("gacha_machine",
+            new GachaMachineBlock(AbstractBlock.Settings.create().strength(1.5F).nonOpaque()));
 
     // METHODS
 
