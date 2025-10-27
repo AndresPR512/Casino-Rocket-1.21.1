@@ -1,7 +1,11 @@
 package net.andrespr.casinorocket;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.andrespr.casinorocket.block.ModBlocks;
 import net.andrespr.casinorocket.command.CasinoRocketCommands;
+import net.andrespr.casinorocket.config.CasinoRocketConfig;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.item.ModItemsGroup;
 import net.andrespr.casinorocket.network.SuitSyncPayload;
@@ -16,6 +20,7 @@ public class CasinoRocket implements ModInitializer {
 
     public static final String MOD_ID = "casinorocket";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static CasinoRocketConfig CONFIG;
 
     @Override
     public void onInitialize() {
@@ -23,8 +28,12 @@ public class CasinoRocket implements ModInitializer {
         ModBlocks.registerModBlocks();
         ModItems.registerModItems();
         CommandRegistrationCallback.EVENT.register(CasinoRocketCommands::register);
+
         PayloadTypeRegistry.playS2C().register(SuitSyncPayload.ID, SuitSyncPayload.CODEC);
         ShopsRegistry.bootstrap();
+
+        AutoConfig.register(CasinoRocketConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
+        CONFIG = AutoConfig.getConfigHolder(CasinoRocketConfig.class).getConfig();
     }
 
 }

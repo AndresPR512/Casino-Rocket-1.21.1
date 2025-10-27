@@ -1,9 +1,7 @@
 package net.andrespr.casinorocket.item;
 
 import net.andrespr.casinorocket.CasinoRocket;
-import net.andrespr.casinorocket.item.custom.BillItem;
-import net.andrespr.casinorocket.item.custom.ChipItem;
-import net.andrespr.casinorocket.item.custom.PokemonPinItem;
+import net.andrespr.casinorocket.item.custom.*;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -27,6 +25,16 @@ public class ModItems {
     public static final Item IRON_COIN = registerItem("iron_coin", new Item(new Item.Settings()));
     public static final Item GOLD_COIN = registerItem("gold_coin", new Item(new Item.Settings()));
     public static final Item DIAMOND_COIN = registerItem("diamond_coin", new Item(new Item.Settings()));
+
+    public static final ItemGachaponItem ITEM_POKE_GACHAPON = registerCustomItem("item_poke_gachapon", new ItemGachaponItem(new Item.Settings(), "pokeball"));
+    public static final ItemGachaponItem ITEM_SUPER_GACHAPON = registerCustomItem("item_super_gachapon", new ItemGachaponItem(new Item.Settings(), "superball"));
+    public static final ItemGachaponItem ITEM_ULTRA_GACHAPON = registerCustomItem("item_ultra_gachapon", new ItemGachaponItem(new Item.Settings(), "ultraball"));
+    public static final ItemGachaponItem ITEM_MASTER_GACHAPON = registerCustomItem("item_master_gachapon", new ItemGachaponItem(new Item.Settings(), "masterball"));
+
+    public static final PokemonGachaponItem POKEMON_POKE_GACHAPON = registerCustomItem("pokemon_poke_gachapon", new PokemonGachaponItem(new Item.Settings(), "pokeball"));
+    public static final PokemonGachaponItem POKEMON_SUPER_GACHAPON = registerCustomItem("pokemon_super_gachapon", new PokemonGachaponItem(new Item.Settings(), "superball"));
+    public static final PokemonGachaponItem POKEMON_ULTRA_GACHAPON = registerCustomItem("pokemon_ultra_gachapon", new PokemonGachaponItem(new Item.Settings(), "ultraball"));
+    public static final PokemonGachaponItem POKEMON_MASTER_GACHAPON = registerCustomItem("pokemon_master_gachapon", new PokemonGachaponItem(new Item.Settings(), "masterball"));
 
     public static final PokemonPinItem LITWICK_PIN = registerCustomItem("litwick_pin",
             new PokemonPinItem(new Item.Settings(), 15));

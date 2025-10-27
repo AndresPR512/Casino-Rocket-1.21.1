@@ -32,6 +32,15 @@ public class ModItemsGroup {
                         entries.add(ModItems.IRON_COIN);
                         entries.add(ModItems.GOLD_COIN);
                         entries.add(ModItems.DIAMOND_COIN);
+                        // GACHAPON
+                        entries.add(ModItems.ITEM_POKE_GACHAPON);
+                        entries.add(ModItems.ITEM_SUPER_GACHAPON);
+                        entries.add(ModItems.ITEM_ULTRA_GACHAPON);
+                        entries.add(ModItems.ITEM_MASTER_GACHAPON);
+                        entries.add(ModItems.POKEMON_POKE_GACHAPON);
+                        entries.add(ModItems.POKEMON_SUPER_GACHAPON);
+                        entries.add(ModItems.POKEMON_ULTRA_GACHAPON);
+                        entries.add(ModItems.POKEMON_MASTER_GACHAPON);
                         // BILLS
                         entries.add(ModItems.BILL_100);
                         entries.add(ModItems.BILL_500);
@@ -97,7 +106,7 @@ public class ModItemsGroup {
                         entries.add(ModBlocks.HEAVY_DIAMOND_PILLAR);
                         entries.add(ModBlocks.DIAMOND_DOOR);
                         entries.add(ModBlocks.DIAMOND_TRAPDOOR);
-
+                        // GACHA MACHINES
                         entries.add(ModBlocks.GACHA_MACHINE);
                     }).build());
 
