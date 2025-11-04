@@ -9,9 +9,13 @@ import net.andrespr.casinorocket.config.CasinoRocketConfig;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.item.ModItemsGroup;
 import net.andrespr.casinorocket.network.SuitSyncPayload;
-import net.andrespr.casinorocket.util.shops.ShopsRegistry;
+import net.andrespr.casinorocket.sound.ModSounds;
+import net.andrespr.casinorocket.util.gacha.GachaponUtils;
+import net.andrespr.casinorocket.util.gacha.PokemonGachaponUtils;
+import net.andrespr.casinorocket.villager.shops.ShopsRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +23,7 @@ import org.slf4j.LoggerFactory;
 public class CasinoRocket implements ModInitializer {
 
     public static final String MOD_ID = "casinorocket";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final Logger LOGGER = LoggerFactory.getLogger("CasinoRocket");
     public static CasinoRocketConfig CONFIG;
 
     @Override
@@ -27,6 +31,7 @@ public class CasinoRocket implements ModInitializer {
         ModItemsGroup.registerItemGroups();
         ModBlocks.registerModBlocks();
         ModItems.registerModItems();
+        ModSounds.registerSounds();
         CommandRegistrationCallback.EVENT.register(CasinoRocketCommands::register);
 
         PayloadTypeRegistry.playS2C().register(SuitSyncPayload.ID, SuitSyncPayload.CODEC);
@@ -34,6 +39,13 @@ public class CasinoRocket implements ModInitializer {
 
         AutoConfig.register(CasinoRocketConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
         CONFIG = AutoConfig.getConfigHolder(CasinoRocketConfig.class).getConfig();
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            GachaponUtils.buildCache(CasinoRocket.CONFIG.itemGachapon.pools);
+            PokemonGachaponUtils.buildCache(CasinoRocket.CONFIG.pokemonGachapon.pools);
+        });
+
+        LOGGER.info("Mod initialized successfully!");
+
     }
 
 }

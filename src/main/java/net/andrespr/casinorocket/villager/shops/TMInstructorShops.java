@@ -1,6 +1,6 @@
-package net.andrespr.casinorocket.util.shops;
+package net.andrespr.casinorocket.villager.shops;
 
-import net.andrespr.casinorocket.util.VillagerTradeHelper;
+import net.andrespr.casinorocket.villager.VillagerTradeHelper;
 import net.minecraft.nbt.NbtList;
 
 public final class TMInstructorShops implements IShop {

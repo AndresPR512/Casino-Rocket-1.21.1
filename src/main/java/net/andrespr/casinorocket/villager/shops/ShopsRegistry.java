@@ -1,6 +1,5 @@
-package net.andrespr.casinorocket.util.shops;
+package net.andrespr.casinorocket.villager.shops;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 

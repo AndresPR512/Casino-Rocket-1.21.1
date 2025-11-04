@@ -37,6 +37,20 @@
   "item.casinorocket.bill_10m": "$10M Bill",
   "item.casinorocket.bill_100m": "$100M Bill",
 
+  "item.casinorocket.poke_gachapon": "Poké Ball Gachapon",
+  "item.casinorocket.great_gachapon": "Great Ball Gachapon",
+  "item.casinorocket.ultra_gachapon": "Ultra Ball Gachapon",
+  "item.casinorocket.master_gachapon": "Master Ball Gachapon",
+  "item.casinorocket.cherish_gachapon": "Cherish Ball Gachapon",
+  "item.casinorocket.premier_gachapon": "Premier Ball Gachapon",
+
+  "item.casinorocket.pokemon_poke_gachapon": "Pokémon Poké Ball Gachapon",
+  "item.casinorocket.pokemon_great_gachapon": "Pokémon Great Ball Gachapon",
+  "item.casinorocket.pokemon_ultra_gachapon": "Pokémon Ultra Ball Gachapon",
+  "item.casinorocket.pokemon_master_gachapon": "Pokémon Master Ball Gachapon",
+  "item.casinorocket.pokemon_cherish_gachapon": "Pokémon Cherish Ball Gachapon",
+  "item.casinorocket.pokemon_premier_gachapon": "Pokémon Premier Ball Gachapon",
+
   "block.casinorocket.cut_gold_block": "Cut Gold Block",
   "block.casinorocket.cut_gold_stairs": "Cut Gold Stairs",
   "block.casinorocket.cut_gold_slab": "Cut Gold Slab",
@@ -71,25 +85,54 @@
   "block.casinorocket.diamond_door": "Diamond Door",
   "block.casinorocket.diamond_trapdoor": "Diamond Trapdoor",
 
-  "block.casinorocket.gacha_machine": "Gacha Machine",
+  "block.casinorocket.pokemon_gacha_machine": "Pokemon Gacha Machine",
+  "block.casinorocket.gacha_machine": "Item Gacha Machine",
 
   "itemgroup.casinorocket.casino_rocket_items": "Casino Rocket",
   "itemgroup.casinorocket.casino_rocket_blocks": "Casino Rocket Blocks",
 
-  "tooltip.casinorocket.basic_chip": "§9Value:§r §6$%s§r",
-  "tooltip.casinorocket.copper_chip": "§9Value:§r §6$%s§r",
-  "tooltip.casinorocket.iron_chip": "§9Value:§r §6$%s§r",
-  "tooltip.casinorocket.amethyst_chip": "§9Value:§r §6$%s§r",
-  "tooltip.casinorocket.golden_chip": "§9Value:§r §6$%s§r",
-  "tooltip.casinorocket.emerald_chip": "§9Value:§r §6$%s§r",
-  "tooltip.casinorocket.diamond_chip": "§9Value:§r §6$%s§r",
-  "tooltip.casinorocket.netherite_chip": "§9Value:§r §6$%s§r",
+  "tooltip.casinorocket.chip": "§9Value:§r §6$%s§r",
 
-  "tooltip.casinorocket.pokemon_pin": "Get this §especial pokemon§r!",
+  "tooltip.casinorocket.pokemon_pin": "Get this §especial pokémon§r!",
 
   "tooltip.casinorocket.bill": "Press >§eRight Click§r< while sneaking to add to your pocket!",
 
+  "tooltip.casinorocket.poke_gachapon": "Press >§eRight Click§r< on hand to get a §6common prize§r!",
+  "tooltip.casinorocket.great_gachapon": "Press >§eRight Click§r< on hand to get an §6uncommon prize§r!",
+  "tooltip.casinorocket.ultra_gachapon": "Press >§eRight Click§r< on hand to get a §6rare prize§r!",
+  "tooltip.casinorocket.master_gachapon": "Press >§eRight Click§r< on hand to get an §6ultrarare prize§r!",
+  "tooltip.casinorocket.cherish_gachapon": "Press >§eRight Click§r< on hand to get a §6legendary prize§r!",
+  "tooltip.casinorocket.premier_gachapon": "Press >§eRight Click§r< on hand to get a §6bonus prize§r!",
+
+  "tooltip.casinorocket.pokemon_poke_gachapon": "Press >§eRight Click§r< on hand to get a §6common pokémon§r!",
+  "tooltip.casinorocket.pokemon_great_gachapon": "Press >§eRight Click§r< on hand to get an §6uncommon pokémon§r!",
+  "tooltip.casinorocket.pokemon_ultra_gachapon": "Press >§eRight Click§r< on hand to get a §6rare pokémon§r!",
+  "tooltip.casinorocket.pokemon_master_gachapon": "Press >§eRight Click§r< on hand to get an §6ultrarare pokémon§r!",
+  "tooltip.casinorocket.pokemon_cherish_gachapon": "Press >§eRight Click§r< on hand to get a §6legendary pokémon§r!",
+  "tooltip.casinorocket.pokemon_premier_gachapon": "Press >§eRight Click§r< on hand to get a §6bonus pokémon§r!",
+
   "message.casinorocket.pokemon_received_party": "You received a %s!",
-  "message.casinorocket.pokemon_received_box": "Your team is full! %s was sent to your boxes.",
-  "message.casinorocket.pokemon_received_box_full": "Your team and PC are full. %s couldn't be added."
+  "message.casinorocket.pokemon_box_full": "Your team and PC are full. %s couldn't be added.",
+  "message.casinorocket.money_deposited": "You deposited $%s into your wallet!",
+  "message.casinorocket.item_gachapon_received": "You have obtained %sx %s!",
+
+  "message.casinorocket.gacha_machines_coin_inserted": "§7Coin inserted... please wait!",
+  "message.casinorocket.gacha_machines_occupied": "§cYou have to wait a bit before using this machine again!",
+  "message.casinorocket.gacha_machines_another_occupied": "§cYou must wait for your last Gacha to finish before using another!",
+  "message.casinorocket.gacha_machines_reward": "You received a %s!",
+  "message.casinorocket.gacha_machines_bonus_prize": "§aOh! You received a §fPremier Gachapon§a bonus for using §e%s§a coins!",
+  "message.casinorocket.gacha_machines_pity_update": "§6Legendary chance (§r%s§6) increased to:§r %s§e%%§r",
+  "message.casinorocket.gacha_machines_pity_max": "§6Legendary chance (§r%s§6) maxed at:§r %s§e%%§r",
+  "message.casinorocket.gacha_machines_pity_reset": "§6Legendary chance (§r%s§6) reset to:§r %s§e%%§r",
+
+  "message.casinorocket.species_not_found": "ERROR: The species \"%s\" was not found.",
+  "message.casinorocket.item_gachapon_empty": "Sorry! This gachapon seems to be broken...",
+
+  "sound.casinorocket.inserting_coin": "Inserting Coin",
+  "sound.casinorocket.common_rarity": "Common Rarity",
+  "sound.casinorocket.uncommon_rarity": "Uncommon Rarity",
+  "sound.casinorocket.rare_rarity": "Rare Rarity",
+  "sound.casinorocket.ultrarare_rarity": "Ultrarare Rarity",
+  "sound.casinorocket.legendary_rarity": "Legendary Rarity"
+
 }

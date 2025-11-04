@@ -16,7 +16,7 @@ public class ItemGachaponConfig implements ConfigData {
     public static class GachaEntry {
         public String itemId;
         public int weight;
-        public int count = 1;
+        public int count;
 
         public GachaEntry() {}
         public GachaEntry(String itemId, int weight, int count) {
@@ -30,7 +30,7 @@ public class ItemGachaponConfig implements ConfigData {
     public void validatePostLoad() {
         if (pools.isEmpty()) {
 
-            pools.put("pokeball", List.of(
+            pools.put("common", List.of(
                     new GachaEntry("cobblemon:poke_ball", 10, 10),
                     new GachaEntry("cobblemon:potion", 8, 2),
                     new GachaEntry("cobblemon:antidote", 6, 3),
@@ -40,8 +40,14 @@ public class ItemGachaponConfig implements ConfigData {
                     new GachaEntry("minecraft:coal", 3, 8)
             ));
 
-            pools.put("superball", List.of(
-                    new GachaEntry("cobblemon:great_ball", 6, 10),
+            pools.put("uncommon", List.of(
+                    new GachaEntry("cobblemon:great_ball", 10, 5),
+                    new GachaEntry("minecraft:iron_ingot", 5, 6),
+                    new GachaEntry("cobblemon:quick_ball", 2, 3)
+            ));
+
+            pools.put("rare", List.of(
+                    new GachaEntry("cobblemon:ultra_ball", 6, 10),
                     new GachaEntry("cobblemon:full_heal", 5, 2),
                     new GachaEntry("cobblemon:super_potion", 5, 2),
                     new GachaEntry("cobblemon:revive", 4, 1),
@@ -50,8 +56,8 @@ public class ItemGachaponConfig implements ConfigData {
                     new GachaEntry("cobblemon:dusk_ball", 2, 2)
             ));
 
-            pools.put("ultraball", List.of(
-                    new GachaEntry("cobblemon:ultra_ball", 6, 5),
+            pools.put("ultrarare", List.of(
+                    new GachaEntry("cobblemon:quick_ball", 6, 5),
                     new GachaEntry("cobblemon:rare_candy", 5, 1),
                     new GachaEntry("cobblemon:exp_candy_m", 4, 3),
                     new GachaEntry("cobblemon:dawn_stone", 3, 1),
@@ -62,7 +68,7 @@ public class ItemGachaponConfig implements ConfigData {
                     new GachaEntry("cobblemon:exp_share", 1, 1)
             ));
 
-            pools.put("masterball", List.of(
+            pools.put("legendary", List.of(
                     new GachaEntry("cobblemon:master_ball", 1, 1),
                     new GachaEntry("cobblemon:cherish_ball", 1, 1),
                     new GachaEntry("cobblemon:exp_candy_l", 3, 3),
@@ -70,6 +76,13 @@ public class ItemGachaponConfig implements ConfigData {
                     new GachaEntry("cobblemon:shiny_stone", 3, 1),
                     new GachaEntry("cobblemon:ability_patch", 2, 1),
                     new GachaEntry("minecraft:netherite_ingot", 1, 1)
+            ));
+
+            pools.put("bonus", List.of(
+                    new GachaEntry("cobblemon:premier_ball", 6, 6),
+                    new GachaEntry("minecraft:iron_ingot", 3, 8),
+                    new GachaEntry("cobblemon:super_potion", 4, 6),
+                    new GachaEntry("cobblemon:exp_candy_m", 1, 2)
             ));
 
         }

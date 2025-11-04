@@ -26,36 +26,52 @@ public class ModItems {
     public static final Item GOLD_COIN = registerItem("gold_coin", new Item(new Item.Settings()));
     public static final Item DIAMOND_COIN = registerItem("diamond_coin", new Item(new Item.Settings()));
 
-    public static final ItemGachaponItem ITEM_POKE_GACHAPON = registerCustomItem("item_poke_gachapon", new ItemGachaponItem(new Item.Settings(), "pokeball"));
-    public static final ItemGachaponItem ITEM_SUPER_GACHAPON = registerCustomItem("item_super_gachapon", new ItemGachaponItem(new Item.Settings(), "superball"));
-    public static final ItemGachaponItem ITEM_ULTRA_GACHAPON = registerCustomItem("item_ultra_gachapon", new ItemGachaponItem(new Item.Settings(), "ultraball"));
-    public static final ItemGachaponItem ITEM_MASTER_GACHAPON = registerCustomItem("item_master_gachapon", new ItemGachaponItem(new Item.Settings(), "masterball"));
+    public static final GachaponItem POKE_GACHAPON = registerCustomItem("poke_gachapon",
+            new GachaponItem(new Item.Settings(), "common"));
+    public static final GachaponItem GREAT_GACHAPON = registerCustomItem("great_gachapon",
+            new GachaponItem(new Item.Settings(), "uncommon"));
+    public static final GachaponItem ULTRA_GACHAPON = registerCustomItem("ultra_gachapon",
+            new GachaponItem(new Item.Settings(), "rare"));
+    public static final GachaponItem MASTER_GACHAPON = registerCustomItem("master_gachapon",
+            new GachaponItem(new Item.Settings(), "ultrarare"));
+    public static final GachaponItem CHERISH_GACHAPON = registerCustomItem("cherish_gachapon",
+            new GachaponItem(new Item.Settings(), "legendary"));
+    public static final GachaponItem PREMIER_GACHAPON = registerCustomItem("premier_gachapon",
+            new GachaponItem(new Item.Settings(), "bonus"));
 
-    public static final PokemonGachaponItem POKEMON_POKE_GACHAPON = registerCustomItem("pokemon_poke_gachapon", new PokemonGachaponItem(new Item.Settings(), "pokeball"));
-    public static final PokemonGachaponItem POKEMON_SUPER_GACHAPON = registerCustomItem("pokemon_super_gachapon", new PokemonGachaponItem(new Item.Settings(), "superball"));
-    public static final PokemonGachaponItem POKEMON_ULTRA_GACHAPON = registerCustomItem("pokemon_ultra_gachapon", new PokemonGachaponItem(new Item.Settings(), "ultraball"));
-    public static final PokemonGachaponItem POKEMON_MASTER_GACHAPON = registerCustomItem("pokemon_master_gachapon", new PokemonGachaponItem(new Item.Settings(), "masterball"));
+    public static final PokemonGachaponItem POKEMON_POKE_GACHAPON = registerCustomItem("pokemon_poke_gachapon",
+            new PokemonGachaponItem(new Item.Settings(), "common"));
+    public static final PokemonGachaponItem POKEMON_GREAT_GACHAPON = registerCustomItem("pokemon_great_gachapon",
+            new PokemonGachaponItem(new Item.Settings(), "uncommon"));
+    public static final PokemonGachaponItem POKEMON_ULTRA_GACHAPON = registerCustomItem("pokemon_ultra_gachapon",
+            new PokemonGachaponItem(new Item.Settings(), "rare"));
+    public static final PokemonGachaponItem POKEMON_MASTER_GACHAPON = registerCustomItem("pokemon_master_gachapon",
+            new PokemonGachaponItem(new Item.Settings(), "ultrarare"));
+    public static final PokemonGachaponItem POKEMON_CHERISH_GACHAPON = registerCustomItem("pokemon_cherish_gachapon",
+            new PokemonGachaponItem(new Item.Settings(), "legendary"));
+    public static final PokemonGachaponItem POKEMON_PREMIER_GACHAPON = registerCustomItem("pokemon_premier_gachapon",
+            new PokemonGachaponItem(new Item.Settings(), "bonus"));
 
     public static final PokemonPinItem LITWICK_PIN = registerCustomItem("litwick_pin",
-            new PokemonPinItem(new Item.Settings(), 15));
+            new PokemonPinItem(new Item.Settings(), 5, 15, false));
     public static final PokemonPinItem STARYU_PIN = registerCustomItem("staryu_pin",
-            new PokemonPinItem(new Item.Settings(), 15));
+            new PokemonPinItem(new Item.Settings(), 5, 15, false));
     public static final PokemonPinItem BELLSPROUT_PIN = registerCustomItem("bellsprout_pin",
-            new PokemonPinItem(new Item.Settings(), 15));
+            new PokemonPinItem(new Item.Settings(), 5, 15, false));
     public static final PokemonPinItem TYROGUE_PIN = registerCustomItem("tyrogue_pin",
-            new PokemonPinItem(new Item.Settings(), 15));
+            new PokemonPinItem(new Item.Settings(), 10, 15, false));
     public static final PokemonPinItem SCYTHER_PIN = registerCustomItem("scyther_pin",
-            new PokemonPinItem(new Item.Settings(), 15));
+            new PokemonPinItem(new Item.Settings(), 10, 15, false));
     public static final PokemonPinItem EEVEE_PIN = registerCustomItem("eevee_pin",
-            new PokemonPinItem(new Item.Settings(), 21));
+            new PokemonPinItem(new Item.Settings(), 10, 21, false));
     public static final PokemonPinItem DRATINI_PIN = registerCustomItem("dratini_pin",
-            new PokemonPinItem(new Item.Settings(), 15));
+            new PokemonPinItem(new Item.Settings(), 10, 15, false));
     public static final PokemonPinItem ROTOM_PIN = registerCustomItem("rotom_pin",
-            new PokemonPinItem(new Item.Settings(), 21));
+            new PokemonPinItem(new Item.Settings(), 10, 21, false));
     public static final PokemonPinItem DITTO_PIN = registerCustomItem("ditto_pin",
-            new PokemonPinItem(new Item.Settings(), 31));
+            new PokemonPinItem(new Item.Settings(), 5, 31, false));
     public static final PokemonPinItem PORYGON_PIN = registerCustomItem("porygon_pin",
-            new PokemonPinItem(new Item.Settings(), 15));
+            new PokemonPinItem(new Item.Settings(), 10, 15, false));
 
     public static List<BillItem> BILL_LIST = new ArrayList<>();
     public static final BillItem BILL_100 = registerBillItem("bill_100", new BillItem(new Item.Settings(), 100));

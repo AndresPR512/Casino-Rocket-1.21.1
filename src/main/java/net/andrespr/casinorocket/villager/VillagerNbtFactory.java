@@ -1,4 +1,4 @@
-package net.andrespr.casinorocket.nbt;
+package net.andrespr.casinorocket.villager;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;

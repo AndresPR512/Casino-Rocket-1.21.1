@@ -17,6 +17,7 @@ public class CasinoRocketClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GOLD_DOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GOLD_TRAPDOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GACHA_MACHINE, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.POKEMON_GACHA_MACHINE, RenderLayer.getCutout());
 
         ModItems.BILL_LIST.forEach(bill -> {
             ModelPredicateProviderRegistry.register(bill, Identifier.of("stacked"),

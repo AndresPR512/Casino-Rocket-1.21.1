@@ -2,7 +2,6 @@ package net.andrespr.casinorocket.item;
 
 import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.block.ModBlocks;
-import net.andrespr.casinorocket.datagen.ModRecipeProvider;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -33,14 +32,18 @@ public class ModItemsGroup {
                         entries.add(ModItems.GOLD_COIN);
                         entries.add(ModItems.DIAMOND_COIN);
                         // GACHAPON
-                        entries.add(ModItems.ITEM_POKE_GACHAPON);
-                        entries.add(ModItems.ITEM_SUPER_GACHAPON);
-                        entries.add(ModItems.ITEM_ULTRA_GACHAPON);
-                        entries.add(ModItems.ITEM_MASTER_GACHAPON);
+                        entries.add(ModItems.POKE_GACHAPON);
+                        entries.add(ModItems.GREAT_GACHAPON);
+                        entries.add(ModItems.ULTRA_GACHAPON);
+                        entries.add(ModItems.MASTER_GACHAPON);
+                        entries.add(ModItems.CHERISH_GACHAPON);
+                        entries.add(ModItems.PREMIER_GACHAPON);
                         entries.add(ModItems.POKEMON_POKE_GACHAPON);
-                        entries.add(ModItems.POKEMON_SUPER_GACHAPON);
+                        entries.add(ModItems.POKEMON_GREAT_GACHAPON);
                         entries.add(ModItems.POKEMON_ULTRA_GACHAPON);
                         entries.add(ModItems.POKEMON_MASTER_GACHAPON);
+                        entries.add(ModItems.POKEMON_CHERISH_GACHAPON);
+                        entries.add(ModItems.POKEMON_PREMIER_GACHAPON);
                         // BILLS
                         entries.add(ModItems.BILL_100);
                         entries.add(ModItems.BILL_500);
@@ -107,6 +110,7 @@ public class ModItemsGroup {
                         entries.add(ModBlocks.DIAMOND_DOOR);
                         entries.add(ModBlocks.DIAMOND_TRAPDOOR);
                         // GACHA MACHINES
+                        entries.add(ModBlocks.POKEMON_GACHA_MACHINE);
                         entries.add(ModBlocks.GACHA_MACHINE);
                     }).build());
 

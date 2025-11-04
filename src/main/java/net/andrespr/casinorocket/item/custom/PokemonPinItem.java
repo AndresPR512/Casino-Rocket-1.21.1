@@ -1,10 +1,7 @@
 package net.andrespr.casinorocket.item.custom;
 
-import com.cobblemon.mod.common.Cobblemon;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
-import com.cobblemon.mod.common.api.pokemon.stats.Stats;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
+import net.andrespr.casinorocket.util.CobblemonUtils;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.Entity;
@@ -22,11 +19,15 @@ import java.util.List;
 
 public class PokemonPinItem extends Item {
 
-    private final int fixed_ivs;
+    private final int level;
+    private final int ivs;
+    private final boolean shiny;
 
-    public PokemonPinItem(Settings settings, int fixed_ivs) {
+    public PokemonPinItem(Settings settings, int level, int ivs, boolean shiny) {
         super(settings.maxCount(1));
-        this.fixed_ivs = fixed_ivs;
+        this.level = level;
+        this.ivs = ivs;
+        this.shiny = shiny;
     }
 
     @Override
@@ -41,55 +42,14 @@ public class PokemonPinItem extends Item {
                 Identifier id = Registries.ITEM.getId(this);
                 String speciesName = id.getPath().replace("_pin", "");
 
-                PokemonProperties properties;
-                try {
-                    properties = PokemonProperties.Companion.parse(speciesName);
-                } catch (Exception e) {
-                    player.sendMessage(Text.literal("Error: The species '" + speciesName + "' was not found."), false);
-                    return;
-                }
+                PokemonProperties properties = CobblemonUtils.safeParse(speciesName, player, server);
+                if (properties == null) { return; }
 
-                properties.setLevel(5);
+                properties.setLevel(level);
+                properties.setIvs(CobblemonUtils.createFixedIVs(ivs));
+                properties.setShiny(shiny);
 
-                Pokemon pokemon = properties.create();
-                try {
-                    pokemon.setIV(Stats.HP, fixed_ivs);
-                    pokemon.setIV(Stats.ATTACK, fixed_ivs);
-                    pokemon.setIV(Stats.DEFENCE, fixed_ivs);
-                    pokemon.setIV(Stats.SPECIAL_ATTACK, fixed_ivs);
-                    pokemon.setIV(Stats.SPECIAL_DEFENCE, fixed_ivs);
-                    pokemon.setIV(Stats.SPEED, fixed_ivs);
-                } catch (Exception e) {
-                    System.out.println("[CasinoRocket] Error setting IVs for " + speciesName + ": " + e.getMessage());
-                }
-
-                Text pokemonName = pokemon.getSpecies().getTranslatedName();
-
-                PlayerPartyStore party = Cobblemon.INSTANCE.getStorage().getParty(player);
-                int before = party.occupied();
-                boolean added = party.add(pokemon);
-                int after = party.occupied();
-                boolean sentToPC = added && before == after;
-
-                if (added) {
-                    if (!sentToPC) {
-                        player.sendMessage(Text.translatable("message.casinorocket.pokemon_received_party", pokemonName), true);
-                    } else {
-                        player.sendMessage(Text.translatable("message.casinorocket.pokemon_received_box", pokemonName), true);
-                    }
-                } else {
-                    player.sendMessage(Text.translatable("message.casinorocket.pokemon_box_full", pokemonName), true);
-                }
-
-                if (server != null) {
-                    String logMsg = "[CasinoRocket] " + player.getName().getString() + " obtained Pokémon (" + speciesName.toUpperCase() + ")";
-                    server.getPlayerManager().getPlayerList().forEach(p -> {
-                        if (server.getPlayerManager().isOperator(p.getGameProfile())) {
-                            p.sendMessage(Text.literal(logMsg), false);
-                        }
-                    });
-                    server.sendMessage(Text.literal(logMsg));
-                }
+                CobblemonUtils.addPokemon(properties, player);
 
                 tag.putBoolean("Used", true);
                 stack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(tag));

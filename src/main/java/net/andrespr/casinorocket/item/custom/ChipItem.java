@@ -23,10 +23,8 @@ public class ChipItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, @NotNull List<Text> tooltip, TooltipType type) {
-        Identifier id = Registries.ITEM.getId(this);
         Text valueText = Text.literal(TextUtils.formatCompact(value));
-        tooltip.add(Text.translatable("tooltip.casinorocket." + id.getPath(),
-                valueText.copy().formatted(Formatting.GOLD)));
+        tooltip.add(Text.translatable("tooltip.casinorocket.chip", valueText.copy().formatted(Formatting.GOLD)));
         super.appendTooltip(stack, context, tooltip, type);
     }
 

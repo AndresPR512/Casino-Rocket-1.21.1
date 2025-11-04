@@ -1,6 +1,7 @@
 package net.andrespr.casinorocket.mixin;
 
 import net.andrespr.casinorocket.CasinoRocket;
+import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.SuitData;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.VillagerClothingFeatureRenderer;
@@ -32,12 +33,12 @@ public class VillagerClothingFeatureRendererMixin {
                 if (suit > 0) {
                     ci.cancel();
                     if (CasinoRocket.LOGGER.isDebugEnabled()) {
-                        CasinoRocket.LOGGER.debug("[Render] Ocultando ropa vanilla para {} (suit={})", villager.getUuid(), suit);
+                        CasinoRocket.LOGGER.debug("[Render] Hiding vanilla clothing for {} (suit={})", villager.getUuid(), suit);
                     }
                 }
             }
         } catch (Throwable ex) {
-            CasinoRocket.LOGGER.warn("Error en VillagerClothingFeatureRendererMixin", ex);
+            CasinoRocket.LOGGER.warn("Error in VillagerClothingFeatureRendererMixin", ex);
         }
     }
 

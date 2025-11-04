@@ -1,28 +1,31 @@
 package net.andrespr.casinorocket.item.custom;
 
-import net.andrespr.casinorocket.CasinoRocket;
-import net.andrespr.casinorocket.config.ItemGachaponConfig;
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
+import net.andrespr.casinorocket.util.CasinoRocketLogger;
+import net.andrespr.casinorocket.util.CobblemonUtils;
+import net.andrespr.casinorocket.util.gacha.PokemonGachaponUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
+import java.util.Objects;
 
 public class PokemonGachaponItem extends Item {
 
     private final String poolKey;
 
     public PokemonGachaponItem(Settings settings, String poolKey) {
-        super(settings);
+        super(settings.maxCount(1));
         this.poolKey = poolKey;
     }
 
@@ -30,18 +33,24 @@ public class PokemonGachaponItem extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
 
-        if (!world.isClient) {
-            Item reward = pickWeightedReward(world.random);
+        if (!world.isClient && user instanceof ServerPlayerEntity player) {
+            MinecraftServer server = player.getServer();
+            var reward = PokemonGachaponUtils.pickPokemonReward(world.random, poolKey);
 
             if (reward != null) {
-                user.giveItemStack(new ItemStack(reward));
-                user.sendMessage(Text.literal("¡Has obtenido un " + reward.getName().getString() + "!"), true);
+                PokemonProperties properties = CobblemonUtils.safeParse(reward.pokemonId(), player, server);
+                Objects.requireNonNull(properties).setLevel(reward.level());
+                properties.setIvs(CobblemonUtils.createFixedIVs(reward.ivs()));
+                properties.setShiny(reward.shiny());
+
+                CobblemonUtils.addPokemon(properties, player);
+
                 stack.decrement(1);
             } else {
-                user.sendMessage(Text.literal("No hay recompensas configuradas para: " + poolKey), true);
+                CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.item_gachapon_empty", true, poolKey);
+                CasinoRocketLogger.warn("[Pokémon Gachapon] All Pokémon in '{}' are invalid or have 0 weight!", poolKey);
             }
         }
-
         return TypedActionResult.success(stack);
     }
 
@@ -50,27 +59,6 @@ public class PokemonGachaponItem extends Item {
         Identifier id = Registries.ITEM.getId(this);
         tooltip.add(Text.translatable("tooltip.casinorocket." + id.getPath()));
         super.appendTooltip(stack, context, tooltip, type);
-    }
-
-    private Item pickWeightedReward(Random random) {
-        List<ItemGachaponConfig.GachaEntry> pool = CasinoRocket.CONFIG.itemGachapon.pools.get(poolKey);
-
-        if (pool == null || pool.isEmpty()) {
-            return null;
-        }
-
-        int totalWeight = pool.stream().mapToInt(r -> r.weight).sum();
-        int roll = random.nextInt(totalWeight);
-        int cumulative = 0;
-
-        for (ItemGachaponConfig.GachaEntry entry : pool) {
-            cumulative += entry.weight;
-            if (roll < cumulative) {
-                return Registries.ITEM.get(Identifier.of(entry.itemId));
-            }
-        }
-
-        return null;
     }
 
 }

@@ -1,11 +1,13 @@
 package net.andrespr.casinorocket.item.custom;
 
+import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.TextUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -24,25 +26,20 @@ public class BillItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (!world.isClient) {
-            MinecraftServer server = user.getServer();
-            if (server != null && user.isSneaking()) {
-                ItemStack stack = user.getStackInHand(hand);
-                int count = stack.getCount(); // cuántos billetes tiene
+        if (!world.isClient && user instanceof ServerPlayerEntity player && player.isSneaking()) {
+            MinecraftServer server = player.getServer();
+            if (server != null) {
+                ItemStack stack = player.getStackInHand(hand);
+                int count = stack.getCount();
                 long totalValue = value * count;
 
-                String command = "cobbledollars give " + user.getName().getString() + " " + totalValue;
-                server.getCommandManager().executeWithPrefix(user.getCommandSource().withLevel(4), command);
+                String command = "cobbledollars give " + player.getName().getString() + " " + totalValue;
+                server.getCommandManager().executeWithPrefix(player.getCommandSource().withLevel(4).withSilent(), command);
 
-                String logMsg = "[CasinoRocket] " + user.getName().getString() + " deposited $" + TextUtils.formatCompact(totalValue) + " into his wallet.";
-                server.getPlayerManager().getPlayerList().forEach(p -> {
-                    if (server.getPlayerManager().isOperator(p.getGameProfile())) {
-                        p.sendMessage(Text.literal(logMsg), false);
-                    }
-                });
-                server.sendMessage(Text.literal(logMsg));
+                CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.money_deposited", true, TextUtils.formatCompact(totalValue));
+                CasinoRocketLogger.info(player.getName().getString() + " deposited $" + TextUtils.formatCompact(totalValue) + " into his wallet.");
 
-                user.getStackInHand(hand).decrement(count);
+                stack.decrement(count);
             }
         }
         return TypedActionResult.success(user.getStackInHand(hand));

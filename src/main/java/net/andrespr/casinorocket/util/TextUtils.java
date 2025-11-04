@@ -1,5 +1,9 @@
 package net.andrespr.casinorocket.util;
 
+import net.minecraft.util.Formatting;
+
+import java.util.Locale;
+
 public class TextUtils {
 
     public static String formatCompact(long number) {
@@ -14,6 +18,38 @@ public class TextUtils {
             formatted = String.valueOf(number);
         }
         return formatted.replaceAll("\\.0([KMB])", "$1");
+    }
+
+    public static Formatting percentagesColor(double percentage) {
+        if (percentage >= 5.01) {
+            return Formatting.GREEN;
+        } else if (percentage >= 1.01) {
+            return Formatting.YELLOW;
+        } else if (percentage >= 0.10) {
+            return Formatting.RED;
+        } else {
+            return Formatting.DARK_RED;
+        }
+    }
+
+    public static Formatting rarityColor(String rarity) {
+        return switch (rarity.toLowerCase(Locale.ROOT)) {
+            case "common", "bonus" -> Formatting.WHITE;
+            case "uncommon" -> Formatting.BLUE;
+            case "rare" -> Formatting.GOLD;
+            case "ultrarare" -> Formatting.LIGHT_PURPLE;
+            case "legendary" -> Formatting.RED;
+            default -> Formatting.GRAY;
+        };
+    }
+
+    public static Formatting rankColors(int rank) {
+        return switch (rank) {
+            case 1 -> Formatting.GOLD;
+            case 2 -> Formatting.AQUA;
+            case 3 -> Formatting.GREEN;
+            default -> Formatting.WHITE;
+        };
     }
 
 }

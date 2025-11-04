@@ -1,6 +1,7 @@
-package net.andrespr.casinorocket.util;
+package net.andrespr.casinorocket.villager;
 
 import net.andrespr.casinorocket.item.custom.ChipItem;
+import net.andrespr.casinorocket.util.MoneyCalculator;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;

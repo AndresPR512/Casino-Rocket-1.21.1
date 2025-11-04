@@ -1,0 +1,44 @@
+{
+    "inserting_coin": {
+      "subtitle": "sounds.casinorocket.inserting_coin",
+      "sounds": [
+          "casinorocket:inserting_coin"
+      ]
+    },
+    "common_rarity": {
+      "subtitle": "sounds.casinorocket.common_rarity",
+      "sounds": [
+          "casinorocket:common_rarity"
+      ]
+    },
+    "uncommon_rarity": {
+      "subtitle": "sounds.casinorocket.uncommon_rarity",
+      "sounds": [
+          "casinorocket:uncommon_rarity"
+      ]
+    },
+    "rare_rarity": {
+      "subtitle": "sounds.casinorocket.rare_rarity",
+      "sounds": [
+          "casinorocket:rare_rarity"
+      ]
+    },
+    "ultrarare_rarity": {
+      "subtitle": "sounds.casinorocket.ultrarare_rarity",
+      "sounds": [
+          "casinorocket:ultrarare_rarity"
+      ]
+    },
+    "legendary_rarity": {
+      "subtitle": "sounds.casinorocket.legendary_rarity",
+      "sounds": [
+          "casinorocket:legendary_rarity"
+      ]
+    },
+    "bonus_rarity": {
+      "subtitle": "sounds.casinorocket.bonus_rarity",
+      "sounds": [
+          "casinorocket:bonus_rarity"
+      ]
+    }
+}
