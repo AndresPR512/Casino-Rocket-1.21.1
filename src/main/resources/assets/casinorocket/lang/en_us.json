@@ -120,7 +120,7 @@
   "message.casinorocket.gacha_machines_occupied": "§cYou have to wait a bit before using this machine again!",
   "message.casinorocket.gacha_machines_another_occupied": "§cYou must wait for your last Gacha to finish before using another!",
   "message.casinorocket.gacha_machines_reward": "You received a %s!",
-  "message.casinorocket.gacha_machines_bonus_prize": "§aOh! You received a §fPremier Gachapon§a bonus for using §e%s§a coins!",
+  "message.casinorocket.gacha_machines_bonus_prize": "Oh! You received a Premier Gachapon bonus!",
   "message.casinorocket.gacha_machines_pity_update": "§6Legendary chance (§r%s§6) increased to:§r %s§e%%§r",
   "message.casinorocket.gacha_machines_pity_max": "§6Legendary chance (§r%s§6) maxed at:§r %s§e%%§r",
   "message.casinorocket.gacha_machines_pity_reset": "§6Legendary chance (§r%s§6) reset to:§r %s§e%%§r",

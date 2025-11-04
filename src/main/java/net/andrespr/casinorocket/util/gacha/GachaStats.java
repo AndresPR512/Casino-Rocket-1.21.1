@@ -45,6 +45,10 @@ public class GachaStats {
         }
     }
 
+    public void recordBonus() {
+        bonus++;
+    }
+
     // === SAVE TO NBT ===
     public NbtCompound toNbt() {
         NbtCompound nbt = new NbtCompound();

@@ -34,22 +34,20 @@ import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.awt.*;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class GachaMachinesUtils {
 
     private static final Map<BlockPos, Long> MACHINE_COOLDOWNS = new HashMap<>();
     private static final int DELAY_TICKS = 20;
     private static final Map<UUID, Long> PLAYER_COOLDOWNS = new HashMap<>();
-    private static final int PLAYER_DELAY_TICKS = 40;
-    private static final Set<BlockPos> PENDING_PREMIER_BONUS = Collections.newSetFromMap(new ConcurrentHashMap<>());
-
 
     private static final Map<BlockPos, UUID> LAST_PLAYER_USED = new HashMap<>();
     private static final Map<UUID, BlockPos> LAST_MACHINE_USED = new HashMap<>();
     private static final Map<BlockPos, String> LAST_COIN_USED = new HashMap<>();
+
+    private static final Set<Long> PENDING_PREMIER_BONUS = java.util.concurrent.ConcurrentHashMap.newKeySet();
+    private static final Map<Long, UUID> PENDING_PREMIER_USER = new java.util.concurrent.ConcurrentHashMap<>();
 
     public static ActionResult handleUse(World world, BlockPos pos, PlayerEntity player, String coinKey) {
         if (world.isClient) return ActionResult.SUCCESS;
@@ -73,9 +71,8 @@ public class GachaMachinesUtils {
 
         player.getMainHandStack().decrement(1);
 
-        long totalPlayerDelay = DELAY_TICKS + PLAYER_DELAY_TICKS;
-        PLAYER_COOLDOWNS.put(player.getUuid(), currentTick + totalPlayerDelay);
         MACHINE_COOLDOWNS.put(pos, currentTick + DELAY_TICKS);
+        PLAYER_COOLDOWNS.put(player.getUuid(), currentTick + DELAY_TICKS);
         LAST_COIN_USED.put(pos, coinKey);
         LAST_PLAYER_USED.put(pos, player.getUuid());
 
@@ -88,34 +85,30 @@ public class GachaMachinesUtils {
 
     public static void finishDispense(ServerWorld world, BlockPos pos, Direction facing) {
 
-        // === PREMIER BONUS ===
-        if (PENDING_PREMIER_BONUS.remove(pos)) {
-            UUID uuid = LAST_PLAYER_USED.get(pos);
-            PlayerEntity user = uuid != null ? world.getPlayerByUuid(uuid) : null;
+        final long key = pos.asLong();
+
+        // === CHECKING BONUS TICK ===
+        if (PENDING_PREMIER_BONUS.remove(key)) {
+            UUID userId = PENDING_PREMIER_USER.remove(key);
+            PlayerEntity user = userId != null ? world.getPlayerByUuid(userId) : null;
             if (user == null) return;
 
             boolean pokemon = world.getBlockState(pos).getBlock() instanceof PokemonGachaMachineBlock;
-            String coinKey = LAST_COIN_USED.getOrDefault(pos, "copper");
-            GachaMachinesConfig.PremierBonus config = CasinoRocket.CONFIG.gachaMachines.premier_bonus;
+            givePremierBonus(world, pos, facing, user, pokemon);
 
-            givePremierBonus(world, pos, facing, user, pokemon, coinKey, config);
-
-            // Limpieza de datos asociados al bonus
             LAST_COIN_USED.remove(pos);
             LAST_PLAYER_USED.remove(pos);
-
             return;
         }
 
         // === REGULAR PRIZE ===
-        UUID uuid = LAST_PLAYER_USED.remove(pos);
+        UUID uuid = LAST_PLAYER_USED.get(pos);
         PlayerEntity user = uuid != null ? world.getPlayerByUuid(uuid) : null;
 
         var state = world.getBlockState(pos);
         boolean pokemon = state.getBlock() instanceof PokemonGachaMachineBlock;
 
         String coinKey = LAST_COIN_USED.getOrDefault(pos, "copper");
-        LAST_COIN_USED.remove(pos);
 
         Map<String, Double> probs = CasinoRocket.CONFIG.gachaMachines.normalizedProbabilities(coinKey);
         Map<String, Double> pityAdjusted = applyPity(probs, coinKey, user);
@@ -138,6 +131,8 @@ public class GachaMachinesUtils {
         spawnFireworkByRarity(world, pos, rarity);
         dropFromFront(world, pos, facing, reward);
 
+        boolean scheduledBonus = false;
+
         if (user != null) {
             GachaDataStorage data = GachaDataStorage.get(world.getServer());
             GachaStats stats = data.playerStats.computeIfAbsent(user.getUuid(),
@@ -148,20 +143,28 @@ public class GachaMachinesUtils {
 
             var config = CasinoRocket.CONFIG.gachaMachines.premier_bonus;
             if (config.enable && stats.getTotalCoinsUsed() % config.coinsToBonus == 0) {
-                PENDING_PREMIER_BONUS.add(pos);
+                PENDING_PREMIER_BONUS.add(key);
+                PENDING_PREMIER_USER.put(key, user.getUuid());
                 world.scheduleBlockTick(pos, world.getBlockState(pos).getBlock(), 30);
-                CasinoRocketLogger.toPlayerTranslated(user,
-                        "message.casinorocket.gacha_machines_bonus_prize_pending", true,
-                        Text.literal(String.valueOf(config.coinsToBonus)).formatted(Formatting.GOLD));
+                scheduledBonus = true;
             }
         }
 
         giveUserFeedback(probs, coinKey, reward, user);
 
-        MACHINE_COOLDOWNS.remove(pos);
+        if (!scheduledBonus) {
+            LAST_COIN_USED.remove(pos);
+            LAST_PLAYER_USED.remove(pos);
+        }
+
         if (user != null) {
+            int rarityDelay = getRarityDelayTicks(rarity);
+            if (scheduledBonus && rarityDelay < 60) rarityDelay = 60;
+            long nextAvailable = world.getTime() + rarityDelay;
+            PLAYER_COOLDOWNS.put(user.getUuid(), nextAvailable);
             LAST_MACHINE_USED.put(user.getUuid(), pos);
         }
+        MACHINE_COOLDOWNS.remove(pos);
 
     }
 
@@ -278,8 +281,7 @@ public class GachaMachinesUtils {
         };
     }
 
-    private static void givePremierBonus(ServerWorld world, BlockPos pos, Direction facing, PlayerEntity user,
-                                         boolean pokemon, String coinKey, GachaMachinesConfig.PremierBonus config) {
+    private static void givePremierBonus(ServerWorld world, BlockPos pos, Direction facing, PlayerEntity user, boolean pokemon) {
         String bonusKey = "bonus";
         ItemStack bonus = getRewardForRarity(bonusKey, pokemon);
 
@@ -290,11 +292,10 @@ public class GachaMachinesUtils {
         GachaDataStorage data = GachaDataStorage.get(world.getServer());
         GachaStats stats = data.playerStats.computeIfAbsent(user.getUuid(),
                 k -> new GachaStats(user.getName().getString()));
-        stats.recordUse(coinKey, bonusKey);
+        stats.recordBonus();
         data.markDirty();
 
-        CasinoRocketLogger.toPlayerTranslated(user, "message.casinorocket.gacha_machines_bonus_prize", true,
-                Text.literal(String.valueOf(config.coinsToBonus)).formatted(Formatting.GOLD));
+        CasinoRocketLogger.toPlayerTranslated(user, "message.casinorocket.gacha_machines_bonus_prize", true);
     }
 
     // ===== VISUAL AND AUDIO EFFECTS =====
@@ -443,6 +444,17 @@ public class GachaMachinesUtils {
     public static int getMaxUses(String coinKey) {
         var pityData = getPityData(coinKey);
         return pityData != null ? pityData.usesToMax : 1;
+    }
+
+    public static int getRarityDelayTicks(String rarity) {
+        return switch (rarity.toLowerCase(Locale.ROOT)) {
+            case "uncommon" -> 20;
+            case "rare" -> 50;
+            case "ultrarare" -> 80;
+            case "legendary" -> 70;
+            case "bonus" -> 45;
+            default -> 60;
+        };
     }
 
     // ===== COMMAND HELPERS =====
