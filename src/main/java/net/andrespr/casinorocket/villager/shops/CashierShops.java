@@ -16,7 +16,7 @@ public final class CashierShops implements IShop {
         VillagerTradeHelper.makeChipToMoneyOffer(chipOffers, ModItems.COPPER_CHIP);
         VillagerTradeHelper.makeChipToMoneyOffer(chipOffers, ModItems.IRON_CHIP);
         VillagerTradeHelper.makeChipToMoneyOffer(chipOffers, ModItems.AMETHYST_CHIP);
-        VillagerTradeHelper.makeChipToMoneyOffer(chipOffers, ModItems.GOLDEN_CHIP);
+        VillagerTradeHelper.makeChipToMoneyOffer(chipOffers, ModItems.GOLD_CHIP);
         VillagerTradeHelper.makeChipToMoneyOffer(chipOffers, ModItems.EMERALD_CHIP);
         VillagerTradeHelper.makeChipToMoneyOffer(chipOffers, ModItems.DIAMOND_CHIP);
         VillagerTradeHelper.makeChipToMoneyOffer(chipOffers, ModItems.NETHERITE_CHIP);

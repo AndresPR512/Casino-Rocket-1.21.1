@@ -28,6 +28,9 @@ public class CasinoRocket implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        AutoConfig.register(CasinoRocketConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
+        CONFIG = AutoConfig.getConfigHolder(CasinoRocketConfig.class).getConfig();
+
         ModItemsGroup.registerItemGroups();
         ModBlocks.registerModBlocks();
         ModItems.registerModItems();
@@ -37,8 +40,6 @@ public class CasinoRocket implements ModInitializer {
         PayloadTypeRegistry.playS2C().register(SuitSyncPayload.ID, SuitSyncPayload.CODEC);
         ShopsRegistry.bootstrap();
 
-        AutoConfig.register(CasinoRocketConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
-        CONFIG = AutoConfig.getConfigHolder(CasinoRocketConfig.class).getConfig();
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             GachaponUtils.buildCache(CasinoRocket.CONFIG.itemGachapon.pools);
             PokemonGachaponUtils.buildCache(CasinoRocket.CONFIG.pokemonGachapon.pools);

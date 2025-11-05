@@ -22,7 +22,7 @@ public class ModItemsGroup {
                         entries.add(ModItems.COPPER_CHIP);
                         entries.add(ModItems.IRON_CHIP);
                         entries.add(ModItems.AMETHYST_CHIP);
-                        entries.add(ModItems.GOLDEN_CHIP);
+                        entries.add(ModItems.GOLD_CHIP);
                         entries.add(ModItems.EMERALD_CHIP);
                         entries.add(ModItems.DIAMOND_CHIP);
                         entries.add(ModItems.NETHERITE_CHIP);

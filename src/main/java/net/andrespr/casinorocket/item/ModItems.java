@@ -12,14 +12,14 @@ import java.util.List;
 
 public class ModItems {
 
-    public static final ChipItem BASIC_CHIP = registerCustomItem("basic_chip", new ChipItem(new Item.Settings(),100));
-    public static final ChipItem COPPER_CHIP = registerCustomItem("copper_chip", new ChipItem(new Item.Settings(),1000));
-    public static final ChipItem IRON_CHIP = registerCustomItem("iron_chip", new ChipItem(new Item.Settings(),5000));
-    public static final ChipItem AMETHYST_CHIP = registerCustomItem("amethyst_chip", new ChipItem(new Item.Settings(),25000));
-    public static final ChipItem GOLDEN_CHIP = registerCustomItem("golden_chip", new ChipItem(new Item.Settings(),100000));
-    public static final ChipItem EMERALD_CHIP = registerCustomItem("emerald_chip", new ChipItem(new Item.Settings(),1000000));
-    public static final ChipItem DIAMOND_CHIP = registerCustomItem("diamond_chip", new ChipItem(new Item.Settings(),10000000));
-    public static final ChipItem NETHERITE_CHIP = registerCustomItem("netherite_chip", new ChipItem(new Item.Settings(),100000000));
+    public static final ChipItem BASIC_CHIP = registerChipItem("basic_chip");
+    public static final ChipItem COPPER_CHIP = registerChipItem("copper_chip");
+    public static final ChipItem IRON_CHIP = registerChipItem("iron_chip");
+    public static final ChipItem AMETHYST_CHIP = registerChipItem("amethyst_chip");
+    public static final ChipItem GOLD_CHIP = registerChipItem("gold_chip");
+    public static final ChipItem EMERALD_CHIP = registerChipItem("emerald_chip");
+    public static final ChipItem DIAMOND_CHIP = registerChipItem("diamond_chip");
+    public static final ChipItem NETHERITE_CHIP = registerChipItem("netherite_chip");
 
     public static final Item COPPER_COIN = registerItem("copper_coin", new Item(new Item.Settings()));
     public static final Item IRON_COIN = registerItem("iron_coin", new Item(new Item.Settings()));
@@ -100,6 +100,14 @@ public class ModItems {
         BILL_LIST.add(newBillItem);
         return newBillItem;
     }
+
+    private static ChipItem registerChipItem(String name) {
+        long value = CasinoRocket.CONFIG.casinoChips.getChipPrice(name);
+        ChipItem newChipitem = new ChipItem(new Item.Settings(), value);
+        Registry.register(Registries.ITEM, Identifier.of(CasinoRocket.MOD_ID, name), newChipitem);
+        return newChipitem;
+    }
+
 
     public static void registerModItems() {
         CasinoRocket.LOGGER.info("Registering Mod Items for " + CasinoRocket.MOD_ID);

@@ -17,7 +17,7 @@ public final class ChipDealerShops implements IShop {
         VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.COPPER_CHIP);
         VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.IRON_CHIP);
         VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.AMETHYST_CHIP);
-        VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.GOLDEN_CHIP);
+        VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.GOLD_CHIP);
         VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.EMERALD_CHIP);
         VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.DIAMOND_CHIP);
         VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.NETHERITE_CHIP);

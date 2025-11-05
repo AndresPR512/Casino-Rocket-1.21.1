@@ -60,7 +60,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.COPPER_CHIP, Models.GENERATED);
         itemModelGenerator.register(ModItems.IRON_CHIP, Models.GENERATED);
         itemModelGenerator.register(ModItems.AMETHYST_CHIP, Models.GENERATED);
-        itemModelGenerator.register(ModItems.GOLDEN_CHIP, Models.GENERATED);
+        itemModelGenerator.register(ModItems.GOLD_CHIP, Models.GENERATED);
         itemModelGenerator.register(ModItems.EMERALD_CHIP, Models.GENERATED);
         itemModelGenerator.register(ModItems.DIAMOND_CHIP, Models.GENERATED);
         itemModelGenerator.register(ModItems.NETHERITE_CHIP, Models.GENERATED);

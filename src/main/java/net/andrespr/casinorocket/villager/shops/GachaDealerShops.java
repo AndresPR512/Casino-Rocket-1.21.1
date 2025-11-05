@@ -41,7 +41,7 @@ public final class GachaDealerShops implements IShop {
             shops.add(VillagerTradeHelper.makeShopCompound("Pokémon Gacha", PokemonGachaponOffers));
         }
 
-        return new VillagerTradeHelper.ShopData(shops,"cobbledollars:cobble_merchant",3, "cobblemon:display_case");
+        return new VillagerTradeHelper.ShopData(shops,"cobbledollars:cobble_merchant", 3, "cobblemon:display_case");
 
     }
 
