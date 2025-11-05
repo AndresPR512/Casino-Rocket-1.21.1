@@ -1,7 +1,9 @@
 package net.andrespr.casinorocket.villager;
 
+import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.item.custom.ChipItem;
 import net.andrespr.casinorocket.util.MoneyCalculator;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
@@ -109,6 +111,21 @@ public class VillagerTradeHelper {
     public static void makeListOffer(NbtList trades, List<String> entries, String modID, String price) {
         for (String entry : entries) {
             trades.add(makeOffer(modID + ":" + entry, price));
+        }
+    }
+
+    public static void makeCoinOffer(NbtList trades, Item coin) {
+        String coinId = Registries.ITEM.getId(coin).toString();
+        String coinPrice = CasinoRocket.CONFIG.gachaMachines.getCoinPrice(coinId);
+        trades.add(makeOffer(coinId, coinPrice));
+    }
+
+    public static void makeGachaponOffer(NbtList trades, Item gachapon) {
+        String gachaponId = Registries.ITEM.getId(gachapon).toString();
+        boolean isGachaponEnable = CasinoRocket.CONFIG.gachaMachines.getGachaponEnable(gachaponId);
+        if (isGachaponEnable) {
+            String gachaponPrice = CasinoRocket.CONFIG.gachaMachines.getGachaponPrice(gachaponId);
+            trades.add(makeOffer(gachaponId, gachaponPrice));
         }
     }
 

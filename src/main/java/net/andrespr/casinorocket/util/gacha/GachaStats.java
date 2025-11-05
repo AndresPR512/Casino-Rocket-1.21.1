@@ -110,6 +110,16 @@ public class GachaStats {
         return m;
     }
 
+    public int getCoinCount(String coinKey) {
+        return switch (coinKey.toLowerCase(Locale.ROOT)) {
+            case "copper" -> copperUsed;
+            case "iron" -> ironUsed;
+            case "gold" -> goldUsed;
+            case "diamond" -> diamondUsed;
+            default -> 0;
+        };
+    }
+
     public String getPlayerName() {
         return playerName;
     }

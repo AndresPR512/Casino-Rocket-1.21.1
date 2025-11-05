@@ -1,4 +1,6 @@
-package net.andrespr.casinorocket.villager.shops;
+package net.andrespr.casinorocket.villager;
+
+import net.andrespr.casinorocket.villager.shops.*;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -28,6 +30,7 @@ public final class ShopsRegistry {
         register(new TMInstructorShops());
         register(new BattleGearShops());
         register(new SnackmasterShops());
+        register(new GachaDealerShops());
     }
 
 }

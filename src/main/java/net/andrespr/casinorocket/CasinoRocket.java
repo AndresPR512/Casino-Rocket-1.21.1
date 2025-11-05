@@ -12,7 +12,7 @@ import net.andrespr.casinorocket.network.SuitSyncPayload;
 import net.andrespr.casinorocket.sound.ModSounds;
 import net.andrespr.casinorocket.util.gacha.GachaponUtils;
 import net.andrespr.casinorocket.util.gacha.PokemonGachaponUtils;
-import net.andrespr.casinorocket.villager.shops.ShopsRegistry;
+import net.andrespr.casinorocket.villager.ShopsRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;

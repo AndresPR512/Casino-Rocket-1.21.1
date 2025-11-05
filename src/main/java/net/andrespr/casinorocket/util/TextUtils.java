@@ -43,6 +43,17 @@ public class TextUtils {
         };
     }
 
+    public static Formatting coinColor(String rarity) {
+        return switch (rarity.toLowerCase(Locale.ROOT)) {
+            case "copper" -> Formatting.RED;
+            case "iron" -> Formatting.WHITE;
+            case "gold" -> Formatting.GOLD;
+            case "diamond" -> Formatting.AQUA;
+            default -> Formatting.GRAY;
+        };
+    }
+
+
     public static Formatting rankColors(int rank) {
         return switch (rank) {
             case 1 -> Formatting.GOLD;

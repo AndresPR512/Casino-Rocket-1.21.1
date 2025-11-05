@@ -16,9 +16,6 @@ public class GachaMachinesConfig implements ConfigData {
     public RarityBaseWeights rarity_base_weights = new RarityBaseWeights();
 
     @CollapsibleObject
-    public CoinPrices coin_prices = new CoinPrices();
-
-    @CollapsibleObject
     public CoinMultipliers coin_multipliers = new CoinMultipliers();
 
     @CollapsibleObject
@@ -27,19 +24,15 @@ public class GachaMachinesConfig implements ConfigData {
     @CollapsibleObject
     public PremierBonus premier_bonus = new PremierBonus();
 
+    @CollapsibleObject
+    public GachaStore gacha_store = new GachaStore();
+
     public static class RarityBaseWeights implements ConfigData {
         public double common = 60;
         public double uncommon = 25;
         public double rare = 10;
         public double ultrarare = 4;
         public double legendary = 1;
-    }
-
-    public static class CoinPrices implements ConfigData {
-        public int copper = 1_000;
-        public int iron = 10_000;
-        public int gold = 100_000;
-        public int diamond = 500_000;
     }
 
     public static class CoinMultipliers implements ConfigData {
@@ -79,6 +72,7 @@ public class GachaMachinesConfig implements ConfigData {
     public static class PityConfig implements ConfigData {
 
         public boolean enable = true;
+        public boolean pityUpdateMessages = true;
         @CollapsibleObject
         public CoinPity iron = new CoinPity(0,0.0);
         @CollapsibleObject
@@ -102,6 +96,59 @@ public class GachaMachinesConfig implements ConfigData {
     public static class PremierBonus implements ConfigData {
         public boolean enable = true;
         public int coinsToBonus = 10;
+    }
+
+    public static class GachaStore implements ConfigData {
+
+        @CollapsibleObject
+        public CoinPrices coin_prices = new CoinPrices(1_000, 10_000, 100_000, 500_000);
+        @CollapsibleObject
+        public GachaponStoreConfig gachapon_store = new GachaponStoreConfig();
+
+        public static class CoinPrices implements ConfigData {
+            public int copper;
+            public int iron;
+            public int gold;
+            public int diamond;
+
+            public CoinPrices() {}
+            public CoinPrices(int copper, int iron, int gold, int diamond) {
+                this.copper = copper;
+                this.iron = iron;
+                this.gold = gold;
+                this.diamond = diamond;
+            }
+        }
+
+        public static class GachaponStoreConfig implements ConfigData {
+            @CollapsibleObject public boolean enableItemGachaponStore = true;
+            @CollapsibleObject public Gachapon item_poke_gachapon = new Gachapon(true, 5_000);
+            @CollapsibleObject public Gachapon item_great_gachapon = new Gachapon(true, 50_000);
+            @CollapsibleObject public Gachapon item_ultra_gachapon = new Gachapon(true, 500_000);
+            @CollapsibleObject public Gachapon item_master_gachapon = new Gachapon(false, 2_500_000);
+            @CollapsibleObject public Gachapon item_cherish_gachapon = new Gachapon(false, 10_000_000);
+            @CollapsibleObject public Gachapon item_premier_gachapon = new Gachapon(false, 10_000);
+
+            @CollapsibleObject public boolean enablePokemonGachaponStore = true;
+            @CollapsibleObject public Gachapon pokemon_poke_gachapon = new Gachapon(true, 5_000);
+            @CollapsibleObject public Gachapon pokemon_great_gachapon = new Gachapon(true, 50_000);
+            @CollapsibleObject public Gachapon pokemon_ultra_gachapon = new Gachapon(true, 500_000);
+            @CollapsibleObject public Gachapon pokemon_master_gachapon = new Gachapon(false, 2_500_000);
+            @CollapsibleObject public Gachapon pokemon_cherish_gachapon = new Gachapon(false, 10_000_000);
+            @CollapsibleObject public Gachapon pokemon_premier_gachapon = new Gachapon(false, 10_000);
+        }
+
+    }
+
+    public static class Gachapon implements ConfigData {
+        public boolean enableToBuy;
+        public int price;
+
+        public Gachapon() {}
+        public Gachapon(boolean enableToBuy, int price) {
+            this.enableToBuy = enableToBuy;
+            this.price = price;
+        }
     }
 
     // ===== HELPERS =====
@@ -140,6 +187,57 @@ public class GachaMachinesConfig implements ConfigData {
         if (sum <= 0) return Collections.emptyMap();
         for (var k : weighted.keySet()) weighted.put(k, weighted.get(k) / sum);
         return weighted;
+    }
+
+    public String getCoinPrice(String coinId) {
+        coinId = coinId.toLowerCase(Locale.ROOT);
+        int coinValue = switch (coinId) {
+            case "casinorocket:copper_coin" -> gacha_store.coin_prices.copper;
+            case "casinorocket:iron_coin" -> gacha_store.coin_prices.iron;
+            case "casinorocket:gold_coin" -> gacha_store.coin_prices.gold;
+            case "casinorocket:diamond_coin" -> gacha_store.coin_prices.diamond;
+            default -> 1_000;
+        };
+        return String.valueOf(coinValue);
+    }
+
+    public String getGachaponPrice(String gachaponId) {
+        gachaponId = gachaponId.toLowerCase(Locale.ROOT);
+        int gachaponValue = switch (gachaponId) {
+            case "casinorocket:poke_gachapon" -> gacha_store.gachapon_store.item_poke_gachapon.price;
+            case "casinorocket:great_gachapon" -> gacha_store.gachapon_store.item_great_gachapon.price;
+            case "casinorocket:ultra_gachapon" -> gacha_store.gachapon_store.item_ultra_gachapon.price;
+            case "casinorocket:master_gachapon" -> gacha_store.gachapon_store.item_master_gachapon.price;
+            case "casinorocket:cherish_gachapon" -> gacha_store.gachapon_store.item_cherish_gachapon.price;
+            case "casinorocket:premier_gachapon" -> gacha_store.gachapon_store.item_premier_gachapon.price;
+            case "casinorocket:pokemon_poke_gachapon" -> gacha_store.gachapon_store.pokemon_poke_gachapon.price;
+            case "casinorocket:pokemon_great_gachapon" -> gacha_store.gachapon_store.pokemon_great_gachapon.price;
+            case "casinorocket:pokemon_ultra_gachapon" -> gacha_store.gachapon_store.pokemon_ultra_gachapon.price;
+            case "casinorocket:pokemon_master_gachapon" -> gacha_store.gachapon_store.pokemon_master_gachapon.price;
+            case "casinorocket:pokemon_cherish_gachapon" -> gacha_store.gachapon_store.pokemon_cherish_gachapon.price;
+            case "casinorocket:pokemon_premier_gachapon" -> gacha_store.gachapon_store.pokemon_premier_gachapon.price;
+            default -> 10_000;
+        };
+        return String.valueOf(gachaponValue);
+    }
+
+    public boolean getGachaponEnable(String gachaponId) {
+        gachaponId = gachaponId.toLowerCase(Locale.ROOT);
+        return switch (gachaponId) {
+            case "casinorocket:poke_gachapon" -> gacha_store.gachapon_store.item_poke_gachapon.enableToBuy;
+            case "casinorocket:great_gachapon" -> gacha_store.gachapon_store.item_great_gachapon.enableToBuy;
+            case "casinorocket:ultra_gachapon" -> gacha_store.gachapon_store.item_ultra_gachapon.enableToBuy;
+            case "casinorocket:master_gachapon" -> gacha_store.gachapon_store.item_master_gachapon.enableToBuy;
+            case "casinorocket:cherish_gachapon" -> gacha_store.gachapon_store.item_cherish_gachapon.enableToBuy;
+            case "casinorocket:premier_gachapon" -> gacha_store.gachapon_store.item_premier_gachapon.enableToBuy;
+            case "casinorocket:pokemon_poke_gachapon" -> gacha_store.gachapon_store.pokemon_poke_gachapon.enableToBuy;
+            case "casinorocket:pokemon_great_gachapon" -> gacha_store.gachapon_store.pokemon_great_gachapon.enableToBuy;
+            case "casinorocket:pokemon_ultra_gachapon" -> gacha_store.gachapon_store.pokemon_ultra_gachapon.enableToBuy;
+            case "casinorocket:pokemon_master_gachapon" -> gacha_store.gachapon_store.pokemon_master_gachapon.enableToBuy;
+            case "casinorocket:pokemon_cherish_gachapon" -> gacha_store.gachapon_store.pokemon_cherish_gachapon.enableToBuy;
+            case "casinorocket:pokemon_premier_gachapon" -> gacha_store.gachapon_store.pokemon_premier_gachapon.enableToBuy;
+            default -> false;
+        };
     }
 
 }

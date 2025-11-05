@@ -6,7 +6,7 @@ import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.villager.VillagerNbtFactory;
 import net.andrespr.casinorocket.villager.VillagerTradeHelper;
 import net.andrespr.casinorocket.villager.shops.IShop;
-import net.andrespr.casinorocket.villager.shops.ShopsRegistry;
+import net.andrespr.casinorocket.villager.ShopsRegistry;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.command.CommandRegistryAccess;
@@ -28,6 +28,7 @@ public final class SpawnWorkersCommand {
 
     public static LiteralArgumentBuilder<ServerCommandSource> buildSubcommand(CommandRegistryAccess registryAccess) {
         return CommandManager.literal("spawn")
+                .requires(source -> source.hasPermissionLevel(2))
                 .then(CommandManager.argument("type", StringArgumentType.greedyString())
                         .suggests((ctx, builder) -> {
                             for (String k : SHOP_TYPES.keySet()) builder.suggest(k);
