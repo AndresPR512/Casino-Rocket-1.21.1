@@ -3,7 +3,7 @@ package net.andrespr.casinorocket.block;
 import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.block.custom.GachaMachineBlock;
 import net.andrespr.casinorocket.block.custom.PokemonGachaMachineBlock;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.andrespr.casinorocket.block.custom.SlotMachineBlock;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.item.BlockItem;
@@ -161,6 +161,9 @@ public class ModBlocks {
 
     public static final Block POKEMON_GACHA_MACHINE = registerBlock("pokemon_gacha_machine",
             new PokemonGachaMachineBlock(AbstractBlock.Settings.create().strength(1.5F).nonOpaque()));
+
+    public static final Block SLOT_MACHINE = registerBlock("slot_machine",
+            new SlotMachineBlock(AbstractBlock.Settings.create().strength(1.5F).nonOpaque()));
 
     // METHODS
 

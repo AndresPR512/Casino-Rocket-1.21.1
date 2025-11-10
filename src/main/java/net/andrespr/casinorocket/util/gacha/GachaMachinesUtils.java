@@ -10,6 +10,7 @@ import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.sound.ModSounds;
 import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.TextUtils;
+import net.minecraft.block.BlockState;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FireworkExplosionComponent;
 import net.minecraft.component.type.FireworksComponent;
@@ -110,7 +111,7 @@ public class GachaMachinesUtils {
         UUID uuid = LAST_PLAYER_USED.get(pos);
         PlayerEntity user = uuid != null ? world.getPlayerByUuid(uuid) : null;
 
-        var state = world.getBlockState(pos);
+        BlockState state = world.getBlockState(pos);
         boolean pokemon = state.getBlock() instanceof PokemonGachaMachineBlock;
 
         String coinKey = LAST_COIN_USED.getOrDefault(pos, "copper");
@@ -132,7 +133,7 @@ public class GachaMachinesUtils {
         }
 
         spawnRarityParticles(world, pos, rarity);
-        playRaritySound(world, pos, rarity, user);
+        playRaritySound(world, pos, rarity);
         spawnFireworkByRarity(world, pos, rarity);
         dropFromFront(world, pos, facing, reward);
 
@@ -263,7 +264,7 @@ public class GachaMachinesUtils {
         ItemStack bonus = getRewardForRarity(bonusKey, pokemon);
 
         spawnRarityParticles(world, pos, bonusKey);
-        playRaritySound(world, pos, bonusKey, user);
+        playRaritySound(world, pos, bonusKey);
         dropFromFront(world, pos, facing, bonus);
 
         GachaDataStorage data = GachaDataStorage.get(world.getServer());
@@ -278,7 +279,7 @@ public class GachaMachinesUtils {
     // ===== VISUAL AND AUDIO EFFECTS =====
 
     // SOUND: Picked rarity -> Play special sound
-    public static void playRaritySound(World world, BlockPos pos, String rarity, @Nullable PlayerEntity player) {
+    public static void playRaritySound(World world, BlockPos pos, String rarity) {
         if (world.isClient) return;
 
         SoundEvent sound = switch (rarity.toLowerCase(LOCALE)) {
@@ -296,11 +297,7 @@ public class GachaMachinesUtils {
             return;
         }
 
-        world.playSound(player, pos, sound, SoundCategory.BLOCKS, 1.0F, 1.0F);
-
-        if (player != null) {
-            world.playSoundFromEntity(null, player, sound, SoundCategory.PLAYERS, 1.0F, 1.0F);
-        }
+        world.playSound(null, pos, sound, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
     }
 
@@ -358,7 +355,7 @@ public class GachaMachinesUtils {
         rocket.set(DataComponentTypes.FIREWORKS, fwComponent);
 
         FireworkRocketEntity entity = new FireworkRocketEntity(
-                world, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, rocket);
+                world, pos.getX() + 0.5, pos.getY() + 2.0, pos.getZ() + 0.5, rocket);
 
         world.spawnEntity(entity);
     }

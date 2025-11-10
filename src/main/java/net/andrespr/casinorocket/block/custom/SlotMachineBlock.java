@@ -1,14 +1,15 @@
 package net.andrespr.casinorocket.block.custom;
 
 import com.mojang.serialization.MapCodec;
-import net.andrespr.casinorocket.util.gacha.GachaMachinesUtils;
+import net.andrespr.casinorocket.CasinoRocket;
+import net.andrespr.casinorocket.block.entity.custom.SlotMachineEntity;
 import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
@@ -19,7 +20,6 @@ import net.minecraft.util.BlockRotation;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -27,26 +27,35 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
-public class PokemonGachaMachineBlock extends Block {
+import java.util.EnumMap;
+import java.util.Map;
 
-    public static final MapCodec<PokemonGachaMachineBlock> CODEC = createCodec(PokemonGachaMachineBlock::new);
+public class SlotMachineBlock extends BlockWithEntity {
+
+    public static final MapCodec<SlotMachineBlock> CODEC = createCodec(SlotMachineBlock::new);
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     public static final EnumProperty<DoubleBlockHalf> HALF = Properties.DOUBLE_BLOCK_HALF;
 
-    private static final VoxelShape MIDDLE_PART = Block.createCuboidShape(4,0,1,12,16,15);
-    private static final VoxelShape LEFT_MIDDLE_PART = Block.createCuboidShape(12,0,2,14,16,14);
-    private static final VoxelShape LEFT_PART = Block.createCuboidShape(14,0,4,15,16,12);
-    private static final VoxelShape RIGHT_MIDDLE_PART = Block.createCuboidShape(2,0,2,4,16,14);
-    private static final VoxelShape RIGHT_PART = Block.createCuboidShape(1,0,4,2,16,12);
+    private static final VoxelShape BOTTOM_PART = Block.createCuboidShape(1,0,2,15,14,15);
+    private static final VoxelShape MIDDLE_PART = Block.createCuboidShape(1,14,1,15,16,15);
+    private static final VoxelShape UPPER_PART = Block.createCuboidShape(1,0,5,15,16,15);
+    private static final VoxelShape LEFT_PART = Block.createCuboidShape(14,0,1,15,11,5);
+    private static final VoxelShape RIGHT_PART = Block.createCuboidShape(1,0,1,2,11,5);
 
-    private static final VoxelShape UP_MIDDLE_PART = Block.createCuboidShape(0.5,0,0.5,15.5,1,15.5);
-    private static final VoxelShape UP_LOWER_PART = Block.createCuboidShape(0,1,0,16,15,16);
-    private static final VoxelShape UP_UPPER_PART = Block.createCuboidShape(0.5,15,0.5,15.5,16,15.5);
+    private static final VoxelShape LOWER_SHAPE = VoxelShapes.union(BOTTOM_PART, MIDDLE_PART);
+    private static final VoxelShape UPPER_SHAPE = VoxelShapes.union(UPPER_PART, LEFT_PART, RIGHT_PART);
 
-    private static final VoxelShape LOWER_SHAPE = VoxelShapes.union(MIDDLE_PART, LEFT_MIDDLE_PART, LEFT_PART, RIGHT_MIDDLE_PART, RIGHT_PART);
-    private static final VoxelShape UPPER_SHAPE = VoxelShapes.union(UP_UPPER_PART, UP_MIDDLE_PART, UP_LOWER_PART);
+    private static final Map<Direction, VoxelShape> LOWER_SHAPES_BY_DIRECTION = new EnumMap<>(Direction.class);
+    private static final Map<Direction, VoxelShape> UPPER_SHAPES_BY_DIRECTION = new EnumMap<>(Direction.class);
 
-    public PokemonGachaMachineBlock(Settings settings) {
+    static {
+        for (Direction dir : Direction.Type.HORIZONTAL) {
+            LOWER_SHAPES_BY_DIRECTION.put(dir, rotateShape(dir, LOWER_SHAPE));
+            UPPER_SHAPES_BY_DIRECTION.put(dir, rotateShape(dir, UPPER_SHAPE));
+        }
+    }
+
+    public SlotMachineBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState()
                 .with(FACING, Direction.NORTH)
@@ -54,44 +63,42 @@ public class PokemonGachaMachineBlock extends Block {
     }
 
     @Override
-    protected MapCodec<? extends Block> getCodec() {
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
         return CODEC;
     }
 
     // === INTERACTION ===
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos,
-                              PlayerEntity player, BlockHitResult hit) {
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+       CasinoRocket.LOGGER.info("[DEBUG] onUse called at {} half={}", pos, state.get(HALF));
         if (state.get(HALF) == DoubleBlockHalf.UPPER) {
             BlockPos lowerPos = pos.down();
             BlockState lowerState = world.getBlockState(lowerPos);
-
             if (lowerState.isOf(this)) {
                 return this.onUse(lowerState, world, lowerPos, player, hit);
             }
-
             return ActionResult.PASS;
         }
 
-        if (world.isClient) return ActionResult.SUCCESS;
+        if (!world.isClient) {
+            BlockEntity be = world.getBlockEntity(pos);
+            if (be instanceof SlotMachineEntity slotEntity) {
+                player.openHandledScreen(slotEntity);
+            }
+        }
 
-        ItemStack stack = player.getMainHandStack();
-        String coinKey = GachaMachinesUtils.getCoinKey(stack);
-        if (coinKey == null) return ActionResult.PASS;
-
-        return GachaMachinesUtils.handleUse(world, pos, player, coinKey);
+        return ActionResult.SUCCESS;
     }
 
-    @Override
-    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        Direction facing = state.get(FACING);
-        GachaMachinesUtils.finishDispense(world, pos, facing);
-    }
 
     // === SHAPE ===
     @Override
     protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return state.get(HALF) == DoubleBlockHalf.LOWER ? LOWER_SHAPE : UPPER_SHAPE;
+        Direction facing = state.get(FACING);
+        DoubleBlockHalf half = state.get(HALF);
+        return half == DoubleBlockHalf.LOWER
+                ? LOWER_SHAPES_BY_DIRECTION.get(facing)
+                : UPPER_SHAPES_BY_DIRECTION.get(facing);
     }
 
     // === PLACEMENT ===
@@ -110,6 +117,11 @@ public class PokemonGachaMachineBlock extends Block {
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         world.setBlockState(pos.up(), state.with(HALF, DoubleBlockHalf.UPPER), Block.NOTIFY_ALL);
+        if (!world.isClient) {
+            CasinoRocket.LOGGER.info("[DEBUG] SlotMachineBlock placed at {}", pos);
+            BlockEntity be = world.getBlockEntity(pos);
+            CasinoRocket.LOGGER.info("[DEBUG] BlockEntity = {}", be);
+        }
     }
 
     // === BREAK ===
@@ -156,6 +168,33 @@ public class PokemonGachaMachineBlock extends Block {
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING, HALF);
+    }
+
+    // === BLOCK ENTITY ===
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new SlotMachineEntity(pos, state);
+    }
+
+    @Override
+    protected BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
+    }
+
+    // === HELPERS ===
+    private static VoxelShape rotateShape(Direction to, VoxelShape shape) {
+        VoxelShape[] buffer = new VoxelShape[]{shape, VoxelShapes.empty()};
+        int times = (to.getHorizontal() - Direction.NORTH.getHorizontal() + 4) % 4;
+        for (int i = 0; i < times; i++) {
+            buffer[0].forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> buffer[1] = VoxelShapes.union(buffer[1],
+                    VoxelShapes.cuboid(
+                            1 - maxZ, minY, minX,
+                            1 - minZ, maxY, maxX
+                    )));
+            buffer[0] = buffer[1];
+            buffer[1] = VoxelShapes.empty();
+        }
+        return buffer[0];
     }
 
 }

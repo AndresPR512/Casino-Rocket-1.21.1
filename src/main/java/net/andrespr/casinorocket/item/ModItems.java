@@ -26,6 +26,7 @@ public class ModItems {
     public static final Item GOLD_COIN = registerItem("gold_coin", new Item(new Item.Settings()));
     public static final Item DIAMOND_COIN = registerItem("diamond_coin", new Item(new Item.Settings()));
 
+    public static final List<Item> ALL_GACHAPON_ITEMS = new ArrayList<>();
     public static final GachaponItem POKE_GACHAPON = registerCustomItem("poke_gachapon",
             new GachaponItem(new Item.Settings(), "common"));
     public static final GachaponItem GREAT_GACHAPON = registerCustomItem("great_gachapon",
@@ -38,7 +39,6 @@ public class ModItems {
             new GachaponItem(new Item.Settings(), "legendary"));
     public static final GachaponItem PREMIER_GACHAPON = registerCustomItem("premier_gachapon",
             new GachaponItem(new Item.Settings(), "bonus"));
-
     public static final PokemonGachaponItem POKEMON_POKE_GACHAPON = registerCustomItem("pokemon_poke_gachapon",
             new PokemonGachaponItem(new Item.Settings(), "common"));
     public static final PokemonGachaponItem POKEMON_GREAT_GACHAPON = registerCustomItem("pokemon_great_gachapon",
@@ -73,19 +73,19 @@ public class ModItems {
     public static final PokemonPinItem PORYGON_PIN = registerCustomItem("porygon_pin",
             new PokemonPinItem(new Item.Settings(), 10, 15, false));
 
-    public static List<BillItem> BILL_LIST = new ArrayList<>();
-    public static final BillItem BILL_100 = registerBillItem("bill_100", new BillItem(new Item.Settings(), 100));
-    public static final BillItem BILL_500 = registerBillItem("bill_500", new BillItem(new Item.Settings(), 500));
-    public static final BillItem BILL_1K = registerBillItem("bill_1k", new BillItem(new Item.Settings(), 1_000));
-    public static final BillItem BILL_5K = registerBillItem("bill_5k", new BillItem(new Item.Settings(), 5_000));
-    public static final BillItem BILL_10K = registerBillItem("bill_10k", new BillItem(new Item.Settings(), 10_000));
-    public static final BillItem BILL_25K = registerBillItem("bill_25k", new BillItem(new Item.Settings(), 25_000));
-    public static final BillItem BILL_50K = registerBillItem("bill_50k", new BillItem(new Item.Settings(), 50_000));
-    public static final BillItem BILL_100K = registerBillItem("bill_100k", new BillItem(new Item.Settings(), 100_000));
-    public static final BillItem BILL_500K = registerBillItem("bill_500k", new BillItem(new Item.Settings(), 500_000));
-    public static final BillItem BILL_1M = registerBillItem("bill_1m", new BillItem(new Item.Settings(), 1_000_000));
-    public static final BillItem BILL_10M = registerBillItem("bill_10m", new BillItem(new Item.Settings(), 10_000_000));
-    public static final BillItem BILL_100M = registerBillItem("bill_100m", new BillItem(new Item.Settings(), 100_000_000));
+    public static List<BillItem> ALL_BILL_ITEMS = new ArrayList<>();
+    public static final BillItem BILL_100 = registerCustomItem("bill_100", new BillItem(new Item.Settings(), 100));
+    public static final BillItem BILL_500 = registerCustomItem("bill_500", new BillItem(new Item.Settings(), 500));
+    public static final BillItem BILL_1K = registerCustomItem("bill_1k", new BillItem(new Item.Settings(), 1_000));
+    public static final BillItem BILL_5K = registerCustomItem("bill_5k", new BillItem(new Item.Settings(), 5_000));
+    public static final BillItem BILL_10K = registerCustomItem("bill_10k", new BillItem(new Item.Settings(), 10_000));
+    public static final BillItem BILL_25K = registerCustomItem("bill_25k", new BillItem(new Item.Settings(), 25_000));
+    public static final BillItem BILL_50K = registerCustomItem("bill_50k", new BillItem(new Item.Settings(), 50_000));
+    public static final BillItem BILL_100K = registerCustomItem("bill_100k", new BillItem(new Item.Settings(), 100_000));
+    public static final BillItem BILL_500K = registerCustomItem("bill_500k", new BillItem(new Item.Settings(), 500_000));
+    public static final BillItem BILL_1M = registerCustomItem("bill_1m", new BillItem(new Item.Settings(), 1_000_000));
+    public static final BillItem BILL_10M = registerCustomItem("bill_10m", new BillItem(new Item.Settings(), 10_000_000));
+    public static final BillItem BILL_100M = registerCustomItem("bill_100m", new BillItem(new Item.Settings(), 100_000_000));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(CasinoRocket.MOD_ID, name), item);
@@ -95,19 +95,12 @@ public class ModItems {
         return Registry.register(Registries.ITEM, Identifier.of(CasinoRocket.MOD_ID, name), item);
     }
 
-    private static BillItem registerBillItem(String name, BillItem item) {
-        BillItem newBillItem = Registry.register(Registries.ITEM, Identifier.of(CasinoRocket.MOD_ID, name), item);
-        BILL_LIST.add(newBillItem);
-        return newBillItem;
-    }
-
     private static ChipItem registerChipItem(String name) {
         long value = CasinoRocket.CONFIG.casinoChips.getChipPrice(name);
         ChipItem newChipitem = new ChipItem(new Item.Settings(), value);
         Registry.register(Registries.ITEM, Identifier.of(CasinoRocket.MOD_ID, name), newChipitem);
         return newChipitem;
     }
-
 
     public static void registerModItems() {
         CasinoRocket.LOGGER.info("Registering Mod Items for " + CasinoRocket.MOD_ID);

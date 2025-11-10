@@ -112,6 +112,8 @@ public class ModItemsGroup {
                         // GACHA MACHINES
                         entries.add(ModBlocks.POKEMON_GACHA_MACHINE);
                         entries.add(ModBlocks.GACHA_MACHINE);
+                        // SLOT MACHINE
+                        entries.add(ModBlocks.SLOT_MACHINE);
                     }).build());
 
     public static void registerItemGroups() {

@@ -40,5 +40,11 @@
       "sounds": [
           "casinorocket:bonus_rarity"
       ]
+    },
+    "open_prize": {
+      "subtitle": "sounds.casinorocket.open_prize",
+      "sounds": [
+          "casinorocket:open_prize"
+      ]
     }
 }

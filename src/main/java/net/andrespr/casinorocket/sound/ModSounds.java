@@ -15,6 +15,7 @@ public class ModSounds {
     public static final SoundEvent ULTRARARE_RARITY = registerSoundEvent("ultrarare_rarity");
     public static final SoundEvent LEGENDARY_RARITY = registerSoundEvent("legendary_rarity");
     public static final SoundEvent BONUS_RARITY = registerSoundEvent("bonus_rarity");
+    public static final SoundEvent OPEN_PRIZE = registerSoundEvent("open_prize");
 
     private static SoundEvent registerSoundEvent(String name) {
         return Registry.register(Registries.SOUND_EVENT, Identifier.of(CasinoRocket.MOD_ID, name),

@@ -1,6 +1,8 @@
 package net.andrespr.casinorocket.item.custom;
 
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
+import net.andrespr.casinorocket.item.ModItems;
+import net.andrespr.casinorocket.sound.ModSounds;
 import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.CobblemonUtils;
 import net.andrespr.casinorocket.util.gacha.PokemonGachaponUtils;
@@ -11,12 +13,14 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -27,6 +31,7 @@ public class PokemonGachaponItem extends Item {
     public PokemonGachaponItem(Settings settings, String poolKey) {
         super(settings.maxCount(1));
         this.poolKey = poolKey;
+        ModItems.ALL_GACHAPON_ITEMS.add(this);
     }
 
     @Override
@@ -44,12 +49,18 @@ public class PokemonGachaponItem extends Item {
                 properties.setShiny(reward.shiny());
 
                 CobblemonUtils.addPokemon(properties, player);
+                world.playSound(null, user.getBlockPos(), ModSounds.OPEN_PRIZE, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
                 stack.decrement(1);
             } else {
                 CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.item_gachapon_empty", true, poolKey);
                 CasinoRocketLogger.warn("[Pokémon Gachapon] All Pokémon in '{}' are invalid or have 0 weight!", poolKey);
             }
+
+            for (Item item : ModItems.ALL_GACHAPON_ITEMS) {
+                player.getItemCooldownManager().set(item, 15);
+            }
+
         }
         return TypedActionResult.success(stack);
     }

@@ -1,5 +1,6 @@
 package net.andrespr.casinorocket.item.custom;
 
+import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.TextUtils;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,6 +23,7 @@ public class BillItem extends Item {
     public BillItem(Settings settings, long value) {
         super(settings);
         this.value = value;
+        ModItems.ALL_BILL_ITEMS.add(this);
     }
 
     @Override

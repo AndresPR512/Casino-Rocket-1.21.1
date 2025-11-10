@@ -1,5 +1,7 @@
 package net.andrespr.casinorocket.item.custom;
 
+import net.andrespr.casinorocket.item.ModItems;
+import net.andrespr.casinorocket.sound.ModSounds;
 import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.gacha.GachaponUtils;
 import net.minecraft.entity.player.PlayerEntity;
@@ -8,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -23,6 +26,7 @@ public class GachaponItem extends Item {
     public GachaponItem(Settings settings, String poolKey) {
         super(settings);
         this.poolKey = poolKey;
+        ModItems.ALL_GACHAPON_ITEMS.add(this);
     }
 
     @Override
@@ -37,6 +41,7 @@ public class GachaponItem extends Item {
                 int amount = reward.getCount();
                 user.giveItemStack(reward);
                 CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.item_gachapon_received", true, amount, itemName);
+                world.playSound(null, user.getBlockPos(), ModSounds.OPEN_PRIZE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 CasinoRocketLogger.info("Player '{}' opened a '{}' and got '{}'",
                         player.getName().getString(), stack.getName().getString(), itemName);
                 stack.decrement(1);
@@ -44,6 +49,10 @@ public class GachaponItem extends Item {
                 CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.item_gachapon_empty", true);
                 CasinoRocketLogger.warn("Player '{}' tried to open a '{}' but all items in pool '{}' are invalid!",
                         player.getName().getString(), stack.getName().getString(), poolKey);
+            }
+
+            for (Item item : ModItems.ALL_GACHAPON_ITEMS) {
+                player.getItemCooldownManager().set(item, 15);
             }
 
         }
