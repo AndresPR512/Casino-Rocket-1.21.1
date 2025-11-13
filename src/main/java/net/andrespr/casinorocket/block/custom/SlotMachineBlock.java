@@ -30,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class SlotMachineBlock extends BlockWithEntity {
+public class SlotMachineBlock extends BlockWithEntity implements BlockEntityProvider {
 
     public static final MapCodec<SlotMachineBlock> CODEC = createCodec(SlotMachineBlock::new);
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
@@ -62,6 +62,7 @@ public class SlotMachineBlock extends BlockWithEntity {
                 .with(HALF, DoubleBlockHalf.LOWER));
     }
 
+    // === CODEC ===
     @Override
     protected MapCodec<? extends BlockWithEntity> getCodec() {
         return CODEC;
@@ -69,8 +70,9 @@ public class SlotMachineBlock extends BlockWithEntity {
 
     // === INTERACTION ===
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-       CasinoRocket.LOGGER.info("[DEBUG] onUse called at {} half={}", pos, state.get(HALF));
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos,
+                                 PlayerEntity player, BlockHitResult hit) {
+
         if (state.get(HALF) == DoubleBlockHalf.UPPER) {
             BlockPos lowerPos = pos.down();
             BlockState lowerState = world.getBlockState(lowerPos);
@@ -81,15 +83,14 @@ public class SlotMachineBlock extends BlockWithEntity {
         }
 
         if (!world.isClient) {
-            BlockEntity be = world.getBlockEntity(pos);
-            if (be instanceof SlotMachineEntity slotEntity) {
-                player.openHandledScreen(slotEntity);
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof SlotMachineEntity slotMachineEntity) {
+                player.openHandledScreen(slotMachineEntity);
             }
         }
 
         return ActionResult.SUCCESS;
     }
-
 
     // === SHAPE ===
     @Override

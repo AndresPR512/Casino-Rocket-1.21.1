@@ -20,7 +20,7 @@ public class SlotMachineEntity extends BlockEntity implements ExtendedScreenHand
 
     @Override
     public Text getDisplayName() {
-        return Text.translatable("container.casinorocket.slot_machine");
+        return Text.translatable("gui.casinorocket.slot_machine");
     }
 
     @Override

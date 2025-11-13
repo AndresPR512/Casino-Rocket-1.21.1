@@ -4,7 +4,9 @@ import net.andrespr.casinorocket.block.ModBlocks;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.network.SuitSync;
 import net.andrespr.casinorocket.screen.ModScreenHandlers;
+import net.andrespr.casinorocket.screen.custom.BetScreen;
 import net.andrespr.casinorocket.screen.custom.SlotMachineScreen;
+import net.andrespr.casinorocket.screen.custom.WithdrawScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
@@ -24,6 +26,8 @@ public class CasinoRocketClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLOT_MACHINE, RenderLayer.getCutout());
 
         HandledScreens.register(ModScreenHandlers.SLOT_MACHINE_SCREEN_HANDLER, SlotMachineScreen::new);
+        HandledScreens.register(ModScreenHandlers.BET_SCREEN_HANDLER, BetScreen::new);
+        HandledScreens.register(ModScreenHandlers.WITHDRAW_SCREEN_HANDLER, WithdrawScreen::new);
 
         ModItems.ALL_BILL_ITEMS.forEach(bill -> {
             ModelPredicateProviderRegistry.register(bill, Identifier.of("stacked"),

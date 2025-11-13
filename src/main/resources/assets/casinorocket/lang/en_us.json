@@ -87,6 +87,7 @@
 
   "block.casinorocket.pokemon_gacha_machine": "Pokemon Gacha Machine",
   "block.casinorocket.gacha_machine": "Item Gacha Machine",
+  "block.casinorocket.slot_machine": "Slot Machine",
 
   "itemgroup.casinorocket.casino_rocket_items": "Casino Rocket",
   "itemgroup.casinorocket.casino_rocket_blocks": "Casino Rocket Blocks",
@@ -133,6 +134,9 @@
   "sound.casinorocket.uncommon_rarity": "Uncommon Rarity",
   "sound.casinorocket.rare_rarity": "Rare Rarity",
   "sound.casinorocket.ultrarare_rarity": "Ultrarare Rarity",
-  "sound.casinorocket.legendary_rarity": "Legendary Rarity"
+  "sound.casinorocket.legendary_rarity": "Legendary Rarity",
+
+  "button.casinorocket.bet": "Bet",
+  "button.casinorocket.withdraw": "Withdraw"
 
 }

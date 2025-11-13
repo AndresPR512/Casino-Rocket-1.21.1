@@ -1,5 +1,6 @@
 package net.andrespr.casinorocket.item.custom;
 
+import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.sound.ModSounds;
 import net.andrespr.casinorocket.util.CasinoRocketLogger;
@@ -47,7 +48,7 @@ public class GachaponItem extends Item {
                 stack.decrement(1);
             } else {
                 CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.item_gachapon_empty", true);
-                CasinoRocketLogger.warn("Player '{}' tried to open a '{}' but all items in pool '{}' are invalid!",
+                CasinoRocket.LOGGER.warn("Player '{}' tried to open a '{}' but all items in pool '{}' are invalid!",
                         player.getName().getString(), stack.getName().getString(), poolKey);
             }
 

@@ -4,16 +4,17 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.andrespr.casinorocket.screen.ModGuiTextures;
 import net.andrespr.casinorocket.screen.widget.ModButtons;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 
-public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHandler> {
+public class BetScreen extends HandledScreen<BetScreenHandler> {
 
-    public SlotMachineScreen(SlotMachineScreenHandler handler, PlayerInventory inv, Text title) {
+    public BetScreen(BetScreenHandler handler, PlayerInventory inv, Text title) {
         super(handler, inv, title);
-        this.backgroundWidth = 230;
-        this.backgroundHeight = 206;
+        this.backgroundWidth = 174;
+        this.backgroundHeight = 166;
     }
 
     @Override
@@ -22,14 +23,10 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         int baseX = (this.width - this.backgroundWidth) / 2;
         int baseY = (this.height - this.backgroundHeight) / 2;
 
-        this.addDrawableChild(ModButtons.bet(baseX, baseY, 9, 9, b -> onBetPressed()));
-        this.addDrawableChild(ModButtons.withdraw(baseX, baseY, 149, 9, b -> onWithdrawPressed()));
-        this.addDrawableChild(ModButtons.menu(baseX, baseY, 88, 9, b -> onMenuPressed()));
-        this.addDrawableChild(ModButtons.spin(baseX, baseY, 95, 157, b -> onSpinPressed()));
+        this.addDrawableChild(ModButtons.doBet(baseX, baseY, 46, 2, b -> onDoBetPressed()));
     }
 
-    // === BUTTONS ===
-    private void onSpinPressed() {
+    private void onDoBetPressed() {
         if (client != null && client.player != null)
             client.player.sendMessage(Text.literal("[SlotMachine] SPIN!"), false);
     }
@@ -39,11 +36,11 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1f,1f,1f,1f);
-        RenderSystem.setShaderTexture(0, ModGuiTextures.SLOT_MACHINE_GUI);
+        RenderSystem.setShaderTexture(0, ModGuiTextures.BET_GUI);
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) /2;
 
-        context.drawTexture(ModGuiTextures.SLOT_MACHINE_GUI, x, y, 0, 0, backgroundWidth, backgroundHeight);
+        context.drawTexture(ModGuiTextures.BET_GUI, x, y, 0, 0, backgroundWidth, backgroundHeight);
     }
 
     @Override

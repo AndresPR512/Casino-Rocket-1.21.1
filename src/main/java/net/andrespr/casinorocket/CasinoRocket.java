@@ -9,9 +9,9 @@ import net.andrespr.casinorocket.command.CasinoRocketCommands;
 import net.andrespr.casinorocket.config.CasinoRocketConfig;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.item.ModItemsGroup;
+import net.andrespr.casinorocket.network.CasinoPackets;
 import net.andrespr.casinorocket.network.SuitSyncPayload;
 import net.andrespr.casinorocket.screen.ModScreenHandlers;
-import net.andrespr.casinorocket.screen.custom.SlotMachineScreen;
 import net.andrespr.casinorocket.sound.ModSounds;
 import net.andrespr.casinorocket.util.gacha.GachaponUtils;
 import net.andrespr.casinorocket.util.gacha.PokemonGachaponUtils;
@@ -20,7 +20,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +40,7 @@ public class CasinoRocket implements ModInitializer {
         ModSounds.registerSounds();
         ModBlockEntities.registerBlockEntities();
         ModScreenHandlers.registerScreenHandlers();
+        CasinoPackets.register();
         CommandRegistrationCallback.EVENT.register(CasinoRocketCommands::register);
 
         PayloadTypeRegistry.playS2C().register(SuitSyncPayload.ID, SuitSyncPayload.CODEC);
