@@ -1,5 +1,6 @@
 package net.andrespr.casinorocket.item.custom;
 
+import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.util.TextUtils;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,6 +18,7 @@ public class ChipItem extends Item {
     public ChipItem(Settings settings, long value) {
         super(settings);
         this.value = value;
+        ModItems.ALL_CHIP_ITEMS.add(this);
     }
 
     @Override

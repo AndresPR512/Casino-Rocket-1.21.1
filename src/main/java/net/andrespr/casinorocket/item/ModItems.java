@@ -12,6 +12,7 @@ import java.util.List;
 
 public class ModItems {
 
+    public static final List<Item> ALL_CHIP_ITEMS = new ArrayList<>();
     public static final ChipItem BASIC_CHIP = registerChipItem("basic_chip");
     public static final ChipItem COPPER_CHIP = registerChipItem("copper_chip");
     public static final ChipItem IRON_CHIP = registerChipItem("iron_chip");
@@ -73,7 +74,7 @@ public class ModItems {
     public static final PokemonPinItem PORYGON_PIN = registerCustomItem("porygon_pin",
             new PokemonPinItem(new Item.Settings(), 10, 15, false));
 
-    public static List<BillItem> ALL_BILL_ITEMS = new ArrayList<>();
+    public static List<Item> ALL_BILL_ITEMS = new ArrayList<>();
     public static final BillItem BILL_100 = registerCustomItem("bill_100", new BillItem(new Item.Settings(), 100));
     public static final BillItem BILL_500 = registerCustomItem("bill_500", new BillItem(new Item.Settings(), 500));
     public static final BillItem BILL_1K = registerCustomItem("bill_1k", new BillItem(new Item.Settings(), 1_000));
