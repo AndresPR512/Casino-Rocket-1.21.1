@@ -60,6 +60,16 @@ public class CasinoRocketPackets {
                 DoWithdrawReceiver::handle
         );
 
+        // MENU SCREEN
+        PayloadTypeRegistry.playC2S().register(
+                OpenMenuScreenC2SPayload.ID,
+                OpenMenuScreenC2SPayload.CODEC
+        );
+        ServerPlayNetworking.registerGlobalReceiver(
+                OpenMenuScreenC2SPayload.ID,
+                MenuScreenReceiver::openMenuScreen
+        );
+
     }
 
     private static void registerS2C() {

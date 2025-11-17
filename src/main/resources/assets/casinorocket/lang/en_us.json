@@ -137,6 +137,12 @@
   "sound.casinorocket.legendary_rarity": "Legendary Rarity",
 
   "button.casinorocket.bet": "Bet",
-  "button.casinorocket.withdraw": "Withdraw"
+  "button.casinorocket.withdraw": "Withdraw",
+
+  "gui.casinorocket.slot_machine.settings_bet_amount": "Bet per spin:",
+  "gui.casinorocket.slot_machine.settings_lines": "Lines to play:",
+  "gui.casinorocket.slot_machine.settings_one_line": "x1 Line",
+  "gui.casinorocket.slot_machine.settings_three_lines": "x3 Lines",
+  "gui.casinorocket.slot_machine.settings_five_lines": "x5 Lines"
 
 }

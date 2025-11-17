@@ -1,6 +1,7 @@
 package net.andrespr.casinorocket.screen.custom;
 
 import net.andrespr.casinorocket.network.c2s.OpenBetScreenC2SPayload;
+import net.andrespr.casinorocket.network.c2s.OpenMenuScreenC2SPayload;
 import net.andrespr.casinorocket.network.c2s.OpenWithdrawScreenC2SPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -32,8 +33,9 @@ public abstract class CasinoMachineScreen<T extends ScreenHandler> extends Handl
     }
 
     protected void onMenuPressed() {
-        if (client != null && client.player != null)
-            client.player.sendMessage(Text.literal("[Casino] MENU abierto"), false);
+        if (client != null && client.player != null) {
+            ClientPlayNetworking.send(new OpenMenuScreenC2SPayload());
+        }
     }
 
 }
