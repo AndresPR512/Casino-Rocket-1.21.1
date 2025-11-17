@@ -9,7 +9,7 @@ import net.andrespr.casinorocket.command.CasinoRocketCommands;
 import net.andrespr.casinorocket.config.CasinoRocketConfig;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.item.ModItemsGroup;
-import net.andrespr.casinorocket.network.CasinoPackets;
+import net.andrespr.casinorocket.network.CasinoRocketPackets;
 import net.andrespr.casinorocket.network.SuitSyncPayload;
 import net.andrespr.casinorocket.screen.ModScreenHandlers;
 import net.andrespr.casinorocket.sound.ModSounds;
@@ -40,7 +40,7 @@ public class CasinoRocket implements ModInitializer {
         ModSounds.registerSounds();
         ModBlockEntities.registerBlockEntities();
         ModScreenHandlers.registerScreenHandlers();
-        CasinoPackets.register();
+        CasinoRocketPackets.register();
         CommandRegistrationCallback.EVENT.register(CasinoRocketCommands::register);
 
         PayloadTypeRegistry.playS2C().register(SuitSyncPayload.ID, SuitSyncPayload.CODEC);

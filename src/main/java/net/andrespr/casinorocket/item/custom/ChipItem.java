@@ -28,6 +28,8 @@ public class ChipItem extends Item {
         super.appendTooltip(stack, context, tooltip, type);
     }
 
+    // === GETTERS ===
+
     public long getValue() {
         return value;
     }

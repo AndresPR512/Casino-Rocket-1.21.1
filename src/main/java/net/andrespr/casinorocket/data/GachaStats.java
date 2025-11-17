@@ -1,4 +1,4 @@
-package net.andrespr.casinorocket.util.gacha;
+package net.andrespr.casinorocket.data;
 
 import net.minecraft.nbt.NbtCompound;
 

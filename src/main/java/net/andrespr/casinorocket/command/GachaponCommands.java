@@ -3,6 +3,8 @@ package net.andrespr.casinorocket.command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import net.andrespr.casinorocket.data.GachaDataStorage;
+import net.andrespr.casinorocket.data.GachaStats;
 import net.andrespr.casinorocket.util.gacha.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;

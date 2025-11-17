@@ -8,16 +8,24 @@ public class TextUtils {
 
     public static String formatCompact(long number) {
         String formatted;
-        if (number >= 1_000_000_000) {
-            formatted = String.format("%.1fB", number / 1_000_000_000.0);
-        } else if (number >= 1_000_000) {
-            formatted = String.format("%.1fM", number / 1_000_000.0);
-        } else if (number >= 1_000) {
-            formatted = String.format("%.1fK", number / 1_000.0);
-        } else {
-            formatted = String.valueOf(number);
-        }
-        return formatted.replaceAll("\\.0([KMB])", "$1");
+        if (number >= 1_000_000_000_000_000_000L) formatted = String.format("%.1fQi", number / 1_000_000_000_000_000_000.0);
+        else if (number >= 1_000_000_000_000_000L) formatted = String.format("%.1fQ", number / 1_000_000_000_000_000.0);
+        else if (number >= 1_000_000_000_000L) formatted = String.format("%.1fT", number / 1_000_000_000_000.0);
+        else if (number >= 1_000_000_000) formatted = String.format("%.1fB", number / 1_000_000_000.0);
+        else if (number >= 1_000_000) formatted = String.format("%.1fM", number / 1_000_000.0);
+        else if (number >= 1_000) formatted = String.format("%.1fK", number / 1_000.0);
+        else formatted = String.valueOf(number);
+        return formatted.replaceAll("\\.0(?=[A-Za-z]+)", "");
+    }
+
+    public static String formatCompactNoDecimal(long number) {
+        if (number >= 1_000_000_000_000_000_000L) return number / 1_000_000_000_000_000_000L + "Qi";
+        if (number >= 1_000_000_000_000_000L) return number / 1_000_000_000_000_000L + "Q";
+        if (number >= 1_000_000_000_000L) return number / 1_000_000_000_000L + "T";
+        if (number >= 1_000_000_000) return number / 1_000_000_000 + "B";
+        if (number >= 1_000_000) return number / 1_000_000 + "M";
+        if (number >= 1_000) return number / 1_000 + "K";
+        return String.valueOf(number);
     }
 
     public static Formatting percentagesColor(double percentage) {

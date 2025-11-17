@@ -53,4 +53,10 @@ public class BillItem extends Item {
         super.appendTooltip(stack, context, tooltip, type);
     }
 
+    // === GETTERS ===
+
+    public long getValue() {
+        return value;
+    }
+
 }

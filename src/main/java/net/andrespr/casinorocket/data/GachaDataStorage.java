@@ -1,4 +1,4 @@
-package net.andrespr.casinorocket.util.gacha;
+package net.andrespr.casinorocket.data;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -19,7 +19,7 @@ public class GachaDataStorage extends PersistentState {
 
     private static final String STORAGE_KEY = "casinorocket_gacha_data";
 
-    // --- MAIN LOADER ---
+    // === MAIN LOADER ===
     public static GachaDataStorage get(MinecraftServer server) {
         PersistentStateManager manager = Objects.requireNonNull(server.getWorld(World.OVERWORLD)).getPersistentStateManager();
 
@@ -91,4 +91,5 @@ public class GachaDataStorage extends PersistentState {
     public boolean isDirty() {
         return true;
     }
+
 }

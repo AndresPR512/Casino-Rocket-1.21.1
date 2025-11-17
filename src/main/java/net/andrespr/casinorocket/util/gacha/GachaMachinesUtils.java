@@ -6,6 +6,8 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.block.custom.PokemonGachaMachineBlock;
 import net.andrespr.casinorocket.config.GachaMachinesConfig;
+import net.andrespr.casinorocket.data.GachaDataStorage;
+import net.andrespr.casinorocket.data.GachaStats;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.sound.ModSounds;
 import net.andrespr.casinorocket.util.CasinoRocketLogger;

@@ -8,11 +8,8 @@ import net.minecraft.util.Identifier;
 
 public record OpenWithdrawScreenC2SPayload() implements CustomPayload {
 
-    public static final Identifier ID_RAW =
-            Identifier.of(CasinoRocket.MOD_ID, "open_withdraw_screen");
-
-    public static final Id<OpenWithdrawScreenC2SPayload> ID =
-            new Id<>(ID_RAW);
+    public static final Identifier ID_RAW = Identifier.of(CasinoRocket.MOD_ID, "open_withdraw_screen");
+    public static final Id<OpenWithdrawScreenC2SPayload> ID = new Id<>(ID_RAW);
 
     public static final PacketCodec<RegistryByteBuf, OpenWithdrawScreenC2SPayload> CODEC =
             PacketCodec.unit(new OpenWithdrawScreenC2SPayload());
