@@ -11,7 +11,9 @@ public class SlotButton extends ButtonWidget {
     private final int texWidth;
     private final int texHeight;
     private final int stateHeight;
+
     private boolean pressed = false;
+    private boolean forcedPressed = false;
 
     public SlotButton(int x, int y, int width, int height, Identifier texture, PressAction onPress, Text text) {
         super(x, y, width, height, text, onPress, DEFAULT_NARRATION_SUPPLIER);
@@ -19,6 +21,10 @@ public class SlotButton extends ButtonWidget {
         this.texWidth = width;
         this.stateHeight = height;
         this.texHeight = height * 3;
+    }
+
+    public void setForcedPressed(boolean forced) {
+        this.forcedPressed = forced;
     }
 
     @Override
@@ -38,10 +44,15 @@ public class SlotButton extends ButtonWidget {
         int vOffset = 0;
 
         if (!this.active) {
-            vOffset = this.stateHeight * 2; // desactivado
-        } else if (this.pressed) {
-            vOffset = this.stateHeight * 2; // presionado
-        } else if (this.isHovered()) {
+            vOffset = this.stateHeight * 2; // disabled uses "pressed-style"
+        }
+        else if (this.forcedPressed) {
+            vOffset = this.stateHeight * 2; // forced pressed
+        }
+        else if (this.pressed) {
+            vOffset = this.stateHeight * 2; // clicked
+        }
+        else if (this.isHovered()) {
             vOffset = this.stateHeight;     // hovered
         }
 

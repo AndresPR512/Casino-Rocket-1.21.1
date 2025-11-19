@@ -2,9 +2,9 @@ package net.andrespr.casinorocket.network;
 
 import net.andrespr.casinorocket.network.c2s.*;
 import net.andrespr.casinorocket.network.c2s_handlers.*;
-import net.andrespr.casinorocket.network.s2c.SendBetAmountS2CPayload;
+import net.andrespr.casinorocket.network.s2c.SendMenuSettingsS2CPayload;
 import net.andrespr.casinorocket.network.s2c.SendSlotBalanceS2CPayload;
-import net.andrespr.casinorocket.network.s2c_handlers.BetScreenAmountReceiver;
+import net.andrespr.casinorocket.network.s2c_handlers.MenuScreenSettingsReceiver;
 import net.andrespr.casinorocket.network.s2c_handlers.SlotBalanceReceiver;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -43,7 +43,6 @@ public class CasinoRocketPackets {
                 DoBetC2SPayload.ID,
                 DoBetC2SPayload.CODEC
         );
-
         ServerPlayNetworking.registerGlobalReceiver(
                 DoBetC2SPayload.ID,
                 DoBetReceiver::handle
@@ -54,7 +53,6 @@ public class CasinoRocketPackets {
                 DoWithdrawC2SPayload.ID,
                 DoWithdrawC2SPayload.CODEC
         );
-
         ServerPlayNetworking.registerGlobalReceiver(
                 DoWithdrawC2SPayload.ID,
                 DoWithdrawReceiver::handle
@@ -70,21 +68,41 @@ public class CasinoRocketPackets {
                 MenuScreenReceiver::openMenuScreen
         );
 
+        // CHANGE BET BASE
+        PayloadTypeRegistry.playC2S().register(
+                ChangeBetBaseC2SPayload.ID,
+                ChangeBetBaseC2SPayload.CODEC
+        );
+        ServerPlayNetworking.registerGlobalReceiver(
+                ChangeBetBaseC2SPayload.ID,
+                ChangeBetBaseReceiver::handle
+        );
+
+        // CHANGE LINES MODE
+        PayloadTypeRegistry.playC2S().register(
+                ChangeLinesModeC2SPayload.ID,
+                ChangeLinesModeC2SPayload.CODEC
+        );
+        ServerPlayNetworking.registerGlobalReceiver(
+                ChangeLinesModeC2SPayload.ID,
+                ChangeLinesModeReceiver::handle
+        );
+
     }
 
     private static void registerS2C() {
-
-        PayloadTypeRegistry.playS2C().register(
-                SendBetAmountS2CPayload.ID,
-                SendBetAmountS2CPayload.CODEC
-        );
-        BetScreenAmountReceiver.register();
 
         PayloadTypeRegistry.playS2C().register(
                 SendSlotBalanceS2CPayload.ID,
                 SendSlotBalanceS2CPayload.CODEC
         );
         SlotBalanceReceiver.register();
+
+        PayloadTypeRegistry.playS2C().register(
+                SendMenuSettingsS2CPayload.ID,
+                SendMenuSettingsS2CPayload.CODEC
+        );
+        MenuScreenSettingsReceiver.register();
 
     }
 

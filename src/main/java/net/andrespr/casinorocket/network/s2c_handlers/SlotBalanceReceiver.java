@@ -1,6 +1,7 @@
 package net.andrespr.casinorocket.network.s2c_handlers;
 
 import net.andrespr.casinorocket.network.s2c.SendSlotBalanceS2CPayload;
+import net.andrespr.casinorocket.screen.custom.BetScreen;
 import net.andrespr.casinorocket.screen.custom.SlotMachineScreen;
 import net.andrespr.casinorocket.screen.custom.WithdrawScreen;
 import net.andrespr.casinorocket.screen.custom.WithdrawScreenHandler;
@@ -20,11 +21,17 @@ public class SlotBalanceReceiver {
                     long amount = payload.amount();
 
                     MinecraftClient.getInstance().execute(() -> {
-                        if (MinecraftClient.getInstance().currentScreen instanceof SlotMachineScreen screen) {
-                            screen.updateBalance(amount);
-                        } else if (MinecraftClient.getInstance().currentScreen instanceof WithdrawScreen screen) {
-                            screen.updateBalance(amount);
-                            WithdrawScreenHandler handler = screen.getScreenHandler();
+                        var client = MinecraftClient.getInstance();
+
+                        if (client.currentScreen instanceof BetScreen betScreen) {
+                            betScreen.updateTotalAmount(amount);
+
+                        } else if (client.currentScreen instanceof SlotMachineScreen slotScreen) {
+                            slotScreen.updateBalance(amount);
+
+                        } else if (client.currentScreen instanceof WithdrawScreen withdrawScreen) {
+                            withdrawScreen.updateBalance(amount);
+                            WithdrawScreenHandler handler = withdrawScreen.getScreenHandler();
 
                             if (amount == 0) {
                                 handler.clearWithdrawInventory();

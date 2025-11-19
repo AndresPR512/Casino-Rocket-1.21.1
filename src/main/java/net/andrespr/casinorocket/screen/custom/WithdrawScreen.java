@@ -24,6 +24,7 @@ public class WithdrawScreen extends HandledScreen<WithdrawScreenHandler> {
     }
 
     @Override
+    @SuppressWarnings("unused")
     protected void init() {
         super.init();
         int baseX = (this.width - this.backgroundWidth) / 2;

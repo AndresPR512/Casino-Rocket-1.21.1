@@ -97,9 +97,12 @@ public class GachaponUtils {
         MutableText result = Text.literal("")
                 .append(Text.literal("Rates:").formatted(Formatting.UNDERLINE)).append("\n");
 
+        List<CachedEntry> sorted = new ArrayList<>(pool.entries());
+        sorted.sort((a, b) -> Integer.compare(b.weight(), a.weight()));
+
         boolean first = true;
 
-        for (CachedEntry entry : pool.entries()) {
+        for (CachedEntry entry : sorted) {
             if (!first) result.append(Text.literal(", "));
             first = false;
 
@@ -113,7 +116,6 @@ public class GachaponUtils {
 
             result.append(Text.literal(name + ": ")
                     .append(Text.literal(String.format("%.2f%%", rounded)).formatted(color)));
-
         }
 
         return result;

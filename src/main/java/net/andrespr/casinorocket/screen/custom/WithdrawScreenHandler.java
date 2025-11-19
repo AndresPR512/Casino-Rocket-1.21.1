@@ -1,6 +1,6 @@
 package net.andrespr.casinorocket.screen.custom;
 
-import net.andrespr.casinorocket.data.SlotMachineDataStorage;
+import net.andrespr.casinorocket.data.PlayerSlotMachineData;
 import net.andrespr.casinorocket.network.s2c.SendSlotBalanceS2CPayload;
 import net.andrespr.casinorocket.screen.ModScreenHandlers;
 import net.andrespr.casinorocket.screen.widget.WithdrawSlot;
@@ -30,7 +30,7 @@ public class WithdrawScreenHandler extends ScreenHandler {
 
         PlayerEntity player = playerInventory.player;
         if (!player.getWorld().isClient) {
-            long balance = SlotMachineDataStorage.get(Objects.requireNonNull(player.getServer())).getBalance(player.getUuid());
+            long balance = PlayerSlotMachineData.get(Objects.requireNonNull(player.getServer())).getBalance(player.getUuid());
             ServerPlayNetworking.send((ServerPlayerEntity) player, new SendSlotBalanceS2CPayload(balance));
         }
 

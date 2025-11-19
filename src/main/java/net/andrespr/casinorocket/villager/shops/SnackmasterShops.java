@@ -18,7 +18,6 @@ public final class SnackmasterShops implements IShop {
                 "dry_frozen_curry",
                 "salty_boiled_egg_curry",
                 "bitter_herb_medley_curry",
-                "bitter_herb_medley_curry",
                 "dry_bone_curry",
                 "spicy_mushroom_medley_curry",
                 "sweet_apple_curry",

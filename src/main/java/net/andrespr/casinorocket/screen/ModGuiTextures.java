@@ -36,5 +36,20 @@ public final class ModGuiTextures {
             id("textures/gui/common/buttons/withdraw_button.png");      // 72x72 -> 72x72 (x3)
     public static final Identifier BTN_SPIN =
             id("textures/gui/common/buttons/spin_button.png");      // 40x120 -> 40x40 (x3)
+    // SLOT MACHINE MENU
+    public static final Identifier BTN_ADD =
+            id("textures/gui/common/buttons/add_button.png");       // 12x36 -> 12x12 (x3)
+    public static final Identifier BTN_SUBTRACT =
+            id("textures/gui/common/buttons/subtract_button.png");      // 12x36 -> 12x12 (x3)
+    public static final Identifier BTN_MODE1 =
+            id("textures/gui/common/buttons/mode1_button.png");     // 14x42 -> 14x14 (x3)
+    public static final Identifier BTN_MODE2 =
+            id("textures/gui/common/buttons/mode2_button.png");     // 14x42 -> 14x14 (x3)
+    public static final Identifier BTN_MODE3 =
+            id("textures/gui/common/buttons/mode3_button.png");     // 14x42 -> 14x14 (x3)
+
+    // === MISC ===
+    public static final Identifier LINES_LAYOUT =
+            Identifier.of(CasinoRocket.MOD_ID, "textures/gui/common/misc/lines_layout.png");
 
 }

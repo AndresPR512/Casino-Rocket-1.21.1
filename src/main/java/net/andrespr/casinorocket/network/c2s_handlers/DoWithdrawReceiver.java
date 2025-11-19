@@ -1,6 +1,6 @@
 package net.andrespr.casinorocket.network.c2s_handlers;
 
-import net.andrespr.casinorocket.data.SlotMachineDataStorage;
+import net.andrespr.casinorocket.data.PlayerSlotMachineData;
 import net.andrespr.casinorocket.network.c2s.DoWithdrawC2SPayload;
 import net.andrespr.casinorocket.network.s2c.SendSlotBalanceS2CPayload;
 import net.andrespr.casinorocket.util.MoneyCalculator;
@@ -16,7 +16,7 @@ public class DoWithdrawReceiver {
         var server = player.getServer();
         if (server == null) return;
 
-        var storage = SlotMachineDataStorage.get(server);
+        PlayerSlotMachineData storage = PlayerSlotMachineData.get(server);
         var uuid = player.getUuid();
 
         long balance = storage.getBalance(uuid);
@@ -32,8 +32,6 @@ public class DoWithdrawReceiver {
 
         storage.setBalance(uuid, 0);
 
-        ServerPlayNetworking.send(player, new SendSlotBalanceS2CPayload(0));
-
+        SendSlotBalanceS2CPayload.send(player, 0);
     }
-
 }

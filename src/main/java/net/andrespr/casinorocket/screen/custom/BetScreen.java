@@ -6,6 +6,7 @@ import net.andrespr.casinorocket.screen.ModGuiTextures;
 import net.andrespr.casinorocket.screen.widget.CommonButton;
 import net.andrespr.casinorocket.screen.widget.ModButtons;
 import net.andrespr.casinorocket.util.TextUtils;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
@@ -24,6 +25,7 @@ public class BetScreen extends HandledScreen<BetScreenHandler> {
     }
 
     @Override
+    @SuppressWarnings("unused")
     protected void init() {
         super.init();
         int baseX = (this.width - this.backgroundWidth) / 2;
@@ -37,7 +39,7 @@ public class BetScreen extends HandledScreen<BetScreenHandler> {
     private void onDoBetPressed() {
         if (client != null && client.player != null) {
             client.player.sendMessage(Text.literal("[SlotMachine] DoBet Pressed!"), false);
-            net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.send(new DoBetC2SPayload());
+            ClientPlayNetworking.send(new DoBetC2SPayload());
         }
     }
 

@@ -14,10 +14,10 @@ public final class BattleGearShops implements IShop {
 
         // ===== BATTLE ITEMS =====
         NbtList battleOffers = new NbtList();
-        battleOffers.add(VillagerTradeHelper.makeOffer("cobblemon:sitrus_berry","2500"));
-        battleOffers.add(VillagerTradeHelper.makeOffer("cobblemon:muscle_band","5000"));
-        battleOffers.add(VillagerTradeHelper.makeOffer("cobblemon:wise_glasses","5000"));
-        battleOffers.add(VillagerTradeHelper.makeOffer("cobblemon:metronome","7500"));
+        battleOffers.add(VillagerTradeHelper.makeOffer("cobblemon:sitrus_berry","500"));
+        battleOffers.add(VillagerTradeHelper.makeOffer("cobblemon:muscle_band","2500"));
+        battleOffers.add(VillagerTradeHelper.makeOffer("cobblemon:wise_glasses","2500"));
+        battleOffers.add(VillagerTradeHelper.makeOffer("cobblemon:metronome","5000"));
         battleOffers.add(VillagerTradeHelper.makeOffer("cobblemon:shell_bell","7500"));
         battleOffers.add(VillagerTradeHelper.makeOffer("cobblemon:focus_band","10000"));
         battleOffers.add(VillagerTradeHelper.makeOffer("cobblemon:scope_lens","10000"));

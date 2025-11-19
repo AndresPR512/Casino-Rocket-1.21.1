@@ -12,6 +12,7 @@ import net.minecraft.text.Text;
 public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHandler> {
 
     private long balance = 0L;
+    private int betAmount = 10;
 
     public SlotMachineScreen(SlotMachineScreenHandler handler, PlayerInventory inv, Text title) {
         super(handler, inv, title);
@@ -20,6 +21,7 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
     }
 
     @Override
+    @SuppressWarnings("unused")
     protected void init() {
         super.init();
         int baseX = (this.width - this.backgroundWidth) / 2;
@@ -50,7 +52,25 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
     }
 
     @Override
-    protected void drawForeground(DrawContext ctx, int mouseX, int mouseY) {
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        drawBalance(context);
+        drawBetAmount(context);
+    }
+
+    // === UPDATERS ===
+
+    public void updateBalance(long amount) {
+        this.balance = amount;
+    }
+
+    public void updateDisplay(long balance, int betBase, int linesMode) {
+        this.balance = balance;
+        this.betAmount = betBase * linesMode;
+    }
+
+    // === HELPERS ===
+
+    private void drawBalance(DrawContext context) {
         String formatted = TextUtils.formatCompact(balance);
 
         float targetHeight = 15f;
@@ -60,32 +80,52 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         float textWidth = textRenderer.getWidth(formatted);
         float scaledWidth = textWidth * baseScale;
 
-        float scale = baseScale;
-        if (scaledWidth > maxWidth) {
-            scale = maxWidth / textWidth;
-        }
+        float scale = scaledWidth > maxWidth
+                ? maxWidth / textWidth
+                : baseScale;
 
         int x1 = 14;
         int x2 = 63;
         int y = 177;
 
         int finalWidth = (int)(textWidth * scale);
-
         int drawX = Math.max(x2 - finalWidth, x1);
         drawX += 1;
 
-        ctx.getMatrices().push();
-        ctx.getMatrices().translate(drawX, y, 0);
-        ctx.getMatrices().scale(scale, scale, 1);
-        ctx.drawText(textRenderer, formatted, 0, 0, 0x20BB20, false);
-
-        ctx.getMatrices().pop();
+        context.getMatrices().push();
+        context.getMatrices().translate(drawX, y, 0);
+        context.getMatrices().scale(scale, scale, 1);
+        context.drawText(textRenderer, formatted, 0, 0, 0x20BB20, false);
+        context.getMatrices().pop();
     }
 
-    // === GETTERS ===
+    private void drawBetAmount(DrawContext context) {
+        String formatted = TextUtils.formatCompact(betAmount);
 
-    public void updateBalance(long amount) {
-        this.balance = amount;
+        float targetHeight = 15f;
+        float baseScale = targetHeight / 8f;
+        float maxWidth = 49f;
+
+        float textWidth = textRenderer.getWidth(formatted);
+        float scaledWidth = textWidth * baseScale;
+
+        float scale = scaledWidth > maxWidth
+                ? maxWidth / textWidth
+                : baseScale;
+
+        int x1 = 154;
+        int x2 = 203;
+        int y = 177;
+
+        int finalWidth = (int)(textWidth * scale);
+        int drawX = Math.max(x2 - finalWidth, x1);
+        drawX += 1;
+
+        context.getMatrices().push();
+        context.getMatrices().translate(drawX, y, 0);
+        context.getMatrices().scale(scale, scale, 1);
+        context.drawText(textRenderer, formatted, 0, 0, 0x20BB20, false);
+        context.getMatrices().pop();
     }
 
 }
