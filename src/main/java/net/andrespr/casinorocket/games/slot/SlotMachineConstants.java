@@ -1,4 +1,4 @@
-package net.andrespr.casinorocket.util;
+package net.andrespr.casinorocket.games.slot;
 
 import java.util.List;
 

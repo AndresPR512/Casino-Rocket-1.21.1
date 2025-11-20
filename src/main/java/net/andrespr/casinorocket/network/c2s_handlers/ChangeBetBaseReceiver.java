@@ -3,7 +3,7 @@ package net.andrespr.casinorocket.network.c2s_handlers;
 import net.andrespr.casinorocket.data.PlayerSlotMachineData;
 import net.andrespr.casinorocket.network.c2s.ChangeBetBaseC2SPayload;
 import net.andrespr.casinorocket.network.s2c.SendMenuSettingsS2CPayload;
-import net.andrespr.casinorocket.util.SlotMachineConstants;
+import net.andrespr.casinorocket.games.slot.SlotMachineConstants;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;

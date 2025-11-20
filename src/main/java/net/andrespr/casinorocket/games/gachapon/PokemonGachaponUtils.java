@@ -1,4 +1,4 @@
-package net.andrespr.casinorocket.util.gacha;
+package net.andrespr.casinorocket.games.gachapon;
 
 import net.andrespr.casinorocket.config.PokemonGachaponConfig;
 import net.andrespr.casinorocket.util.CasinoRocketLogger;

@@ -1,4 +1,4 @@
-package net.andrespr.casinorocket.util.gacha;
+package net.andrespr.casinorocket.games.gachapon;
 
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;

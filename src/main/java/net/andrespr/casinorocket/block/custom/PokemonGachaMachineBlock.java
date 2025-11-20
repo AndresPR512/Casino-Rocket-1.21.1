@@ -1,7 +1,7 @@
 package net.andrespr.casinorocket.block.custom;
 
 import com.mojang.serialization.MapCodec;
-import net.andrespr.casinorocket.util.gacha.GachaMachinesUtils;
+import net.andrespr.casinorocket.games.gachapon.GachaMachinesUtils;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.entity.LivingEntity;

@@ -4,7 +4,7 @@ import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.sound.ModSounds;
 import net.andrespr.casinorocket.util.CasinoRocketLogger;
-import net.andrespr.casinorocket.util.gacha.GachaponUtils;
+import net.andrespr.casinorocket.games.gachapon.GachaponUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
