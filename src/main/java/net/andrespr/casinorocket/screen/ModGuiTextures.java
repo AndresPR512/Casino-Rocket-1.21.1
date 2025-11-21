@@ -1,7 +1,10 @@
 package net.andrespr.casinorocket.screen;
 
 import net.andrespr.casinorocket.CasinoRocket;
+import net.andrespr.casinorocket.games.slot.SlotSymbol;
 import net.minecraft.util.Identifier;
+
+import java.util.Map;
 
 public final class ModGuiTextures {
 
@@ -13,7 +16,7 @@ public final class ModGuiTextures {
 
     // === BACKGROUNDS ===
     public static final Identifier SLOT_MACHINE_GUI =
-            id("textures/gui/slot_machine/slot_machine_gui.png");       // 230x206
+            id("textures/gui/slot_machine/slot_machine_gui.png");       // 230x181
     public static final Identifier SLOT_MACHINE_MENU_GUI =
             id("textures/gui/slot_machine/slot_machine_menu_gui.png");     // 200x236
     public static final Identifier BET_GUI =
@@ -48,8 +51,41 @@ public final class ModGuiTextures {
     public static final Identifier BTN_MODE3 =
             id("textures/gui/common/buttons/mode3_button.png");     // 14x42 -> 14x14 (x3)
 
+    // === SLOT MACHINE SYMBOLS ===
+    public static final Identifier CHERRY =
+            id("textures/gui/slot_machine/symbols/cherry.png");
+    public static final Identifier BULBASAUR =
+            id("textures/gui/slot_machine/symbols/bulbasaur.png");
+    public static final Identifier SQUIRTLE =
+            id("textures/gui/slot_machine/symbols/squirtle.png");
+    public static final Identifier CHARMANDER =
+            id("textures/gui/slot_machine/symbols/charmander.png");
+    public static final Identifier PIKACHU =
+            id("textures/gui/slot_machine/symbols/pikachu.png");
+    public static final Identifier MEW =
+            id("textures/gui/slot_machine/symbols/mew.png");
+    public static final Identifier ROCKET =
+            id("textures/gui/slot_machine/symbols/rocket.png");
+    public static final Identifier SEVEN =
+            id("textures/gui/slot_machine/symbols/seven.png");
+
+    public static class SlotTextures {
+        public static final Map<SlotSymbol, Identifier> SYMBOL_TEXTURES = Map.of(
+                SlotSymbol.CHERRY,     CHERRY,
+                SlotSymbol.BULBASAUR,  BULBASAUR,
+                SlotSymbol.SQUIRTLE,   SQUIRTLE,
+                SlotSymbol.CHARMANDER, CHARMANDER,
+                SlotSymbol.PIKACHU,    PIKACHU,
+                SlotSymbol.MEW,        MEW,
+                SlotSymbol.ROCKET,     ROCKET,
+                SlotSymbol.SEVEN,      SEVEN
+        );
+    }
+
     // === MISC ===
     public static final Identifier LINES_LAYOUT =
             Identifier.of(CasinoRocket.MOD_ID, "textures/gui/common/misc/lines_layout.png");
+    public static final Identifier REELS =
+            Identifier.of(CasinoRocket.MOD_ID, "textures/gui/common/misc/reels.png");
 
 }
