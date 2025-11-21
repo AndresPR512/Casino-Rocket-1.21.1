@@ -21,10 +21,24 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
     private SlotButton spinButton;
 
     private long balance = 0L;
+    private long pendingBalance = -1L;
     private int betAmount = 10;
 
     private java.util.List<SlotLineResult> lastWins = java.util.Collections.emptyList();
     private int lastWinAmount = 0;
+
+    private static final int SYMBOL_SIZE = 32;
+    private static final int[] COLUMN_X = { 60 , 99 , 138 };
+    private static final int ROW_Y = 46;
+
+    private boolean isSpinning = false;
+
+    private final float[] reelOffset = new float[3];
+    private final int[] reelTimer = new int[3];
+    private final boolean[] reelSpinning = new boolean[3];
+
+    private final SlotSymbol[][] tempMatrix = new SlotSymbol[5][3];
+    private SlotSymbol[][] finalMatrix = null;
 
     public SlotMachineScreen(SlotMachineScreenHandler handler, PlayerInventory inv, Text title) {
         super(handler, inv, title);
@@ -36,6 +50,7 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
     @SuppressWarnings("unused")
     protected void init() {
         super.init();
+        fillRandomMatrix();
         int baseX = (this.width - this.backgroundWidth) / 2;
         int baseY = (this.height - this.backgroundHeight) / 2;
 
@@ -47,44 +62,38 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         this.addDrawableChild(spinButton);
     }
 
-    // === BUTTONS ===
     private void onSpinPressed() {
         if (client != null && client.player != null) {
-            this.spinButton.active = false;
             ClientPlayNetworking.send(new DoSpinC2SPayload());
         }
     }
 
-    // === SPIN SYMBOLS ===
-    private static final int SYMBOL_SIZE = 32;
-    private static final int[] COLUMN_X = { 60 , 99 , 138 };
-    private static final int ROW_Y = 45;
+    // === EMPTY SPACES ===
+    private void fillRandomMatrix() {
+        for (int r = 0; r < 5; r++) {
+            for (int c = 0; c < 3; c++) {
+                tempMatrix[r][c] = SlotSymbolPicker.random();
+            }
+        }
+    }
 
-    private boolean isSpinning = false;
-
-    private float[] reelOffset = new float[3];
-    private int[] reelTimer = new int[3];
-    private boolean[] reelSpinning = new boolean[3];
-
-    private SlotSymbol[][] tempMatrix = new SlotSymbol[3][3];
-    private SlotSymbol[][] finalMatrix = null;
-    private SlotSymbol[][] lastMatrix = null;
+    // === SPIN / ANIMATION ===
 
     private void startSpinAnimation() {
         isSpinning = true;
-        finalMatrix = null;
+        if (this.spinButton != null) {
+            this.spinButton.active = false;
+        }
 
         for (int col = 0; col < 3; col++) {
             reelOffset[col] = 0f;
             reelSpinning[col] = true;
             reelTimer[col] = 30 + col * 10;
 
-            for (int row = 0; row < 3; row++) {
+            for (int row = 0; row < 5; row++) {
                 tempMatrix[row][col] = SlotSymbolPicker.random();
             }
-
         }
-
     }
 
     public void onSpinResult(SlotSymbol[][] matrix, java.util.List<SlotLineResult> wins,
@@ -92,54 +101,22 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         this.finalMatrix = matrix;
         this.lastWins = wins;
         this.lastWinAmount = totalWin;
-        this.updateBalance(newBalance);
+        this.pendingBalance = newBalance;
 
         startSpinAnimation();
     }
 
-    private void drawSymbols(DrawContext context, int originX, int originY) {
-        if (tempMatrix == null) return;
-
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-
-                SlotSymbol symbol = tempMatrix[row][col];
-                if (symbol == null) continue;
-
-                Identifier texture = ModGuiTextures.SlotTextures.SYMBOL_TEXTURES.get(symbol);
-
-                int drawX = originX + COLUMN_X[col];
-                int drawY = originY + ROW_Y + (row * SYMBOL_SIZE) + (int) reelOffset[col];
-
-                context.drawTexture(texture, drawX, drawY, 0, 0,
-                        SYMBOL_SIZE, SYMBOL_SIZE, SYMBOL_SIZE, SYMBOL_SIZE);
-            }
-        }
-
-    }
-
-    private void drawAnimatedReels(DrawContext ctx, int originX, int originY) {
-
-        for (int col = 0; col < 3; col++) {
-
-            for (int row = -1; row <= 3; row++) {
-
-                SlotSymbol temp = SlotSymbolPicker.random();
-                Identifier texture = ModGuiTextures.SlotTextures.SYMBOL_TEXTURES.get(temp);
-
-                int drawX = originX + COLUMN_X[col];
-                int drawY = originY + ROW_Y + (row * SYMBOL_SIZE) + (int) reelOffset[col];
-
-                ctx.drawTexture(texture, drawX, drawY,
-                        0, 0, SYMBOL_SIZE, SYMBOL_SIZE, SYMBOL_SIZE, SYMBOL_SIZE);
-            }
-        }
-
-    }
-
     private void finishSpin() {
         isSpinning = false;
-        this.lastMatrix = finalMatrix;
+
+        if (pendingBalance >= 0) {
+            this.balance = pendingBalance;
+            this.pendingBalance = -1L;
+        }
+
+        if (this.spinButton != null) {
+            this.spinButton.active = true;
+        }
     }
 
     @Override
@@ -155,11 +132,13 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
 
             anySpinning = true;
 
-            reelOffset[col] += 8.0f;
+            reelOffset[col] += 20.0f;
 
             if (reelOffset[col] >= SYMBOL_SIZE) {
                 reelOffset[col] -= SYMBOL_SIZE;
 
+                tempMatrix[4][col] = tempMatrix[3][col];
+                tempMatrix[3][col] = tempMatrix[2][col];
                 tempMatrix[2][col] = tempMatrix[1][col];
                 tempMatrix[1][col] = tempMatrix[0][col];
                 tempMatrix[0][col] = SlotSymbolPicker.random();
@@ -171,9 +150,12 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
                 reelOffset[col] = 0f;
 
                 if (finalMatrix != null) {
-                    for (int row = 0; row < 3; row++) {
-                        tempMatrix[row][col] = finalMatrix[row][col];
-                    }
+                    tempMatrix[1][col] = finalMatrix[0][col]; // y = 45
+                    tempMatrix[2][col] = finalMatrix[1][col]; // y = 77
+                    tempMatrix[3][col] = finalMatrix[2][col]; // y = 109
+
+                    tempMatrix[0][col] = SlotSymbolPicker.random(); // y = 13
+                    tempMatrix[4][col] = SlotSymbolPicker.random(); // y = 141
                 }
             }
         }
@@ -183,27 +165,37 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         }
     }
 
+    // === DRAW ===
 
-    // === BACKGROUND ===
+    private void drawSymbols(DrawContext ctx, int originX, int originY) {
+        for (int col = 0; col < 3; col++) {
+            for (int row = 0; row < 5; row++) {
+                SlotSymbol symbol = tempMatrix[row][col];
+                if (symbol == null) continue;
+
+                Identifier texture = ModGuiTextures.SlotTextures.SYMBOL_TEXTURES.get(symbol);
+
+                int drawX = originX + COLUMN_X[col];
+                int drawY = originY + ROW_Y + ((row - 1) * SYMBOL_SIZE) + (int) reelOffset[col];
+
+                ctx.drawTexture(texture, drawX, drawY,
+                        0, 0, SYMBOL_SIZE, SYMBOL_SIZE, SYMBOL_SIZE, SYMBOL_SIZE);
+            }
+        }
+    }
+
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1f,1f,1f,1f);
         RenderSystem.setShaderTexture(0, ModGuiTextures.SLOT_MACHINE_GUI);
+
         int x = (width - backgroundWidth) / 2;
-        int y = (height - backgroundHeight) /2;
+        int y = (height - backgroundHeight) / 2;
 
         context.drawTexture(ModGuiTextures.REELS, x + 55, y + 39, 0, 0, 120, 112, 120, 112);
-
-        if (isSpinning) {
-            drawAnimatedReels(context, x, y);
-        } else {
-            drawSymbols(context, x, y);
-        }
-
-        context.drawTexture(ModGuiTextures.SLOT_MACHINE_GUI, x, y, 0, 0, backgroundWidth, backgroundHeight);
-
         drawSymbols(context, x, y);
+        context.drawTexture(ModGuiTextures.SLOT_MACHINE_GUI, x, y, 0, 0, backgroundWidth, backgroundHeight);
     }
 
     @Override
@@ -281,6 +273,12 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         context.getMatrices().scale(scale, scale, 1);
         context.drawText(textRenderer, formatted, 0, 0, 0x20BB20, false);
         context.getMatrices().pop();
+    }
+
+    // GETTERS
+
+    public boolean isSpinning() {
+        return this.isSpinning;
     }
 
 }

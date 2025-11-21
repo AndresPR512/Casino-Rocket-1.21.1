@@ -47,7 +47,6 @@ public class DoSpinReceiver {
         long newBalance = afterCost + spinResult.totalWin();
         storage.setBalance(uuid, newBalance);
 
-        ServerPlayNetworking.send(player, new SendSlotBalanceS2CPayload(newBalance));
         ServerPlayNetworking.send(player, SendSpinResultS2CPayload.from(newBalance, spinResult));
 
     }

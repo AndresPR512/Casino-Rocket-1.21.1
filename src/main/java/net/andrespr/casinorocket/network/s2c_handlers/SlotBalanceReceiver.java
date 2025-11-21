@@ -27,7 +27,9 @@ public class SlotBalanceReceiver {
                             betScreen.updateTotalAmount(amount);
 
                         } else if (client.currentScreen instanceof SlotMachineScreen slotScreen) {
-                            slotScreen.updateBalance(amount);
+                            if (!slotScreen.isSpinning()) {
+                                slotScreen.updateBalance(amount);
+                            }
 
                         } else if (client.currentScreen instanceof WithdrawScreen withdrawScreen) {
                             withdrawScreen.updateBalance(amount);
