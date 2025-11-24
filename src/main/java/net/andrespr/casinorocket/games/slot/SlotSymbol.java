@@ -2,29 +2,23 @@ package net.andrespr.casinorocket.games.slot;
 
 public enum SlotSymbol {
 
-    CHERRY(0, 50),
-    BULBASAUR(6, 20),
-    SQUIRTLE(8, 20),
-    CHARMANDER(10, 15),
-    PIKACHU(20, 8),
-    MEW(50, 5),
-    ROCKET(100, 2),
-    SEVEN(500, 1);
+    CHERRY(5),
+    BULBASAUR(6),
+    SQUIRTLE(8),
+    CHARMANDER(10),
+    PIKACHU(20),
+    MEW(50),
+    ROCKET(100),
+    SEVEN(500);
 
     private final int tripleMultiplier;
-    private final int weight;
 
-    SlotSymbol(int tripleMultiplier, int weight) {
+    SlotSymbol(int tripleMultiplier) {
         this.tripleMultiplier = tripleMultiplier;
-        this.weight = weight;
     }
 
     public int getTripleMultiplier() {
         return tripleMultiplier;
-    }
-
-    public int getWeight() {
-        return weight;
     }
 
 }

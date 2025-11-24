@@ -61,7 +61,6 @@ public class TextUtils {
         };
     }
 
-
     public static Formatting rankColors(int rank) {
         return switch (rank) {
             case 1 -> Formatting.GOLD;
@@ -69,6 +68,11 @@ public class TextUtils {
             case 3 -> Formatting.GREEN;
             default -> Formatting.WHITE;
         };
+    }
+
+    public static String capitalize(String input) {
+        if (input == null || input.isEmpty()) return input;
+        return Character.toUpperCase(input.charAt(0)) + input.substring(1);
     }
 
 }

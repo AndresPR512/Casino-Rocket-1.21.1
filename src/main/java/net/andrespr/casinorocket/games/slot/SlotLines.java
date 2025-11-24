@@ -49,42 +49,32 @@ public class SlotLines {
 
         SlotSymbol[] array = {a,b,c};
 
-        // Count occurrences
-        int cherryCount = 0;
+        int multiplier;
+        int cherryCount;
         SlotSymbol target = array[0];
         boolean allSame = (a == b && b == c);
 
         if (target == SlotSymbol.CHERRY) {
-            for (SlotSymbol symbol : array) {
-                if (symbol == SlotSymbol.CHERRY) cherryCount++;
+            if (a == SlotSymbol.CHERRY && b != SlotSymbol.CHERRY && c != SlotSymbol.CHERRY) {
+                multiplier = 2;
+                cherryCount = 1;
+            } else if (a == SlotSymbol.CHERRY && b == SlotSymbol.CHERRY && c != SlotSymbol.CHERRY) {
+                multiplier = 3;
+                cherryCount = 2;
+            } else if (a == SlotSymbol.CHERRY && b == SlotSymbol.CHERRY && c == SlotSymbol.CHERRY) {
+                multiplier = 5;
+                cherryCount = 3;
+            } else {
+                multiplier = 0;
+                cherryCount = 0;
             }
-
-            int multiplier = switch (cherryCount) {
-                case 1 -> 2;
-                case 2 -> 3;
-                case 3 -> 5;
-                default -> 0;
-            };
-
-            return new SlotLineResult(
-                    multiplier > 0,
-                    SlotSymbol.CHERRY,
-                    cherryCount,
-                    multiplier,
-                    baseBet * multiplier
-            );
+            return new SlotLineResult(multiplier > 0, SlotSymbol.CHERRY, cherryCount, multiplier, baseBet * multiplier);
         }
 
         // OTHER SYMBOLS (only pay for triple)
         if (allSame && target != SlotSymbol.CHERRY) {
-            int multiplier = target.getTripleMultiplier();
-            return new SlotLineResult(
-                    true,
-                    target,
-                    3,
-                    multiplier,
-                    baseBet * multiplier
-            );
+            multiplier = target.getTripleMultiplier();
+            return new SlotLineResult(true, target, 3, multiplier, baseBet * multiplier);
         }
 
         // No win

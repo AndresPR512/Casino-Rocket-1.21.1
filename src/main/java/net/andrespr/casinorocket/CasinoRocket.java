@@ -40,7 +40,7 @@ public class CasinoRocket implements ModInitializer {
         ModSounds.registerSounds();
         ModBlockEntities.registerBlockEntities();
         ModScreenHandlers.registerScreenHandlers();
-        CasinoRocketPackets.register();
+        CasinoRocketPackets.registerServer();
         CommandRegistrationCallback.EVENT.register(CasinoRocketCommands::register);
 
         PayloadTypeRegistry.playS2C().register(SuitSyncPayload.ID, SuitSyncPayload.CODEC);

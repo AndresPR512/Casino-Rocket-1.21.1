@@ -5,40 +5,40 @@
           "casinorocket:inserting_coin"
       ]
     },
-    "common_rarity": {
-      "subtitle": "sounds.casinorocket.common_rarity",
+    "common_prize": {
+      "subtitle": "sounds.casinorocket.common_prize",
       "sounds": [
-          "casinorocket:common_rarity"
+          "casinorocket:common_prize"
       ]
     },
-    "uncommon_rarity": {
-      "subtitle": "sounds.casinorocket.uncommon_rarity",
+    "uncommon_prize": {
+      "subtitle": "sounds.casinorocket.uncommon_prize",
       "sounds": [
-          "casinorocket:uncommon_rarity"
+          "casinorocket:uncommon_prize"
       ]
     },
-    "rare_rarity": {
-      "subtitle": "sounds.casinorocket.rare_rarity",
+    "rare_prize": {
+      "subtitle": "sounds.casinorocket.rare_prize",
       "sounds": [
-          "casinorocket:rare_rarity"
+          "casinorocket:rare_prize"
       ]
     },
-    "ultrarare_rarity": {
-      "subtitle": "sounds.casinorocket.ultrarare_rarity",
+    "ultrarare_prize": {
+      "subtitle": "sounds.casinorocket.ultrarare_prize",
       "sounds": [
-          "casinorocket:ultrarare_rarity"
+          "casinorocket:ultrarare_prize"
       ]
     },
-    "legendary_rarity": {
-      "subtitle": "sounds.casinorocket.legendary_rarity",
+    "legendary_prize": {
+      "subtitle": "sounds.casinorocket.legendary_prize",
       "sounds": [
-          "casinorocket:legendary_rarity"
+          "casinorocket:legendary_prize"
       ]
     },
-    "bonus_rarity": {
-      "subtitle": "sounds.casinorocket.bonus_rarity",
+    "bonus_prize": {
+      "subtitle": "sounds.casinorocket.bonus_prize",
       "sounds": [
-          "casinorocket:bonus_rarity"
+          "casinorocket:bonus_prize"
       ]
     },
     "open_prize": {

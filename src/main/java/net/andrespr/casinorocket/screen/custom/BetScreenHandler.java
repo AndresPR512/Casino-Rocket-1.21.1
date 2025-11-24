@@ -2,7 +2,7 @@ package net.andrespr.casinorocket.screen.custom;
 
 import net.andrespr.casinorocket.item.custom.BillItem;
 import net.andrespr.casinorocket.item.custom.ChipItem;
-import net.andrespr.casinorocket.network.s2c.SendSlotBalanceS2CPayload;
+import net.andrespr.casinorocket.network.s2c.sender.SlotBalanceSender;
 import net.andrespr.casinorocket.screen.ModScreenHandlers;
 import net.andrespr.casinorocket.screen.widget.BetSlot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -94,7 +94,7 @@ public class BetScreenHandler extends ScreenHandler {
         this.totalMoney = total;
 
         if (player instanceof ServerPlayerEntity serverPlayer) {
-            SendSlotBalanceS2CPayload.send(serverPlayer, total);
+            SlotBalanceSender.send(serverPlayer, total);
         }
     }
 

@@ -2,6 +2,7 @@ package net.andrespr.casinorocket;
 
 import net.andrespr.casinorocket.block.ModBlocks;
 import net.andrespr.casinorocket.item.ModItems;
+import net.andrespr.casinorocket.network.CasinoRocketPackets;
 import net.andrespr.casinorocket.network.SuitSync;
 import net.andrespr.casinorocket.screen.ModScreenHandlers;
 import net.andrespr.casinorocket.screen.custom.BetScreen;
@@ -38,6 +39,7 @@ public class CasinoRocketClient implements ClientModInitializer {
         });
 
         SuitSync.registerClientReceiver();
+        CasinoRocketPackets.registerClient();
 
     }
 

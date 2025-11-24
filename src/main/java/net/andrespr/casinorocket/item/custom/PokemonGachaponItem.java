@@ -40,13 +40,14 @@ public class PokemonGachaponItem extends Item {
 
         if (!world.isClient && user instanceof ServerPlayerEntity player) {
             MinecraftServer server = player.getServer();
-            var reward = PokemonGachaponUtils.pickPokemonReward(world.random, poolKey);
+            PokemonGachaponUtils.CachedEntry reward = PokemonGachaponUtils.pickPokemonReward(world.random, poolKey);
 
             if (reward != null) {
                 PokemonProperties properties = CobblemonUtils.safeParse(reward.pokemonId(), player, server);
                 Objects.requireNonNull(properties).setLevel(reward.level());
                 properties.setIvs(CobblemonUtils.createFixedIVs(reward.ivs()));
-                properties.setShiny(reward.shiny());
+                properties.setShiny(CobblemonUtils.itWillBeShiny(world.random, reward.shiny()));
+                properties.setPokeball(CobblemonUtils.getCherishBallIfLegendary(reward.pokemonId()));
 
                 CobblemonUtils.addPokemon(properties, player);
                 world.playSound(null, user.getBlockPos(), ModSounds.OPEN_PRIZE, SoundCategory.BLOCKS, 1.0F, 1.0F);

@@ -48,6 +48,7 @@ public class PokemonPinItem extends Item {
                 properties.setLevel(level);
                 properties.setIvs(CobblemonUtils.createFixedIVs(ivs));
                 properties.setShiny(shiny);
+                properties.setForm(null);
 
                 CobblemonUtils.addPokemon(properties, player);
 

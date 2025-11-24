@@ -62,8 +62,16 @@ public class GachaMachinesUtils {
         if (world.isClient) return ActionResult.SUCCESS;
 
         final long currentTick = world.getTime();
+        final long machineKey = pos.asLong();
 
         PLAYER_COOLDOWNS.object2LongEntrySet().removeIf(e -> currentTick > e.getLongValue());
+        UUID currentUser = LAST_PLAYER_USED.get(pos);
+
+        if (currentUser != null && !currentUser.equals(player.getUuid()) || PENDING_PREMIER_BONUS.contains(machineKey)) {
+            CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.gacha_machines_another_occupied", true);
+            return ActionResult.FAIL;
+        }
+
         LAST_MACHINE_USED.put(player.getUuid(), pos);
 
         long playerCooldownEnd = PLAYER_COOLDOWNS.getLong(player.getUuid());
@@ -160,7 +168,7 @@ public class GachaMachinesUtils {
 
         giveUserFeedback(probs, coinKey, reward, user);
 
-        if (!scheduledBonus) {
+        if (!scheduledBonus || user == null) {
             LAST_COIN_USED.remove(pos);
             LAST_PLAYER_USED.remove(pos);
         }
@@ -285,12 +293,12 @@ public class GachaMachinesUtils {
         if (world.isClient) return;
 
         SoundEvent sound = switch (rarity.toLowerCase(LOCALE)) {
-            case "common" -> ModSounds.COMMON_RARITY;
-            case "uncommon" -> ModSounds.UNCOMMON_RARITY;
-            case "rare" -> ModSounds.RARE_RARITY;
-            case "ultrarare" -> ModSounds.ULTRARARE_RARITY;
-            case "legendary" -> ModSounds.LEGENDARY_RARITY;
-            case "bonus" -> ModSounds.BONUS_RARITY;
+            case "common" -> ModSounds.COMMON_PRIZE;
+            case "uncommon" -> ModSounds.UNCOMMON_PRIZE;
+            case "rare" -> ModSounds.RARE_PRIZE;
+            case "ultrarare" -> ModSounds.ULTRARARE_PRIZE;
+            case "legendary" -> ModSounds.LEGENDARY_PRIZE;
+            case "bonus" -> ModSounds.BONUS_PRIZE;
             default -> null;
         };
 
@@ -480,7 +488,9 @@ public class GachaMachinesUtils {
         // === Resolve player or name ===
         if (targetOrName instanceof ServerPlayerEntity player) {
             stats = data.playerStats.get(player.getUuid());
-            playerName = player.getName().getString();
+            playerName = (stats != null && stats.getPlayerName() != null)
+                    ? stats.getPlayerName()
+                    : player.getName().getString();
         } else if (targetOrName instanceof String name) {
             for (GachaStats s : data.playerStats.values()) {
                 if (s.getPlayerName() != null && s.getPlayerName().equalsIgnoreCase(name)) {

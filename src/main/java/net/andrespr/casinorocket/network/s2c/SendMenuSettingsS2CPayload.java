@@ -15,9 +15,9 @@ public record SendMenuSettingsS2CPayload(long balance, int betBase, int linesMod
             PacketCodec.of(SendMenuSettingsS2CPayload::write, SendMenuSettingsS2CPayload::read);
 
     private static void write(SendMenuSettingsS2CPayload payload, RegistryByteBuf buf) {
-        buf.writeLong(payload.balance);
-        buf.writeInt(payload.betBase);
-        buf.writeInt(payload.linesMode);
+        buf.writeLong(payload.balance());
+        buf.writeInt(payload.betBase());
+        buf.writeInt(payload.linesMode());
     }
 
     private static SendMenuSettingsS2CPayload read(RegistryByteBuf buf) {

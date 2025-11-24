@@ -2,7 +2,7 @@ package net.andrespr.casinorocket.network.c2s_handlers;
 
 import net.andrespr.casinorocket.data.PlayerSlotMachineData;
 import net.andrespr.casinorocket.network.c2s.DoBetC2SPayload;
-import net.andrespr.casinorocket.network.s2c.SendSlotBalanceS2CPayload;
+import net.andrespr.casinorocket.network.s2c.sender.SlotBalanceSender;
 import net.andrespr.casinorocket.screen.custom.BetScreenHandler;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.inventory.SimpleInventory;
@@ -30,7 +30,7 @@ public class DoBetReceiver {
         PlayerSlotMachineData data = PlayerSlotMachineData.get(Objects.requireNonNull(player.getServer()));
         data.addBalance(player.getUuid(), amount);
 
-        SendSlotBalanceS2CPayload.send(player, data.getBalance(player.getUuid()));
+        SlotBalanceSender.send(player, data.getBalance(player.getUuid()));
 
         handler.onContentChanged(inventory);
     }

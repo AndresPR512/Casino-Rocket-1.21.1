@@ -9,12 +9,12 @@ import net.minecraft.util.Identifier;
 public class ModSounds {
 
     public static final SoundEvent INSERTING_COIN = registerSoundEvent("inserting_coin");
-    public static final SoundEvent COMMON_RARITY = registerSoundEvent("common_rarity");
-    public static final SoundEvent UNCOMMON_RARITY = registerSoundEvent("uncommon_rarity");
-    public static final SoundEvent RARE_RARITY = registerSoundEvent("rare_rarity");
-    public static final SoundEvent ULTRARARE_RARITY = registerSoundEvent("ultrarare_rarity");
-    public static final SoundEvent LEGENDARY_RARITY = registerSoundEvent("legendary_rarity");
-    public static final SoundEvent BONUS_RARITY = registerSoundEvent("bonus_rarity");
+    public static final SoundEvent COMMON_PRIZE = registerSoundEvent("common_prize");
+    public static final SoundEvent UNCOMMON_PRIZE = registerSoundEvent("uncommon_prize");
+    public static final SoundEvent RARE_PRIZE = registerSoundEvent("rare_prize");
+    public static final SoundEvent ULTRARARE_PRIZE = registerSoundEvent("ultrarare_prize");
+    public static final SoundEvent LEGENDARY_PRIZE = registerSoundEvent("legendary_prize");
+    public static final SoundEvent BONUS_PRIZE = registerSoundEvent("bonus_prize");
     public static final SoundEvent OPEN_PRIZE = registerSoundEvent("open_prize");
 
     private static SoundEvent registerSoundEvent(String name) {

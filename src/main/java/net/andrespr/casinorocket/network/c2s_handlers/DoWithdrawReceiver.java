@@ -2,7 +2,7 @@ package net.andrespr.casinorocket.network.c2s_handlers;
 
 import net.andrespr.casinorocket.data.PlayerSlotMachineData;
 import net.andrespr.casinorocket.network.c2s.DoWithdrawC2SPayload;
-import net.andrespr.casinorocket.network.s2c.SendSlotBalanceS2CPayload;
+import net.andrespr.casinorocket.network.s2c.sender.SlotBalanceSender;
 import net.andrespr.casinorocket.util.MoneyCalculator;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.item.ItemStack;
@@ -32,6 +32,6 @@ public class DoWithdrawReceiver {
 
         storage.setBalance(uuid, 0);
 
-        SendSlotBalanceS2CPayload.send(player, 0);
+        SlotBalanceSender.send(player, 0);
     }
 }

@@ -1,6 +1,7 @@
 package net.andrespr.casinorocket.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -14,8 +15,7 @@ public final class CasinoRocketCommands {
                                 CommandRegistryAccess registryAccess,
                                 CommandManager.RegistrationEnvironment environment) {
 
-        var root = CommandManager.literal("casinorocket")
-                .requires(source -> source.hasPermissionLevel(2));
+        LiteralArgumentBuilder<ServerCommandSource> root = CommandManager.literal("casinorocket");
 
         // Registering SpawnCasinoWorkersCommand
         root.then(SpawnWorkersCommand.buildSubcommand(registryAccess));

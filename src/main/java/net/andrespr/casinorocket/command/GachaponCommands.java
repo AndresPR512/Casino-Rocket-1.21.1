@@ -8,6 +8,7 @@ import net.andrespr.casinorocket.data.GachaStats;
 import net.andrespr.casinorocket.games.gachapon.GachaMachinesUtils;
 import net.andrespr.casinorocket.games.gachapon.GachaponUtils;
 import net.andrespr.casinorocket.games.gachapon.PokemonGachaponUtils;
+import net.andrespr.casinorocket.util.CommandUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -53,13 +54,7 @@ public final class GachaponCommands {
                                 )
                                 .then(CommandManager.literal("pity")
                                         .then(CommandManager.argument("player", StringArgumentType.string())
-                                                .suggests((context, builder) -> {
-                                                    MinecraftServer server = context.getSource().getServer();
-                                                    for (ServerPlayerEntity online : server.getPlayerManager().getPlayerList()) {
-                                                        builder.suggest(online.getName().getString());
-                                                    }
-                                                    return builder.buildFuture();
-                                                })
+                                                .suggests(CommandUtils::suggestPlayerNames)
                                                 .then(CommandManager.argument("coin", StringArgumentType.string())
                                                         .suggests((context, builder) -> {
                                                             GachaMachinesUtils.getCoinKeys().forEach(builder::suggest);
@@ -72,21 +67,7 @@ public final class GachaponCommands {
                         )
                 ).then(CommandManager.literal("stats")
                         .then(CommandManager.argument("player", StringArgumentType.string())
-                                .suggests((context, builder) -> {
-                                    MinecraftServer server = context.getSource().getServer();
-                                    GachaDataStorage data = GachaDataStorage.get(server);
-
-                                    for (ServerPlayerEntity online : server.getPlayerManager().getPlayerList()) {
-                                        builder.suggest(online.getName().getString());
-                                    }
-
-                                    for (GachaStats stats : data.playerStats.values()) {
-                                        if (stats.getPlayerName() != null)
-                                            builder.suggest(stats.getPlayerName());
-                                    }
-
-                                    return builder.buildFuture();
-                                })
+                                .suggests(CommandUtils::suggestPlayerNames)
                                 .executes(GachaponCommands::executeForMachineStats)
                         )
                 ).then(CommandManager.literal("leaderboard")
@@ -177,7 +158,6 @@ public final class GachaponCommands {
         sender.sendMessage(statsText, false);
         return 1;
     }
-
 
     private static int executeForLeaderboard(CommandContext<ServerCommandSource> context, String category) {
         String key = StringArgumentType.getString(context, category.equals("rarity") ? "rarity" : "coin");

@@ -20,7 +20,7 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int[] matr
     public static final PacketCodec<RegistryByteBuf, SendSpinResultS2CPayload> CODEC =
             PacketCodec.of(SendSpinResultS2CPayload::write, SendSpinResultS2CPayload::read);
 
-    public record LineWin(int symbolOrdinal, int count, int multiplier, int winAmount) { }
+    public static record LineWin(int symbolOrdinal, int count, int multiplier, int winAmount) { }
 
     public static SendSpinResultS2CPayload from(long newBalance, SlotSpinResult result) {
         SlotSymbol[][] matrixSymbols = result.matrix();
@@ -42,15 +42,15 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int[] matr
     }
 
     private static void write(SendSpinResultS2CPayload payload, RegistryByteBuf buf) {
-        buf.writeLong(payload.newBalance);
-        buf.writeInt(payload.totalWin);
+        buf.writeLong(payload.newBalance());
+        buf.writeInt(payload.totalWin());
 
-        int[] m = payload.matrix;
+        int[] m = payload.matrix();
         for (int i = 0; i < 9; i++) {
             buf.writeInt(m[i]);
         }
 
-        List<LineWin> wins = payload.wins;
+        List<LineWin> wins = payload.wins();
         buf.writeInt(wins.size());
         for (LineWin w : wins) {
             buf.writeInt(w.symbolOrdinal());

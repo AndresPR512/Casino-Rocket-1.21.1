@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class GachaStats {
 
-    private static String playerName;
+    private String playerName;
     public int totalCoinsUsed = 0;
     public int copperUsed = 0;
     public int ironUsed = 0;
@@ -22,7 +22,7 @@ public class GachaStats {
     public int bonus = 0;
 
     public GachaStats(String playerName) {
-        GachaStats.playerName = playerName;
+        this.playerName = playerName;
     }
 
     public void recordUse(String coinKey, String rarity) {
@@ -52,6 +52,7 @@ public class GachaStats {
     // === SAVE TO NBT ===
     public NbtCompound toNbt() {
         NbtCompound nbt = new NbtCompound();
+        nbt.putString("playerName", playerName);
         nbt.putInt("totalCoinsUsed", totalCoinsUsed);
         nbt.putInt("copperUsed", copperUsed);
         nbt.putInt("ironUsed", ironUsed);
@@ -68,7 +69,8 @@ public class GachaStats {
 
     // === LOAD FROM NBT ===
     public static GachaStats fromNbt(NbtCompound nbt) {
-        GachaStats stats = new GachaStats(playerName);
+        String name = nbt.getString("playerName");
+        GachaStats stats = new GachaStats(name);
         stats.totalCoinsUsed = nbt.getInt("totalCoinsUsed");
         stats.copperUsed = nbt.getInt("copperUsed");
         stats.ironUsed = nbt.getInt("ironUsed");
@@ -121,13 +123,11 @@ public class GachaStats {
     }
 
     public String getPlayerName() {
-        return playerName;
+        return this.playerName;
     }
 
-    // === SETTERS ===
-
     public void setPlayerName(String name) {
-        playerName = name;
+        this.playerName = name;
     }
 
 }

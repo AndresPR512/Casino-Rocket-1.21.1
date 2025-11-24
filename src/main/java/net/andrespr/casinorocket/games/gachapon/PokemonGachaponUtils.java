@@ -1,5 +1,6 @@
 package net.andrespr.casinorocket.games.gachapon;
 
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import net.andrespr.casinorocket.config.PokemonGachaponConfig;
 import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.CobblemonUtils;
@@ -13,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PokemonGachaponUtils {
 
-    public record CachedEntry(String pokemonId, int level, int ivs, boolean shiny, int weight) {}
+    public record CachedEntry(String pokemonId, int level, int ivs, String shiny, int weight) {}
     public record CachedPool(List<CachedEntry> entries, int totalWeight, int[] cumulativeWeights) {}
 
     private static final Map<String, CachedPool> CACHE = new ConcurrentHashMap<>();
@@ -78,14 +79,12 @@ public class PokemonGachaponUtils {
 
     public static Text getPoolPercentages(String poolKey) {
         CachedPool pool = CACHE.get(poolKey);
-        if (pool == null || pool.entries().isEmpty()) {
+        if (pool == null || pool.entries().isEmpty())
             return Text.literal("Pool '" + poolKey + "' has no valid Pokémon.").formatted(Formatting.RED);
-        }
 
         int totalWeight = pool.totalWeight();
-        if (totalWeight <= 0) {
+        if (totalWeight <= 0)
             return Text.literal("Pool '" + poolKey + "' has total weight 0.").formatted(Formatting.RED);
-        }
 
         MutableText result = Text.literal("")
                 .append(Text.literal("Rates:").formatted(Formatting.UNDERLINE)).append("\n");
@@ -94,22 +93,20 @@ public class PokemonGachaponUtils {
         sorted.sort((a, b) -> Integer.compare(b.weight(), a.weight()));
 
         boolean first = true;
+
         for (CachedEntry entry : sorted) {
             if (!first) result.append(Text.literal(", "));
             first = false;
 
-            var props = CobblemonUtils.tryParse(entry.pokemonId());
-            String name = props != null
-                    ? props.create().getSpecies().getTranslatedName().getString()
-                    : entry.pokemonId();
+            String cleanId = CobblemonUtils.getRawId(entry.pokemonId());
+            String name = TextUtils.capitalize(cleanId.replace("_", " "));
 
             double percentage = (entry.weight() * 100.0) / totalWeight;
             double rounded = Math.round(percentage * 100.0) / 100.0;
 
             Formatting color = TextUtils.percentagesColor(rounded);
 
-            result.append(Text.literal(name + ": ")
-                    .append(Text.literal(String.format("%.2f%%", rounded)).formatted(color)));
+            result.append(Text.literal(name + ": ").append(Text.literal(String.format("%.2f%%", rounded)).formatted(color)));
         }
 
         return result;
