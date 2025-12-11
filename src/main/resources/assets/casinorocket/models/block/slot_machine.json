@@ -7,6 +7,7 @@
         "1": "casinorocket:block/slot_machine_upper",
         "particle": "casinorocket:block/slot_machine_lower"
 	},
+    "ambientocclusion": false,
 	"elements": [
 		{
 			"from": [1, 0, 4],

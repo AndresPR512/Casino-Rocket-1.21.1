@@ -27,7 +27,7 @@ public class SlotLines {
             { {2,0}, {2,1}, {2,2} },
             // DIAGONAL
             { {0,0}, {1,1}, {2,2} },
-            { {0,2}, {1,1}, {2,0} }
+            { {2,0}, {1,1}, {0,2} }
     };
 
     // Return the lines depending on mode
@@ -41,7 +41,7 @@ public class SlotLines {
 
     // === EVALUATE A SINGLE LINE ===
 
-    private static SlotLineResult evaluateLine(SlotSymbol[][] matrix, int[][] coords, int baseBet) {
+    private static SlotLineResult evaluateLine(SlotSymbol[][] matrix, int[][] coords, int baseBet, int lineIndex) {
 
         SlotSymbol a = matrix[ coords[0][0] ][ coords[0][1] ];
         SlotSymbol b = matrix[ coords[1][0] ][ coords[1][1] ];
@@ -68,17 +68,18 @@ public class SlotLines {
                 multiplier = 0;
                 cherryCount = 0;
             }
-            return new SlotLineResult(multiplier > 0, SlotSymbol.CHERRY, cherryCount, multiplier, baseBet * multiplier);
+            return new SlotLineResult(multiplier > 0, SlotSymbol.CHERRY, cherryCount,
+                    multiplier, baseBet * multiplier, lineIndex);
         }
 
         // OTHER SYMBOLS (only pay for triple)
         if (allSame && target != SlotSymbol.CHERRY) {
             multiplier = target.getTripleMultiplier();
-            return new SlotLineResult(true, target, 3, multiplier, baseBet * multiplier);
+            return new SlotLineResult(true, target, 3, multiplier, baseBet * multiplier, lineIndex);
         }
 
         // No win
-        return new SlotLineResult(false, null, 0, 0, 0);
+        return new SlotLineResult(false, null, 0, 0, 0, lineIndex);
     }
 
     // === EVALUATE THE FULL SPIN ===
@@ -89,8 +90,9 @@ public class SlotLines {
         List<SlotLineResult> results = new ArrayList<>();
         int total = 0;
 
-        for (int[][] line : lines) {
-            SlotLineResult result = evaluateLine(matrix, line, baseBet);
+        for (int i = 0; i < lines.length; i++) {
+            int[][] line = lines[i];
+            SlotLineResult result = evaluateLine(matrix, line, baseBet, i);
             results.add(result);
             total += result.lineWin();
         }

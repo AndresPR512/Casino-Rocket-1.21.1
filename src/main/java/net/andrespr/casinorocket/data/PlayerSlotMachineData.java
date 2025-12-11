@@ -118,4 +118,5 @@ public class PlayerSlotMachineData extends PersistentState {
 
     @Override
     public boolean isDirty() { return true; }
+
 }

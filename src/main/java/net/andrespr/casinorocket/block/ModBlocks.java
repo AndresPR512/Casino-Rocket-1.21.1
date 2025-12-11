@@ -163,7 +163,8 @@ public class ModBlocks {
             new PokemonGachaMachineBlock(AbstractBlock.Settings.create().strength(1.5F).nonOpaque()));
 
     public static final Block SLOT_MACHINE = registerBlock("slot_machine",
-            new SlotMachineBlock(AbstractBlock.Settings.create().strength(1.5F).nonOpaque()));
+            new SlotMachineBlock(AbstractBlock.Settings.create().strength(1.5F)
+                    .nonOpaque().luminance(state -> 12)));
 
     // METHODS
 

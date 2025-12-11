@@ -135,6 +135,8 @@
   "sound.casinorocket.rare_rarity": "Rare Rarity",
   "sound.casinorocket.ultrarare_rarity": "Ultrarare Rarity",
   "sound.casinorocket.legendary_rarity": "Legendary Rarity",
+  "sound.casinorocket.reels_spinning": "Reels Spinning...",
+  "sound.casinorocket.jackpot": "JACKPOT!",
 
   "button.casinorocket.bet": "Bet",
   "button.casinorocket.withdraw": "Withdraw",

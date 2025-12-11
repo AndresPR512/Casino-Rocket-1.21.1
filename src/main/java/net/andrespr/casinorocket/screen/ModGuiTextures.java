@@ -82,9 +82,21 @@ public final class ModGuiTextures {
         );
     }
 
+    // === LINES (SLOT MACHINE) ===
+    public static final Identifier SLOT_LINE_ONE =
+            id("textures/gui/slot_machine/lines/line_one.png");
+    public static final Identifier SLOT_LINE_TWO =
+            id("textures/gui/slot_machine/lines/line_two.png");
+    public static final Identifier SLOT_LINE_THREE_TOP =
+            id("textures/gui/slot_machine/lines/line_three_top.png");
+    public static final Identifier SLOT_LINE_THREE_BOTTOM =
+            id("textures/gui/slot_machine/lines/line_three_bottom.png");
+
     // === MISC ===
     public static final Identifier LINES_LAYOUT =
             Identifier.of(CasinoRocket.MOD_ID, "textures/gui/common/misc/lines_layout.png");
+    public static final Identifier DANCING_CLEFAIRY =
+            id("textures/gui/common/misc/dancing_clefairy.png");
     public static final Identifier REELS =
             Identifier.of(CasinoRocket.MOD_ID, "textures/gui/common/misc/reels.png");
 

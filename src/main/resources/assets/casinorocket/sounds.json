@@ -46,5 +46,17 @@
       "sounds": [
           "casinorocket:open_prize"
       ]
+    },
+    "reels_spinning": {
+      "subtitle": "sounds.casinorocket.reels_spinning",
+      "sounds": [
+          "casinorocket:reels_spinning"
+      ]
+    },
+    "jackpot": {
+      "subtitle": "sounds.casinorocket.jackpot",
+      "sounds": [
+          "casinorocket:jackpot"
+      ]
     }
 }

@@ -20,7 +20,7 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int[] matr
     public static final PacketCodec<RegistryByteBuf, SendSpinResultS2CPayload> CODEC =
             PacketCodec.of(SendSpinResultS2CPayload::write, SendSpinResultS2CPayload::read);
 
-    public static record LineWin(int symbolOrdinal, int count, int multiplier, int winAmount) { }
+    public static record LineWin(int symbolOrdinal, int count, int multiplier, int winAmount, int lineIndex) { }
 
     public static SendSpinResultS2CPayload from(long newBalance, SlotSpinResult result) {
         SlotSymbol[][] matrixSymbols = result.matrix();
@@ -35,7 +35,7 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int[] matr
         List<LineWin> wins = new ArrayList<>();
         for (SlotLineResult line : result.lines()) {
             if (!line.win()) continue;
-            wins.add(new LineWin(line.symbol().ordinal(), line.count(), line.multiplier(), line.lineWin()));
+            wins.add(new LineWin(line.symbol().ordinal(), line.count(), line.multiplier(), line.lineWin(), line.lineIndex()));
         }
 
         return new SendSpinResultS2CPayload(newBalance, result.totalWin(), flat, wins);
@@ -57,6 +57,7 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int[] matr
             buf.writeInt(w.count());
             buf.writeInt(w.multiplier());
             buf.writeInt(w.winAmount());
+            buf.writeInt(w.lineIndex());
         }
     }
 
@@ -76,7 +77,9 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int[] matr
             int count = buf.readInt();
             int multiplier = buf.readInt();
             int winAmount = buf.readInt();
-            wins.add(new LineWin(symbolOrdinal, count, multiplier, winAmount));
+            int lineIndex = buf.readInt();
+
+            wins.add(new LineWin(symbolOrdinal, count, multiplier, winAmount, lineIndex));
         }
 
         return new SendSpinResultS2CPayload(newBalance, totalWin, matrix, wins);

@@ -36,7 +36,7 @@ public class SpinResultReceiver {
                     List<SlotLineResult> wins = new ArrayList<>();
                     for (SendSpinResultS2CPayload.LineWin w : netWins) {
                         SlotSymbol symbol = symbols[w.symbolOrdinal()];
-                        wins.add(new SlotLineResult(true, symbol, w.count(), w.multiplier(), w.winAmount()));
+                        wins.add(new SlotLineResult(true, symbol, w.count(), w.multiplier(), w.winAmount(), w.lineIndex()));
                     }
 
                     MinecraftClient client = MinecraftClient.getInstance();

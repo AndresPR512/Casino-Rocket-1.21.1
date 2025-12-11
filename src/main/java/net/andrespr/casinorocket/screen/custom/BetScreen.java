@@ -59,11 +59,8 @@ public class BetScreen extends HandledScreen<BetScreenHandler> {
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
         String formatted = TextUtils.formatCompact(currentTotal);
 
-        int x1 = 79;
-        int x2 = 105;
         int width = textRenderer.getWidth(formatted);
-
-        int drawX = Math.max(x2 - width, x1);
+        int drawX = Math.max(105 - width, 79);
 
         context.drawText(textRenderer, formatted, drawX, 4, 0x00AA00, true);
     }
