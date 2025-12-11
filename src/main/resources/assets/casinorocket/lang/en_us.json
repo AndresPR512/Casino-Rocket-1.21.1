@@ -1,10 +1,12 @@
 {
   "item.casinorocket.basic_chip": "Basic Chip",
+  "item.casinorocket.red_chip": "Red Chip",
+  "item.casinorocket.blue_chip": "Blue Chip",
+  "item.casinorocket.purple_chip": "Purple Chip",
   "item.casinorocket.copper_chip": "Copper Chip",
   "item.casinorocket.iron_chip": "Iron Chip",
-  "item.casinorocket.amethyst_chip": "Amethyst Chip",
-  "item.casinorocket.gold_chip": "Gold Chip",
   "item.casinorocket.emerald_chip": "Emerald Chip",
+  "item.casinorocket.gold_chip": "Gold Chip",
   "item.casinorocket.diamond_chip": "Diamond Chip",
   "item.casinorocket.netherite_chip": "Netherite Chip",
 
@@ -24,6 +26,8 @@
   "item.casinorocket.gold_coin": "Gold Coin",
   "item.casinorocket.diamond_coin": "Diamond Coin",
 
+  "item.casinorocket.bill_10": "$10 Bill",
+  "item.casinorocket.bill_50": "$50 Bill",
   "item.casinorocket.bill_100": "$100 Bill",
   "item.casinorocket.bill_500": "$500 Bill",
   "item.casinorocket.bill_1k": "$1k Bill",

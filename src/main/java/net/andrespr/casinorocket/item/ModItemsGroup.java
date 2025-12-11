@@ -19,11 +19,13 @@ public class ModItemsGroup {
                     .entries((displayContext, entries) -> {
                         // CHIP ITEMS
                         entries.add(ModItems.BASIC_CHIP);
+                        entries.add(ModItems.RED_CHIP);
+                        entries.add(ModItems.BLUE_CHIP);
+                        entries.add(ModItems.PURPLE_CHIP);
                         entries.add(ModItems.COPPER_CHIP);
                         entries.add(ModItems.IRON_CHIP);
-                        entries.add(ModItems.AMETHYST_CHIP);
-                        entries.add(ModItems.GOLD_CHIP);
                         entries.add(ModItems.EMERALD_CHIP);
+                        entries.add(ModItems.GOLD_CHIP);
                         entries.add(ModItems.DIAMOND_CHIP);
                         entries.add(ModItems.NETHERITE_CHIP);
                         // COINS
@@ -45,6 +47,8 @@ public class ModItemsGroup {
                         entries.add(ModItems.POKEMON_CHERISH_GACHAPON);
                         entries.add(ModItems.POKEMON_PREMIER_GACHAPON);
                         // BILLS
+                        entries.add(ModItems.BILL_10);
+                        entries.add(ModItems.BILL_50);
                         entries.add(ModItems.BILL_100);
                         entries.add(ModItems.BILL_500);
                         entries.add(ModItems.BILL_1K);

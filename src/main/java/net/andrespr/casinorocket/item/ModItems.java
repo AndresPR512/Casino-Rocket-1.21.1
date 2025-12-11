@@ -14,11 +14,13 @@ public class ModItems {
 
     public static final List<Item> ALL_CHIP_ITEMS = new ArrayList<>();
     public static final ChipItem BASIC_CHIP = registerChipItem("basic_chip");
+    public static final ChipItem RED_CHIP = registerChipItem("red_chip");
+    public static final ChipItem BLUE_CHIP = registerChipItem("blue_chip");
+    public static final ChipItem PURPLE_CHIP = registerChipItem("purple_chip");
     public static final ChipItem COPPER_CHIP = registerChipItem("copper_chip");
     public static final ChipItem IRON_CHIP = registerChipItem("iron_chip");
-    public static final ChipItem AMETHYST_CHIP = registerChipItem("amethyst_chip");
-    public static final ChipItem GOLD_CHIP = registerChipItem("gold_chip");
     public static final ChipItem EMERALD_CHIP = registerChipItem("emerald_chip");
+    public static final ChipItem GOLD_CHIP = registerChipItem("gold_chip");
     public static final ChipItem DIAMOND_CHIP = registerChipItem("diamond_chip");
     public static final ChipItem NETHERITE_CHIP = registerChipItem("netherite_chip");
 
@@ -75,6 +77,8 @@ public class ModItems {
             new PokemonPinItem(new Item.Settings(), 10, 15, false));
 
     public static List<Item> ALL_BILL_ITEMS = new ArrayList<>();
+    public static final BillItem BILL_10 = registerCustomItem("bill_10", new BillItem(new Item.Settings(), 10));
+    public static final BillItem BILL_50 = registerCustomItem("bill_50", new BillItem(new Item.Settings(), 50));
     public static final BillItem BILL_100 = registerCustomItem("bill_100", new BillItem(new Item.Settings(), 100));
     public static final BillItem BILL_500 = registerCustomItem("bill_500", new BillItem(new Item.Settings(), 500));
     public static final BillItem BILL_1K = registerCustomItem("bill_1k", new BillItem(new Item.Settings(), 1_000));

@@ -14,11 +14,13 @@ public final class ChipDealerShops implements IShop {
         // ===== MONEY TO CHIPS =====
         NbtList chipOffers = new NbtList();
         VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.BASIC_CHIP);
+        VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.RED_CHIP);
+        VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.BLUE_CHIP);
+        VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.PURPLE_CHIP);
         VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.COPPER_CHIP);
         VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.IRON_CHIP);
-        VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.AMETHYST_CHIP);
-        VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.GOLD_CHIP);
         VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.EMERALD_CHIP);
+        VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.GOLD_CHIP);
         VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.DIAMOND_CHIP);
         VillagerTradeHelper.makeMoneyToChipOffer(chipOffers, ModItems.NETHERITE_CHIP);
         shops.add(VillagerTradeHelper.makeShopCompound("Chips", chipOffers));
