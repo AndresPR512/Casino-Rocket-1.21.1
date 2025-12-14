@@ -1,9 +1,11 @@
-package net.andrespr.casinorocket.screen.custom;
+package net.andrespr.casinorocket.screen.custom.common;
 
 import net.andrespr.casinorocket.data.PlayerSlotMachineData;
 import net.andrespr.casinorocket.network.s2c.SendSlotBalanceS2CPayload;
 import net.andrespr.casinorocket.screen.ModScreenHandlers;
+import net.andrespr.casinorocket.screen.opening.SlotMachineOpenData;
 import net.andrespr.casinorocket.screen.widget.WithdrawSlot;
+import net.andrespr.casinorocket.util.IMachineBoundHandler;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,16 +15,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 import java.util.Objects;
 
-public class WithdrawScreenHandler extends ScreenHandler {
+public class WithdrawScreenHandler extends ScreenHandler implements IMachineBoundHandler {
 
+    private final BlockPos pos;
     private final Inventory inventory = new SimpleInventory(27);
 
-    public WithdrawScreenHandler(int syncId, PlayerInventory playerInventory) {
+    public WithdrawScreenHandler(int syncId, PlayerInventory playerInventory, SlotMachineOpenData data) {
+        this(syncId, playerInventory, data.pos());
+    }
+
+    public WithdrawScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
         super(ModScreenHandlers.WITHDRAW_SCREEN_HANDLER, syncId);
+        this.pos = pos;
 
         addChestInventory(inventory);
         addPlayerInventory(playerInventory);
@@ -33,7 +42,6 @@ public class WithdrawScreenHandler extends ScreenHandler {
             long balance = PlayerSlotMachineData.get(Objects.requireNonNull(player.getServer())).getBalance(player.getUuid());
             ServerPlayNetworking.send((ServerPlayerEntity) player, new SendSlotBalanceS2CPayload(balance));
         }
-
     }
 
     @Override
@@ -94,6 +102,11 @@ public class WithdrawScreenHandler extends ScreenHandler {
 
     public Inventory getInventory() {
         return this.inventory;
+    }
+
+    @Override
+    public BlockPos getPos() {
+        return pos;
     }
 
 }

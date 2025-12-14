@@ -1,4 +1,4 @@
-package net.andrespr.casinorocket.screen.custom;
+package net.andrespr.casinorocket.screen.custom.slot;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.andrespr.casinorocket.games.slot.SlotLineResult;
@@ -6,8 +6,10 @@ import net.andrespr.casinorocket.games.slot.SlotReels;
 import net.andrespr.casinorocket.games.slot.SlotSymbol;
 import net.andrespr.casinorocket.network.c2s.DoSpinC2SPayload;
 import net.andrespr.casinorocket.screen.ModGuiTextures;
+import net.andrespr.casinorocket.screen.custom.CasinoMachineScreen;
 import net.andrespr.casinorocket.screen.layout.DancingClefairy;
 import net.andrespr.casinorocket.screen.layout.SlotLineSprite;
+import net.andrespr.casinorocket.screen.opening.MouseRestore;
 import net.andrespr.casinorocket.screen.widget.ModButtons;
 import net.andrespr.casinorocket.screen.widget.SlotButton;
 import net.andrespr.casinorocket.sound.ModSounds;
@@ -26,8 +28,6 @@ import java.util.Set;
 
 public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHandler> {
 
-    private SlotButton spinButton;
-
     private long balance = 0L;
     private long pendingBalance = -1L;
     private int betAmount = 10;
@@ -36,6 +36,12 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
     private int lastWinAmount = 0;
     private int pendingWinAmount = -1;
     private int linesMode = 1;
+
+    // --- BUTTONS ---
+    private SlotButton spinButton;
+    private SlotButton betButton;
+    private SlotButton menuButton;
+    private SlotButton withdrawButton;
 
     // --- LINES ---
     private SlotLineSprite lineOneSprite;
@@ -97,11 +103,14 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         int baseX = (this.width - this.backgroundWidth) / 2;
         int baseY = (this.height - this.backgroundHeight) / 2;
 
-        this.addDrawableChild(ModButtons.bet(baseX, baseY, 4, 4, b -> onBetPressed()));
-        this.addDrawableChild(ModButtons.menu(baseX, baseY, 83, 4, b -> onMenuPressed()));
-        this.addDrawableChild(ModButtons.withdraw(baseX, baseY, 144, 4, b -> onWithdrawPressed()));
-
+        this.betButton = ModButtons.bet(baseX, baseY, 4, 4, b -> onBetPressed());
+        this.menuButton = ModButtons.menu(baseX, baseY, 83, 4, b -> onMenuPressed());
+        this.withdrawButton = ModButtons.withdraw(baseX, baseY, 144, 4, b -> onWithdrawPressed());
         this.spinButton = ModButtons.spin(baseX, baseY, 90, 161, b -> onSpinPressed());
+
+        this.addDrawableChild(betButton);
+        this.addDrawableChild(menuButton);
+        this.addDrawableChild(withdrawButton);
         this.addDrawableChild(spinButton);
 
         lineOneSprite = new SlotLineSprite(ModGuiTextures.SLOT_LINE_ONE, 160, 14);
@@ -110,6 +119,12 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         lineThreeBottomSprite = new SlotLineSprite(ModGuiTextures.SLOT_LINE_THREE_BOTTOM, 160, 112);
 
         clefairy = new DancingClefairy(ModGuiTextures.DANCING_CLEFAIRY, 22, 23);
+
+        updateDisplay(
+                this.handler.getInitialBalance(),
+                this.handler.getInitialBetBase(),
+                this.handler.getInitialLinesMode()
+        );
     }
 
     private void initRandomReels() {
@@ -131,10 +146,11 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
     }
 
     // === SERVER RESULT ===
-    public void onSpinResult(SlotSymbol[][] matrix, List<SlotLineResult> wins,
+    public void onSpinResult(SlotSymbol[][] matrix, List<SlotLineResult> wins, int modeUsed,
                              int totalWin, long newBalance) {
 
         this.lastWins = wins;
+        this.linesMode = modeUsed;
         this.pendingWinAmount = totalWin;
         this.pendingBalance = newBalance;
 
@@ -148,7 +164,7 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
                 WinLine lineId = mapWinToLine(win);
                 pendingFlashingLines.add(lineId);
 
-                int lineFlash = getFlashDurationForLine(matrix, win);
+                int lineFlash = getFlashDurationForLine(win);
                 if (lineFlash > maxFlash) {
                     maxFlash = lineFlash;
                 }
@@ -242,6 +258,7 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
     @Override
     public void handledScreenTick() {
         super.handledScreenTick();
+        MouseRestore.applyIfPending(client);
 
         if (isSpinning) {
             boolean anySpinning = false;
@@ -290,6 +307,7 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         }
 
         updateSpinButtonState();
+        updateUiLockState();
 
         if (clefairy != null) {
             clefairy.tick(getClefairyPhase());
@@ -381,6 +399,26 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         drawWinAmount(context);
     }
 
+    // === BLOCK ESC / CLOSE SCREEN ===
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (isBusy()) {
+            if (keyCode == 256 /* GLFW.GLFW_KEY_ESCAPE */) {
+                return true;
+            }
+            if (client != null && client.options != null && client.options.inventoryKey.matchesKey(keyCode, scanCode)) {
+                return true;
+            }
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public void close() {
+        if (isBusy()) return;
+        super.close();
+    }
+
     // === UPDATERS ===
     public void updateBalance(long amount) {
         this.balance = amount;
@@ -408,11 +446,11 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
     private WinLine mapWinToLine(SlotLineResult win) {
         int idx = win.lineIndex();
 
-        if (linesMode == 1) {
+        if (this.linesMode == 1) {
             return WinLine.CENTER;
         }
 
-        if (linesMode == 2) {
+        if (this.linesMode == 2) {
             return switch (idx) {
                 case 0 -> WinLine.TOP;
                 case 1 -> WinLine.CENTER;
@@ -432,7 +470,7 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
 
     }
 
-    private int getFlashDurationForLine(SlotSymbol[][] matrix, SlotLineResult win) {
+    private int getFlashDurationForLine(SlotLineResult win) {
         SlotSymbol symbol = win.symbol();
 
         int seconds;
@@ -492,6 +530,29 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         }
     }
 
+    // === HELPERS: BLOCK BUTTONS ===
+    private boolean isBusy() {
+        boolean flashing = flashTicksRemaining > 0 && !flashingLines.isEmpty();
+        return isSpinning || flashing;
+    }
+
+    private void updateUiLockState() {
+        boolean busy = isBusy();
+
+        if (spinButton != null) {
+            spinButton.active = !busy;
+            spinButton.setForcedPressed(busy);
+        }
+
+        if (betButton != null) betButton.active = !busy;
+        if (menuButton != null) menuButton.active = !busy;
+        if (withdrawButton != null) withdrawButton.active = !busy;
+
+        if (betButton != null) betButton.setFakePressed(busy);
+        if (menuButton != null) menuButton.setFakePressed(busy);
+        if (withdrawButton != null) withdrawButton.setFakePressed(busy);
+
+    }
 
     // === HELPERS: TEXT ===
     private void drawBetAmount(DrawContext context) {

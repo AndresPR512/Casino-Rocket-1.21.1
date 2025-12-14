@@ -5,7 +5,7 @@ import net.andrespr.casinorocket.games.slot.SlotSpinEngine;
 import net.andrespr.casinorocket.games.slot.SlotSpinResult;
 import net.andrespr.casinorocket.network.c2s.DoSpinC2SPayload;
 import net.andrespr.casinorocket.network.s2c.SendSpinResultS2CPayload;
-import net.andrespr.casinorocket.screen.custom.SlotMachineScreenHandler;
+import net.andrespr.casinorocket.screen.custom.slot.SlotMachineScreenHandler;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -35,15 +35,22 @@ public class DoSpinReceiver {
 
         long cost = (long) betBase * linesMode;
         if (balance < cost) return;
+        storage.addTotalSpent(uuid, cost);
 
         long afterCost = balance - cost;
 
         SlotSpinResult spinResult = SlotSpinEngine.spinAndEvaluate(betBase, linesMode);
 
-        long newBalance = afterCost + spinResult.totalWin();
+        long spinWin = spinResult.totalWin();
+        storage.addTotalWon(uuid, spinWin);
+        storage.setLastWin(uuid, spinWin);
+        storage.updateHighestWin(uuid, spinWin);
+
+        long newBalance = afterCost + spinWin;
         storage.setBalance(uuid, newBalance);
 
-        ServerPlayNetworking.send(player, SendSpinResultS2CPayload.from(newBalance, spinResult));
+        ServerPlayNetworking.send(player, SendSpinResultS2CPayload.from(newBalance, linesMode, spinResult));
+
     }
 
 }

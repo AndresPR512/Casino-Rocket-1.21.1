@@ -131,10 +131,12 @@ public class GachaMachineBlock extends Block {
                                                    WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         DoubleBlockHalf half = state.get(HALF);
         if (direction.getAxis() == net.minecraft.util.math.Direction.Axis.Y) {
-            if (half == DoubleBlockHalf.LOWER && direction == net.minecraft.util.math.Direction.UP && (!neighborState.isOf(this) || neighborState.get(HALF) != DoubleBlockHalf.UPPER)) {
+            if (half == DoubleBlockHalf.LOWER && direction == net.minecraft.util.math.Direction.UP && (!neighborState.isOf(this)
+                    || neighborState.get(HALF) != DoubleBlockHalf.UPPER)) {
                 return Blocks.AIR.getDefaultState();
             }
-            if (half == DoubleBlockHalf.UPPER && direction == net.minecraft.util.math.Direction.DOWN && (!neighborState.isOf(this) || neighborState.get(HALF) != DoubleBlockHalf.LOWER)) {
+            if (half == DoubleBlockHalf.UPPER && direction == net.minecraft.util.math.Direction.DOWN && (!neighborState.isOf(this)
+                    || neighborState.get(HALF) != DoubleBlockHalf.LOWER)) {
                 return Blocks.AIR.getDefaultState();
             }
         }

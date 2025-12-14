@@ -3,6 +3,7 @@ package net.andrespr.casinorocket.block.custom;
 import com.mojang.serialization.MapCodec;
 import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.block.entity.custom.SlotMachineEntity;
+import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.DoubleBlockHalf;
@@ -85,7 +86,19 @@ public class SlotMachineBlock extends BlockWithEntity implements BlockEntityProv
         if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof SlotMachineEntity slotMachineEntity) {
+
+                if (slotMachineEntity.isInUse() && !slotMachineEntity.isUsedBy(player)) {
+                    CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.slot_machine_occupied", true);
+                    return ActionResult.CONSUME;
+                }
+
+                if (!slotMachineEntity.tryLock(player)) {
+                    return ActionResult.CONSUME;
+                }
+
                 player.openHandledScreen(slotMachineEntity);
+                return ActionResult.CONSUME;
+
             }
         }
 

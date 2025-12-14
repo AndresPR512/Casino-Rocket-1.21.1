@@ -1,10 +1,10 @@
 package net.andrespr.casinorocket.network.s2c_handlers;
 
 import net.andrespr.casinorocket.network.s2c.SendSlotBalanceS2CPayload;
-import net.andrespr.casinorocket.screen.custom.BetScreen;
-import net.andrespr.casinorocket.screen.custom.SlotMachineScreen;
-import net.andrespr.casinorocket.screen.custom.WithdrawScreen;
-import net.andrespr.casinorocket.screen.custom.WithdrawScreenHandler;
+import net.andrespr.casinorocket.screen.custom.common.BetScreen;
+import net.andrespr.casinorocket.screen.custom.slot.SlotMachineScreen;
+import net.andrespr.casinorocket.screen.custom.common.WithdrawScreen;
+import net.andrespr.casinorocket.screen.custom.common.WithdrawScreenHandler;
 import net.andrespr.casinorocket.util.MoneyCalculator;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;

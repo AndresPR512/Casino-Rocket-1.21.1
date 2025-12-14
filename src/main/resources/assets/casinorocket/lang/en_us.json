@@ -124,6 +124,8 @@
   "message.casinorocket.gacha_machines_coin_inserted": "§7Coin inserted... please wait!",
   "message.casinorocket.gacha_machines_occupied": "§cYou have to wait a bit before using this machine again!",
   "message.casinorocket.gacha_machines_another_occupied": "§cThis machine is already being used!",
+  "message.casinorocket.slot_machine_occupied":  "§cThis slot machine is currently in use.",
+
   "message.casinorocket.gacha_machines_reward": "You received a %s!",
   "message.casinorocket.gacha_machines_bonus_prize": "Oh! You received a Premier Gachapon bonus!",
   "message.casinorocket.gacha_machines_pity_update": "§6Legendary chance (§r%s§6) increased to:§r %s§e%%§r",

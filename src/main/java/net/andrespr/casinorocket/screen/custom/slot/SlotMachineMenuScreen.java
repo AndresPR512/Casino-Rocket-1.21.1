@@ -1,21 +1,22 @@
-package net.andrespr.casinorocket.screen.custom;
+package net.andrespr.casinorocket.screen.custom.slot;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.andrespr.casinorocket.network.c2s.ChangeBetBaseC2SPayload;
 import net.andrespr.casinorocket.network.c2s.ChangeLinesModeC2SPayload;
 import net.andrespr.casinorocket.screen.ModGuiTextures;
+import net.andrespr.casinorocket.screen.custom.CasinoMachineScreen;
+import net.andrespr.casinorocket.screen.opening.MouseRestore;
 import net.andrespr.casinorocket.screen.widget.ModButtons;
 import net.andrespr.casinorocket.screen.widget.SlotButton;
 import net.andrespr.casinorocket.games.slot.SlotMachineConstants;
 import net.andrespr.casinorocket.util.TextUtils;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 
-public class SlotMachineMenuScreen extends HandledScreen<SlotMachineMenuScreenHandler> {
+public class SlotMachineMenuScreen extends CasinoMachineScreen<SlotMachineMenuScreenHandler> {
 
     private long balance = 0L;
     private int betBase = 10;
@@ -37,6 +38,7 @@ public class SlotMachineMenuScreen extends HandledScreen<SlotMachineMenuScreenHa
     @SuppressWarnings("unused")
     protected void init() {
         super.init();
+
         int baseX = (this.width - this.backgroundWidth) / 2;
         int baseY = (this.height - this.backgroundHeight) / 2;
 
@@ -51,6 +53,13 @@ public class SlotMachineMenuScreen extends HandledScreen<SlotMachineMenuScreenHa
         this.addDrawableChild(this.mode1Button);
         this.addDrawableChild(this.mode2Button);
         this.addDrawableChild(this.mode3Button);
+
+        updateSettings(
+                this.handler.getInitialBalance(),
+                this.handler.getInitialBetBase(),
+                this.handler.getInitialLinesMode()
+        );
+
     }
 
     // === BUTTONS ===
@@ -82,6 +91,13 @@ public class SlotMachineMenuScreen extends HandledScreen<SlotMachineMenuScreenHa
         if (client != null && client.player != null) {
             ClientPlayNetworking.send(new ChangeLinesModeC2SPayload(mode));
         }
+    }
+
+    // === SCREEN TICK ===
+    @Override
+    protected void handledScreenTick() {
+        super.handledScreenTick();
+        MouseRestore.applyIfPending(client);
     }
 
     // === BACKGROUND ===

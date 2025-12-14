@@ -55,7 +55,7 @@ public class SlotLines {
         boolean allSame = (a == b && b == c);
 
         if (target == SlotSymbol.CHERRY) {
-            if (a == SlotSymbol.CHERRY && b != SlotSymbol.CHERRY && c != SlotSymbol.CHERRY) {
+            if (a == SlotSymbol.CHERRY && b != SlotSymbol.CHERRY) {
                 multiplier = 2;
                 cherryCount = 1;
             } else if (a == SlotSymbol.CHERRY && b == SlotSymbol.CHERRY && c != SlotSymbol.CHERRY) {

@@ -21,8 +21,10 @@ public final class CasinoRocketCommands {
         root.then(SpawnWorkersCommand.buildSubcommand(registryAccess));
         // Registering SetSuitCommand
         root.then(SetSuitCommand.buildSubcommand());
-        // Registering GachaponRatesCommand
+        // Registering GachaponCommands
         root.then(GachaponCommands.buildSubcommand());
+        // Registering SlotsCommands
+        root.then(SlotMachineCommands.buildSubcommand());
 
         dispatcher.register(root);
     }

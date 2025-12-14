@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PlayerSlotMachineData extends PersistentState {
 
@@ -21,55 +23,17 @@ public class PlayerSlotMachineData extends PersistentState {
     private final Map<UUID, Integer> betBase = new HashMap<>();
     private final Map<UUID, Integer> linesMode = new HashMap<>();
 
+    private final Map<UUID, Long> totalDeposited = new HashMap<>();
+    private final Map<UUID, Long> totalWon = new HashMap<>();
+    private final Map<UUID, Long> highestWin = new HashMap<>();
+    private final Map<UUID, Long> lastWin = new HashMap<>();
+    private final Map<UUID, Long> totalSpent = new HashMap<>();
+
     public static PlayerSlotMachineData get(MinecraftServer server) {
         PersistentStateManager manager = Objects.requireNonNull(server.getWorld(World.OVERWORLD)).getPersistentStateManager();
         PersistentState.Type<PlayerSlotMachineData> type = new PersistentState.Type<>(
-                PlayerSlotMachineData::new,
-                PlayerSlotMachineData::readNbt,
-                null
-        );
+                PlayerSlotMachineData::new, PlayerSlotMachineData::readNbt, null);
         return manager.getOrCreate(type, STORAGE_KEY);
-    }
-
-    // Defaults
-    private int defaultBetBase = 10;
-    private int defaultLines = 1;
-
-    public long getBalance(UUID id) {
-        return balances.getOrDefault(id, 0L);
-    }
-
-    public int getBetBase(UUID id) {
-        return betBase.getOrDefault(id, defaultBetBase);
-    }
-
-    public int getLinesMode(UUID id) {
-        return linesMode.getOrDefault(id, defaultLines);
-    }
-
-    public void setBetBase(UUID id, int base) {
-        betBase.put(id, base);
-        markDirty();
-    }
-
-    public void setLinesMode(UUID id, int mode) {
-        linesMode.put(id, mode);
-        markDirty();
-    }
-
-    public void addBalance(UUID id, long amount) {
-        balances.merge(id, amount, Long::sum);
-        markDirty();
-    }
-
-    public void setBalance(UUID id, long value) {
-        balances.put(id, value);
-        markDirty();
-    }
-
-    public void clearBalance(UUID id) {
-        balances.remove(id);
-        markDirty();
     }
 
     @Override
@@ -85,6 +49,26 @@ public class PlayerSlotMachineData extends PersistentState {
         NbtCompound linesTag = new NbtCompound();
         linesMode.forEach((uuid, val) -> linesTag.putInt(uuid.toString(), val));
         nbt.put("linesMode", linesTag);
+
+        NbtCompound depTag = new NbtCompound();
+        totalDeposited.forEach((uuid, val) -> depTag.putLong(uuid.toString(), val));
+        nbt.put("totalDeposited", depTag);
+
+        NbtCompound wonTag = new NbtCompound();
+        totalWon.forEach((uuid, val) -> wonTag.putLong(uuid.toString(), val));
+        nbt.put("totalWon", wonTag);
+
+        NbtCompound highTag = new NbtCompound();
+        highestWin.forEach((uuid, val) -> highTag.putLong(uuid.toString(), val));
+        nbt.put("highestWin", highTag);
+
+        NbtCompound lastTag = new NbtCompound();
+        lastWin.forEach((uuid, val) -> lastTag.putLong(uuid.toString(), val));
+        nbt.put("lastWin", lastTag);
+
+        NbtCompound spentTag = new NbtCompound();
+        totalSpent.forEach((uuid, val) -> spentTag.putLong(uuid.toString(), val));
+        nbt.put("totalSpent", spentTag);
 
         return nbt;
     }
@@ -113,10 +97,137 @@ public class PlayerSlotMachineData extends PersistentState {
             });
         }
 
+        if (nbt.contains("totalDeposited", NbtElement.COMPOUND_TYPE)) {
+            NbtCompound t = nbt.getCompound("totalDeposited");
+            t.getKeys().forEach(k -> { try { data.totalDeposited.put(UUID.fromString(k), t.getLong(k)); } catch (Exception ignored) {}});
+        }
+
+        if (nbt.contains("totalWon", NbtElement.COMPOUND_TYPE)) {
+            NbtCompound t = nbt.getCompound("totalWon");
+            t.getKeys().forEach(k -> { try { data.totalWon.put(UUID.fromString(k), t.getLong(k)); } catch (Exception ignored) {}});
+        }
+
+        if (nbt.contains("highestWin", NbtElement.COMPOUND_TYPE)) {
+            NbtCompound t = nbt.getCompound("highestWin");
+            t.getKeys().forEach(k -> { try { data.highestWin.put(UUID.fromString(k), t.getLong(k)); } catch (Exception ignored) {}});
+        }
+
+        if (nbt.contains("lastWin", NbtElement.COMPOUND_TYPE)) {
+            NbtCompound t = nbt.getCompound("lastWin");
+            t.getKeys().forEach(k -> { try { data.lastWin.put(UUID.fromString(k), t.getLong(k)); } catch (Exception ignored) {}});
+        }
+
+        if (nbt.contains("totalSpent", NbtElement.COMPOUND_TYPE)) {
+            NbtCompound t = nbt.getCompound("totalSpent");
+            t.getKeys().forEach(k -> { try { data.totalSpent.put(UUID.fromString(k), t.getLong(k)); } catch (Exception ignored) {}});
+        }
+
         return data;
     }
 
     @Override
     public boolean isDirty() { return true; }
+
+    // === GETTERS ===
+    public long getBalance(UUID id) {
+        return balances.getOrDefault(id, 0L);
+    }
+
+    public int getBetBase(UUID id) {
+        return betBase.getOrDefault(id, 10);
+    }
+
+    public int getLinesMode(UUID id) {
+        return linesMode.getOrDefault(id, 1);
+    }
+
+    public long getTotalDeposited(UUID id) {
+        return totalDeposited.getOrDefault(id, 0L);
+    }
+
+    public long getTotalWon(UUID id) {
+        return totalWon.getOrDefault(id, 0L);
+    }
+
+    public long getHighestWin(UUID id) {
+        return highestWin.getOrDefault(id, 0L);
+    }
+
+    public long getLastWin(UUID id) {
+        return lastWin.getOrDefault(id, 0L);
+    }
+
+    public long getTotalSpent(UUID id) {
+        return totalSpent.getOrDefault(id, 0L);
+    }
+
+    public long getTotalLost(UUID id) {
+        return getTotalWon(id) - getTotalSpent(id); // EJ: 4k - 10k = -6k
+    }
+
+    public Set<UUID> getAllKnownPlayers() {
+        Set<UUID> s = new HashSet<>();
+        s.addAll(balances.keySet());
+        s.addAll(totalDeposited.keySet());
+        s.addAll(totalWon.keySet());
+        s.addAll(highestWin.keySet());
+        s.addAll(lastWin.keySet());
+        s.addAll(totalSpent.keySet());
+        return s;
+    }
+
+    // === SETTERS ===
+    public void setBetBase(UUID id, int base) {
+        betBase.put(id, base);
+        markDirty();
+    }
+
+    public void setLinesMode(UUID id, int mode) {
+        linesMode.put(id, mode);
+        markDirty();
+    }
+
+    public void setBalance(UUID id, long value) {
+        balances.put(id, value);
+        markDirty();
+    }
+
+    public void setLastWin(UUID id, long amount) {
+        lastWin.put(id, Math.max(0L, amount));
+        markDirty();
+    }
+
+    // === MUTATORS ===
+    public void addBalance(UUID id, long amount) {
+        balances.merge(id, amount, Long::sum);
+        markDirty();
+    }
+
+    public void addTotalDeposited(UUID id, long amount) {
+        if (amount <= 0) return;
+        totalDeposited.merge(id, amount, Long::sum);
+        markDirty();
+    }
+
+    public void addTotalWon(UUID id, long amount) {
+        if (amount <= 0) return;
+        totalWon.merge(id, amount, Long::sum);
+        markDirty();
+    }
+
+    public void updateHighestWin(UUID id, long win) {
+        if (win <= 0) return;
+        long prev = highestWin.getOrDefault(id, 0L);
+        if (win > prev) {
+            highestWin.put(id, win);
+            markDirty();
+        }
+    }
+
+    public void addTotalSpent(UUID id, long amount) {
+        if (amount <= 0) return;
+        totalSpent.merge(id, amount, Long::sum);
+        markDirty();
+    }
 
 }

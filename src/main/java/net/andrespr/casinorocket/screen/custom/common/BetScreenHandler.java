@@ -1,10 +1,12 @@
-package net.andrespr.casinorocket.screen.custom;
+package net.andrespr.casinorocket.screen.custom.common;
 
 import net.andrespr.casinorocket.item.custom.BillItem;
 import net.andrespr.casinorocket.item.custom.ChipItem;
 import net.andrespr.casinorocket.network.s2c.sender.SlotBalanceSender;
 import net.andrespr.casinorocket.screen.ModScreenHandlers;
+import net.andrespr.casinorocket.screen.opening.SlotMachineOpenData;
 import net.andrespr.casinorocket.screen.widget.BetSlot;
+import net.andrespr.casinorocket.util.IMachineBoundHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -14,15 +16,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
 
-public class BetScreenHandler extends ScreenHandler {
+public class BetScreenHandler extends ScreenHandler implements IMachineBoundHandler {
 
+    private final BlockPos pos;
     private final SimpleInventory inventory = new SimpleInventory(27);
     private final PlayerEntity player;
     private long totalMoney = 0L;
 
-    public BetScreenHandler(int syncId, PlayerInventory playerInventory) {
+    public BetScreenHandler(int syncId, PlayerInventory playerInventory, SlotMachineOpenData data) {
+        this(syncId, playerInventory, data.pos());
+    }
+
+    public BetScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
         super(ModScreenHandlers.BET_SCREEN_HANDLER, syncId);
+
+        this.pos = pos;
         this.inventory.addListener(this::onContentChanged);
         this.player = playerInventory.player;
 
@@ -130,6 +140,11 @@ public class BetScreenHandler extends ScreenHandler {
 
     public long getTotalMoney() {
         return totalMoney;
+    }
+
+    @Override
+    public BlockPos getPos() {
+        return pos;
     }
 
 }

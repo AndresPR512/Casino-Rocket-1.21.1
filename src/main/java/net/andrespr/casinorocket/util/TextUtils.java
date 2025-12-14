@@ -7,16 +7,37 @@ import java.util.Locale;
 public class TextUtils {
 
     public static String formatCompact(long number) {
-        String formatted;
-        if (number >= 1_000_000_000_000_000_000L) formatted = String.format("%.1fQi", number / 1_000_000_000_000_000_000.0);
-        else if (number >= 1_000_000_000_000_000L) formatted = String.format("%.1fQ", number / 1_000_000_000_000_000.0);
-        else if (number >= 1_000_000_000_000L) formatted = String.format("%.1fT", number / 1_000_000_000_000.0);
-        else if (number >= 1_000_000_000) formatted = String.format("%.1fB", number / 1_000_000_000.0);
-        else if (number >= 1_000_000) formatted = String.format("%.1fM", number / 1_000_000.0);
-        else if (number >= 1_000) formatted = String.format("%.1fK", number / 1_000.0);
-        else formatted = String.valueOf(number);
-        return formatted.replaceAll("\\.0(?=[A-Za-z]+)", "");
+        double value;
+        String suffix;
+
+        if (number >= 1_000_000_000_000_000_000L) {
+            value = number / 1_000_000_000_000_000_000.0;
+            suffix = "Qi";
+        } else if (number >= 1_000_000_000_000_000L) {
+            value = number / 1_000_000_000_000_000.0;
+            suffix = "Q";
+        } else if (number >= 1_000_000_000_000L) {
+            value = number / 1_000_000_000_000.0;
+            suffix = "T";
+        } else if (number >= 1_000_000_000) {
+            value = number / 1_000_000_000.0;
+            suffix = "B";
+        } else if (number >= 1_000_000) {
+            value = number / 1_000_000.0;
+            suffix = "M";
+        } else if (number >= 1_000) {
+            value = number / 1_000.0;
+            suffix = "K";
+        } else {
+            return String.valueOf(number);
+        }
+
+        value = Math.floor(value * 10.0) / 10.0;
+
+        String formatted = String.format("%.1f%s", value, suffix);
+        return formatted.replace(".0", "");
     }
+
 
     public static String formatLarge(long number) {
 

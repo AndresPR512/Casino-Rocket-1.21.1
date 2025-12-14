@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public record SendSpinResultS2CPayload(long newBalance, int totalWin, int[] matrix, List<LineWin> wins) implements CustomPayload {
+public record SendSpinResultS2CPayload(long newBalance, int totalWin, int modeUsed, int[] matrix, List<LineWin> wins) implements CustomPayload {
 
     public static final Identifier ID_RAW = Identifier.of(CasinoRocket.MOD_ID, "spin_result");
     public static final Id<SendSpinResultS2CPayload> ID = new Id<>(ID_RAW);
@@ -22,7 +22,7 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int[] matr
 
     public static record LineWin(int symbolOrdinal, int count, int multiplier, int winAmount, int lineIndex) { }
 
-    public static SendSpinResultS2CPayload from(long newBalance, SlotSpinResult result) {
+    public static SendSpinResultS2CPayload from(long newBalance, int modeUsed, SlotSpinResult result) {
         SlotSymbol[][] matrixSymbols = result.matrix();
         int[] flat = new int[9];
         int idx = 0;
@@ -38,12 +38,13 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int[] matr
             wins.add(new LineWin(line.symbol().ordinal(), line.count(), line.multiplier(), line.lineWin(), line.lineIndex()));
         }
 
-        return new SendSpinResultS2CPayload(newBalance, result.totalWin(), flat, wins);
+        return new SendSpinResultS2CPayload(newBalance, result.totalWin(), modeUsed, flat, wins);
     }
 
     private static void write(SendSpinResultS2CPayload payload, RegistryByteBuf buf) {
         buf.writeLong(payload.newBalance());
         buf.writeInt(payload.totalWin());
+        buf.writeInt(payload.modeUsed());
 
         int[] m = payload.matrix();
         for (int i = 0; i < 9; i++) {
@@ -64,6 +65,7 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int[] matr
     private static SendSpinResultS2CPayload read(RegistryByteBuf buf) {
         long newBalance = buf.readLong();
         int totalWin = buf.readInt();
+        int modeUsed = buf.readInt();
 
         int[] matrix = new int[9];
         for (int i = 0; i < 9; i++) {
@@ -82,7 +84,7 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int[] matr
             wins.add(new LineWin(symbolOrdinal, count, multiplier, winAmount, lineIndex));
         }
 
-        return new SendSpinResultS2CPayload(newBalance, totalWin, matrix, wins);
+        return new SendSpinResultS2CPayload(newBalance, totalWin, modeUsed, matrix, wins);
     }
 
     @Override

@@ -157,14 +157,32 @@ public class ModBlocks {
     // ENTITIES
 
     public static final Block GACHA_MACHINE = registerBlock("gacha_machine",
-            new GachaMachineBlock(AbstractBlock.Settings.create().strength(1.5F).nonOpaque()));
+            new GachaMachineBlock(AbstractBlock.Settings.create()
+                    .strength(-1.0F, 3600000.0F)
+                    .dropsNothing()
+                    .allowsSpawning(Blocks::never)
+                    .nonOpaque()
+            )
+    );
 
     public static final Block POKEMON_GACHA_MACHINE = registerBlock("pokemon_gacha_machine",
-            new PokemonGachaMachineBlock(AbstractBlock.Settings.create().strength(1.5F).nonOpaque()));
+            new PokemonGachaMachineBlock(AbstractBlock.Settings.create()
+                    .strength(-1.0F, 3600000.0F)
+                    .dropsNothing()
+                    .allowsSpawning(Blocks::never)
+                    .nonOpaque()
+            )
+    );
 
     public static final Block SLOT_MACHINE = registerBlock("slot_machine",
-            new SlotMachineBlock(AbstractBlock.Settings.create().strength(1.5F)
-                    .nonOpaque().luminance(state -> 12)));
+            new SlotMachineBlock(AbstractBlock.Settings.create()
+                    .strength(-1.0F, 3600000.0F)
+                    .dropsNothing()
+                    .allowsSpawning(Blocks::never)
+                    .luminance(state -> 14)
+                    .nonOpaque()
+            )
+    );
 
     // METHODS
 

@@ -15,6 +15,8 @@ public class SlotButton extends ButtonWidget {
     private boolean pressed = false;
     private boolean forcedPressed = false;
 
+    private boolean fakePressed = false;
+
     public SlotButton(int x, int y, int width, int height, Identifier texture, PressAction onPress, Text text) {
         super(x, y, width, height, text, onPress, DEFAULT_NARRATION_SUPPLIER);
         this.texture = texture;
@@ -25,6 +27,14 @@ public class SlotButton extends ButtonWidget {
 
     public void setForcedPressed(boolean forced) {
         this.forcedPressed = forced;
+    }
+
+    public void setFakePressed(boolean fake) {
+        this.fakePressed = fake;
+        this.active = !fake;
+        if (fake) {
+            this.pressed = false;
+        }
     }
 
     @Override
@@ -43,17 +53,25 @@ public class SlotButton extends ButtonWidget {
     public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         int vOffset = 0;
 
-        if (!this.active) {
-            vOffset = this.stateHeight * 2; // disabled uses "pressed-style"
+        // Fake pressed
+        if (this.fakePressed) {
+            vOffset = 0;
         }
+        // Disabled
+        else if (!this.active) {
+            vOffset = this.stateHeight * 2;
+        }
+        // Forced pressed
         else if (this.forcedPressed) {
-            vOffset = this.stateHeight * 2; // forced pressed
+            vOffset = this.stateHeight * 2;
         }
+        // Real click
         else if (this.pressed) {
-            vOffset = this.stateHeight * 2; // clicked
+            vOffset = this.stateHeight * 2;
         }
+        // Hover
         else if (this.isHovered()) {
-            vOffset = this.stateHeight;     // hovered
+            vOffset = this.stateHeight;
         }
 
         context.drawTexture(this.texture, this.getX(), this.getY(), 0, vOffset,

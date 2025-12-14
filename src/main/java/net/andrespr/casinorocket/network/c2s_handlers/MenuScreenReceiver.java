@@ -2,30 +2,30 @@ package net.andrespr.casinorocket.network.c2s_handlers;
 
 import net.andrespr.casinorocket.data.PlayerSlotMachineData;
 import net.andrespr.casinorocket.network.c2s.OpenMenuScreenC2SPayload;
-import net.andrespr.casinorocket.network.s2c.SendMenuSettingsS2CPayload;
-import net.andrespr.casinorocket.screen.custom.*;
+import net.andrespr.casinorocket.screen.custom.slot.SlotMachineMenuScreenHandler;
+import net.andrespr.casinorocket.screen.custom.slot.SlotMachineScreenHandler;
+import net.andrespr.casinorocket.screen.opening.SlotMachineOpenData;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.UUID;
 
 public class MenuScreenReceiver {
 
     public static void openMenuScreen(OpenMenuScreenC2SPayload payload, ServerPlayNetworking.Context context) {
-
         ServerPlayerEntity player = context.player();
         MinecraftServer server = player.getServer();
         if (server == null) return;
 
-        if (player.currentScreenHandler instanceof SlotMachineScreenHandler) {
-
-            player.openHandledScreen(new SimpleNamedScreenHandlerFactory(
-                    (syncId, inv, playerEntity) -> new SlotMachineMenuScreenHandler(syncId, inv),
-                    Text.literal("Slot Machine Menu")
-            ));
+        if (player.currentScreenHandler instanceof SlotMachineScreenHandler slotHandler) {
+            BlockPos pos = slotHandler.getPos();
 
             PlayerSlotMachineData storage = PlayerSlotMachineData.get(server);
             UUID uuid = player.getUuid();
@@ -34,7 +34,26 @@ public class MenuScreenReceiver {
             int betBase = storage.getBetBase(uuid);
             int lines = storage.getLinesMode(uuid);
 
-            ServerPlayNetworking.send(player, new SendMenuSettingsS2CPayload(balance, betBase, lines));
+            SlotMachineOpenData data = new SlotMachineOpenData(pos, balance, betBase, lines);
+
+            player.openHandledScreen(new ExtendedScreenHandlerFactory<SlotMachineOpenData>() {
+
+                @Override
+                public SlotMachineOpenData getScreenOpeningData(ServerPlayerEntity player) {
+                    return data;
+                }
+
+                @Override
+                public Text getDisplayName() {
+                    return Text.literal("Slot Machine Menu");
+                }
+
+                @Override
+                public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity p) {
+                    return new SlotMachineMenuScreenHandler(syncId, inv, pos, balance, betBase, lines);
+                }
+
+            });
         }
     }
 

@@ -1,8 +1,8 @@
 package net.andrespr.casinorocket.network.s2c_handlers;
 
 import net.andrespr.casinorocket.network.s2c.SendMenuSettingsS2CPayload;
-import net.andrespr.casinorocket.screen.custom.SlotMachineMenuScreen;
-import net.andrespr.casinorocket.screen.custom.SlotMachineScreen;
+import net.andrespr.casinorocket.screen.custom.slot.SlotMachineMenuScreen;
+import net.andrespr.casinorocket.screen.custom.slot.SlotMachineScreen;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 

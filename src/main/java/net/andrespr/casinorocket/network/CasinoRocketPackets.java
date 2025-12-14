@@ -54,6 +54,9 @@ public class CasinoRocketPackets {
         PayloadTypeRegistry.playC2S().register(OpenMenuScreenC2SPayload.ID, OpenMenuScreenC2SPayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(OpenMenuScreenC2SPayload.ID, MenuScreenReceiver::openMenuScreen);
 
+        PayloadTypeRegistry.playC2S().register(ReturnToMachineScreenC2SPayload.ID, ReturnToMachineScreenC2SPayload.CODEC);
+        ServerPlayNetworking.registerGlobalReceiver(ReturnToMachineScreenC2SPayload.ID, ReturnToMachineScreenReceiver::handle);
+
         PayloadTypeRegistry.playC2S().register(DoSpinC2SPayload.ID, DoSpinC2SPayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(DoSpinC2SPayload.ID, DoSpinReceiver::handle);
 
@@ -62,6 +65,7 @@ public class CasinoRocketPackets {
 
         PayloadTypeRegistry.playC2S().register(ChangeLinesModeC2SPayload.ID, ChangeLinesModeC2SPayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(ChangeLinesModeC2SPayload.ID, ChangeLinesModeReceiver::handle);
+
     }
 
 }

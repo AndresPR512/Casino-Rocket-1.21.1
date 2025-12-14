@@ -3,7 +3,7 @@ package net.andrespr.casinorocket.network.s2c_handlers;
 import net.andrespr.casinorocket.games.slot.SlotLineResult;
 import net.andrespr.casinorocket.games.slot.SlotSymbol;
 import net.andrespr.casinorocket.network.s2c.SendSpinResultS2CPayload;
-import net.andrespr.casinorocket.screen.custom.SlotMachineScreen;
+import net.andrespr.casinorocket.screen.custom.slot.SlotMachineScreen;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 
@@ -19,6 +19,7 @@ public class SpinResultReceiver {
 
                     long newBalance = payload.newBalance();
                     int totalWin = payload.totalWin();
+                    int modeUsed = payload.modeUsed();
                     int[] flatMatrix = payload.matrix();
                     List<SendSpinResultS2CPayload.LineWin> netWins = payload.wins();
 
@@ -42,7 +43,7 @@ public class SpinResultReceiver {
                     MinecraftClient client = MinecraftClient.getInstance();
                     client.execute(() -> {
                         if (client.currentScreen instanceof SlotMachineScreen screen) {
-                            screen.onSpinResult(matrix, wins, totalWin, newBalance);
+                            screen.onSpinResult(matrix, wins, modeUsed, totalWin, newBalance);
                         }
                     });
 

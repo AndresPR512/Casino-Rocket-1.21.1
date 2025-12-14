@@ -3,6 +3,9 @@ package net.andrespr.casinorocket.screen.custom;
 import net.andrespr.casinorocket.network.c2s.OpenBetScreenC2SPayload;
 import net.andrespr.casinorocket.network.c2s.OpenMenuScreenC2SPayload;
 import net.andrespr.casinorocket.network.c2s.OpenWithdrawScreenC2SPayload;
+import net.andrespr.casinorocket.network.c2s.ReturnToMachineScreenC2SPayload;
+import net.andrespr.casinorocket.screen.opening.MouseRestore;
+import net.andrespr.casinorocket.util.IMachineBoundHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -34,8 +37,27 @@ public abstract class CasinoMachineScreen<T extends ScreenHandler> extends Handl
 
     protected void onMenuPressed() {
         if (client != null && client.player != null) {
+            MouseRestore.capture();
             ClientPlayNetworking.send(new OpenMenuScreenC2SPayload());
         }
+    }
+
+    @Override
+    public void close() {
+        if (tryReturnToMachine()) return;
+        super.close();
+    }
+
+    protected boolean tryReturnToMachine() {
+        if (client == null || client.player == null) return false;
+
+        if (this.handler instanceof IMachineBoundHandler machine) {
+            MouseRestore.capture();
+            ClientPlayNetworking.send(new ReturnToMachineScreenC2SPayload(machine.getPos()));
+            return true;
+        }
+
+        return false;
     }
 
 }
