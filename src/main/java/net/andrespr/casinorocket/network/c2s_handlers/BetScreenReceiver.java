@@ -1,16 +1,16 @@
 package net.andrespr.casinorocket.network.c2s_handlers;
 
+import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.data.PlayerSlotMachineData;
 import net.andrespr.casinorocket.network.c2s.OpenBetScreenC2SPayload;
 import net.andrespr.casinorocket.screen.custom.common.BetScreenHandler;
-import net.andrespr.casinorocket.screen.custom.slot.SlotMachineScreenHandler;
 import net.andrespr.casinorocket.screen.opening.SlotMachineOpenData;
+import net.andrespr.casinorocket.util.IMachineBoundHandler;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -26,30 +26,34 @@ public class BetScreenReceiver {
         MinecraftServer server = player.getServer();
         if (server == null) return;
 
-        if (player.currentScreenHandler instanceof SlotMachineScreenHandler slotHandler) {
-            BlockPos pos = slotHandler.getPos();
+        if (!(player.currentScreenHandler instanceof IMachineBoundHandler bound)) return;
 
-            PlayerSlotMachineData storage = PlayerSlotMachineData.get(server);
-            UUID uuid = player.getUuid();
+        String key = bound.getMachineKey();
+        BlockPos pos = bound.getMachinePos();
 
-            long balance = storage.getBalance(uuid);
-            int betBase = storage.getBetBase(uuid);
-            int lines = storage.getLinesMode(uuid);
+        switch (key) {
+            case "slots" -> {
+                PlayerSlotMachineData storage = PlayerSlotMachineData.get(server);
+                UUID uuid = player.getUuid();
 
-            SlotMachineOpenData data = new SlotMachineOpenData(pos, balance, betBase, lines);
+                long balance = storage.getBalance(uuid);
+                int betBase = storage.getBetBase(uuid);
+                int lines = storage.getLinesMode(uuid);
 
-            player.openHandledScreen(new ExtendedScreenHandlerFactory<SlotMachineOpenData>() {
-                @Override
-                public SlotMachineOpenData getScreenOpeningData(ServerPlayerEntity p) { return data; }
+                SlotMachineOpenData data = new SlotMachineOpenData(pos, key, balance, betBase, lines);
 
-                @Override
-                public Text getDisplayName() { return Text.literal("Bet"); }
+                player.openHandledScreen(new ExtendedScreenHandlerFactory<SlotMachineOpenData>() {
+                    @Override public SlotMachineOpenData getScreenOpeningData(ServerPlayerEntity p) { return data; }
+                    @Override public Text getDisplayName() { return Text.literal("Bet"); }
 
-                @Override
-                public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity p) {
-                    return new BetScreenHandler(syncId, inv, pos);
-                }
-            });
+                    @Override
+                    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity p) {
+                        return new BetScreenHandler(syncId, inv, data);
+                    }
+                });
+            }
+
+            default -> CasinoRocket.LOGGER.warn("[BetOpen] Unknown machineKey={} from {}", key, player.getGameProfile().getName());
         }
 
     }

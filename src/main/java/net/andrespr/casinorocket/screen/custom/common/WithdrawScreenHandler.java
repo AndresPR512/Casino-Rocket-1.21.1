@@ -23,15 +23,19 @@ import java.util.Objects;
 public class WithdrawScreenHandler extends ScreenHandler implements IMachineBoundHandler {
 
     private final BlockPos pos;
-    private final Inventory inventory = new SimpleInventory(27);
+    private final String machineKey;
+    private final SimpleInventory inventory = new SimpleInventory(27);
 
     public WithdrawScreenHandler(int syncId, PlayerInventory playerInventory, SlotMachineOpenData data) {
-        this(syncId, playerInventory, data.pos());
+        this(syncId, playerInventory, data.pos(), data.machineKey());
     }
 
-    public WithdrawScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
+    public WithdrawScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos, String machineKey) {
         super(ModScreenHandlers.WITHDRAW_SCREEN_HANDLER, syncId);
+        this.machineKey = machineKey;
         this.pos = pos;
+
+        this.inventory.addListener(this::onContentChanged);
 
         addChestInventory(inventory);
         addPlayerInventory(playerInventory);
@@ -81,15 +85,20 @@ public class WithdrawScreenHandler extends ScreenHandler implements IMachineBoun
     // === WITHDRAW INVENTORY ===
 
     public void loadStacksIntoSlots(List<ItemStack> stacks) {
-        int i = 0;
+        for (int i = 0; i < inventory.size(); i++) {
+            inventory.setStack(i, ItemStack.EMPTY);
+        }
 
+        int i = 0;
         for (ItemStack stack : stacks) {
             if (i >= inventory.size()) break;
             inventory.setStack(i, stack.copy());
-            this.slots.get(i).setStack(stack.copy());
             i++;
         }
+
+        this.onContentChanged(inventory);
     }
+
 
     public void clearWithdrawInventory() {
         for (int i = 0; i < inventory.size(); i++) {
@@ -100,13 +109,14 @@ public class WithdrawScreenHandler extends ScreenHandler implements IMachineBoun
 
     // === GETTERS ===
 
-    public Inventory getInventory() {
-        return this.inventory;
+    @Override
+    public BlockPos getMachinePos() {
+        return pos;
     }
 
     @Override
-    public BlockPos getPos() {
-        return pos;
+    public String getMachineKey() {
+        return machineKey;
     }
 
 }

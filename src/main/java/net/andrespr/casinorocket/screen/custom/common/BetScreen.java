@@ -1,13 +1,12 @@
 package net.andrespr.casinorocket.screen.custom.common;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.network.c2s.DoBetC2SPayload;
 import net.andrespr.casinorocket.screen.ModGuiTextures;
 import net.andrespr.casinorocket.screen.custom.CasinoMachineScreen;
-import net.andrespr.casinorocket.screen.opening.MouseRestore;
 import net.andrespr.casinorocket.screen.widget.CommonButton;
 import net.andrespr.casinorocket.screen.widget.ModButtons;
+import net.andrespr.casinorocket.util.IMachineBoundHandler;
 import net.andrespr.casinorocket.util.TextUtils;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
@@ -40,7 +39,9 @@ public class BetScreen extends CasinoMachineScreen<BetScreenHandler> {
 
     private void onDoBetPressed() {
         if (client != null && client.player != null) {
-            ClientPlayNetworking.send(new DoBetC2SPayload());
+            if (this.handler instanceof IMachineBoundHandler m) {
+                ClientPlayNetworking.send(new DoBetC2SPayload(m.getMachineKey(), m.getMachinePos()));
+            }
         }
     }
 

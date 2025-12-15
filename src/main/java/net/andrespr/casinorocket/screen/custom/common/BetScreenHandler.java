@@ -21,18 +21,22 @@ import net.minecraft.util.math.BlockPos;
 public class BetScreenHandler extends ScreenHandler implements IMachineBoundHandler {
 
     private final BlockPos pos;
+    private final String machineKey;
+
     private final SimpleInventory inventory = new SimpleInventory(27);
     private final PlayerEntity player;
     private long totalMoney = 0L;
 
     public BetScreenHandler(int syncId, PlayerInventory playerInventory, SlotMachineOpenData data) {
-        this(syncId, playerInventory, data.pos());
+        this(syncId, playerInventory, data.pos(), data.machineKey());
     }
 
-    public BetScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
+    public BetScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos, String machineKey) {
         super(ModScreenHandlers.BET_SCREEN_HANDLER, syncId);
 
         this.pos = pos;
+        this.machineKey = machineKey;
+
         this.inventory.addListener(this::onContentChanged);
         this.player = playerInventory.player;
 
@@ -143,8 +147,12 @@ public class BetScreenHandler extends ScreenHandler implements IMachineBoundHand
     }
 
     @Override
-    public BlockPos getPos() {
+    public BlockPos getMachinePos() {
         return pos;
+    }
+
+    @Override public String getMachineKey() {
+        return machineKey;
     }
 
 }

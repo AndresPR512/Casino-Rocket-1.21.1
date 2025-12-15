@@ -42,9 +42,13 @@ public abstract class CasinoMachineScreen<T extends ScreenHandler> extends Handl
         }
     }
 
+    protected boolean returnToMachineOnEsc() {
+        return true;
+    }
+
     @Override
     public void close() {
-        if (tryReturnToMachine()) return;
+        if (returnToMachineOnEsc() && tryReturnToMachine()) return;
         super.close();
     }
 
@@ -53,10 +57,9 @@ public abstract class CasinoMachineScreen<T extends ScreenHandler> extends Handl
 
         if (this.handler instanceof IMachineBoundHandler machine) {
             MouseRestore.capture();
-            ClientPlayNetworking.send(new ReturnToMachineScreenC2SPayload(machine.getPos()));
+            ClientPlayNetworking.send(new ReturnToMachineScreenC2SPayload(machine.getMachinePos(), machine.getMachineKey()));
             return true;
         }
-
         return false;
     }
 

@@ -74,7 +74,7 @@ public class SlotMachineEntity extends BlockEntity implements ExtendedScreenHand
         int betBase = storage.getBetBase(uuid);
         int lines = storage.getLinesMode(uuid);
 
-        return new SlotMachineOpenData(this.pos, balance, betBase, lines);
+        return new SlotMachineOpenData(this.pos, "slots", balance, betBase, lines);
     }
 
     @Override
@@ -88,10 +88,10 @@ public class SlotMachineEntity extends BlockEntity implements ExtendedScreenHand
             int betBase = storage.getBetBase(uuid);
             int lines = storage.getLinesMode(uuid);
 
-            return new SlotMachineScreenHandler(syncId, inv, this.getPos(), balance, betBase, lines);
+            return new SlotMachineScreenHandler(syncId, inv, this.getPos(), "slots", balance, betBase, lines);
         }
 
-        return new SlotMachineScreenHandler(syncId, inv, this.getPos(), 0L, 10, 1);
+        return new SlotMachineScreenHandler(syncId, inv, this.getPos(), "slots", 0L, 10, 1);
     }
 
 }

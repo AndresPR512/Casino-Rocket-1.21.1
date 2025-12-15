@@ -1,16 +1,17 @@
 package net.andrespr.casinorocket.network.c2s_handlers;
 
+import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.data.PlayerSlotMachineData;
 import net.andrespr.casinorocket.network.c2s.OpenWithdrawScreenC2SPayload;
 import net.andrespr.casinorocket.screen.custom.common.WithdrawScreenHandler;
-import net.andrespr.casinorocket.screen.custom.slot.SlotMachineScreenHandler;
 import net.andrespr.casinorocket.screen.opening.SlotMachineOpenData;
+import net.andrespr.casinorocket.util.IMachineBoundHandler;
+import net.andrespr.casinorocket.util.MoneyCalculator;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -24,34 +25,42 @@ public class WithdrawScreenReceiver {
 
         ServerPlayerEntity player = context.player();
         MinecraftServer server = player.getServer();
+
         if (server == null) return;
+        if (!(player.currentScreenHandler instanceof IMachineBoundHandler bound)) return;
 
-        if (player.currentScreenHandler instanceof SlotMachineScreenHandler slotHandler) {
-            BlockPos pos = slotHandler.getPos();
+        String key = bound.getMachineKey();
+        BlockPos pos = bound.getMachinePos();
 
-            PlayerSlotMachineData storage = PlayerSlotMachineData.get(server);
-            UUID uuid = player.getUuid();
+        switch (key) {
+            case "slots" -> {
+                PlayerSlotMachineData storage = PlayerSlotMachineData.get(server);
+                UUID uuid = player.getUuid();
 
-            long balance = storage.getBalance(uuid);
-            int betBase = storage.getBetBase(uuid);
-            int lines = storage.getLinesMode(uuid);
+                long balance = storage.getBalance(uuid);
+                int betBase = storage.getBetBase(uuid);
+                int lines = storage.getLinesMode(uuid);
 
-            SlotMachineOpenData data = new SlotMachineOpenData(pos, balance, betBase, lines);
+                SlotMachineOpenData data = new SlotMachineOpenData(pos, key, balance, betBase, lines);
 
-            player.openHandledScreen(new ExtendedScreenHandlerFactory<SlotMachineOpenData>() {
-                @Override
-                public SlotMachineOpenData getScreenOpeningData(ServerPlayerEntity p) { return data; }
+                player.openHandledScreen(new ExtendedScreenHandlerFactory<SlotMachineOpenData>() {
+                    @Override public SlotMachineOpenData getScreenOpeningData(ServerPlayerEntity p) { return data; }
+                    @Override public Text getDisplayName() { return Text.literal("Withdraw"); }
 
-                @Override
-                public Text getDisplayName() { return Text.literal("Withdraw"); }
+                    @Override
+                    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity p) {
+                        WithdrawScreenHandler h = new WithdrawScreenHandler(syncId, inv, data);
 
-                @Override
-                public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity p) {
-                    return new WithdrawScreenHandler(syncId, inv, pos);
-                }
-            });
+                        var stacks = MoneyCalculator.calculateChipWithdraw(data.balance());
+                        h.loadStacksIntoSlots(stacks);
+
+                        return h;
+                    }
+                });
+            }
+
+            default -> CasinoRocket.LOGGER.warn("[WithdrawOpen] Unknown machineKey={} from {}", key, player.getGameProfile().getName());
         }
 
     }
-
 }

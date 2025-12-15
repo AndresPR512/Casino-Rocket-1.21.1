@@ -4,9 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.andrespr.casinorocket.network.c2s.DoWithdrawC2SPayload;
 import net.andrespr.casinorocket.screen.ModGuiTextures;
 import net.andrespr.casinorocket.screen.custom.CasinoMachineScreen;
-import net.andrespr.casinorocket.screen.opening.MouseRestore;
 import net.andrespr.casinorocket.screen.widget.CommonButton;
 import net.andrespr.casinorocket.screen.widget.ModButtons;
+import net.andrespr.casinorocket.util.IMachineBoundHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.GameRenderer;
@@ -38,7 +38,9 @@ public class WithdrawScreen extends CasinoMachineScreen<WithdrawScreenHandler> {
 
     private void onDoWithdrawPressed() {
         if (client != null && client.player != null) {
-            ClientPlayNetworking.send(new DoWithdrawC2SPayload());
+            if (this.handler instanceof IMachineBoundHandler m) {
+                ClientPlayNetworking.send(new DoWithdrawC2SPayload(m.getMachineKey(), m.getMachinePos()));
+            }
         }
     }
 

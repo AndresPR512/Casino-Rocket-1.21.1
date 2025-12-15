@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 public class SlotMachineMenuScreenHandler extends ScreenHandler implements IMachineBoundHandler {
 
     private final BlockPos pos;
+    private final String machineKey;
     private final long initialBalance;
     private final int initialBetBase;
     private final int initialLinesMode;
@@ -19,14 +20,17 @@ public class SlotMachineMenuScreenHandler extends ScreenHandler implements IMach
     public SlotMachineMenuScreenHandler(int syncId, PlayerInventory inv, SlotMachineOpenData data) {
         super(ModScreenHandlers.SLOT_MACHINE_MENU_SCREEN_HANDLER, syncId);
         this.pos = data.pos();
+        this.machineKey = data.machineKey();
         this.initialBalance = data.balance();
         this.initialBetBase = data.betBase();
         this.initialLinesMode = data.linesMode();
     }
 
-    public SlotMachineMenuScreenHandler(int syncId, PlayerInventory inv, BlockPos pos, long balance, int betBase, int linesMode) {
+    public SlotMachineMenuScreenHandler(int syncId, PlayerInventory inv, BlockPos pos,
+                                        String machineKey, long balance, int betBase, int linesMode) {
         super(ModScreenHandlers.SLOT_MACHINE_MENU_SCREEN_HANDLER, syncId);
         this.pos = pos;
+        this.machineKey = machineKey;
         this.initialBalance = balance;
         this.initialBetBase = betBase;
         this.initialLinesMode = linesMode;
@@ -43,9 +47,14 @@ public class SlotMachineMenuScreenHandler extends ScreenHandler implements IMach
     }
 
     // === GETTERS ===
-    public BlockPos getPos() { return pos; }
+    public BlockPos getMachinePos() { return pos; }
     public long getInitialBalance() { return initialBalance; }
     public int getInitialBetBase() { return initialBetBase; }
     public int getInitialLinesMode() { return initialLinesMode; }
+
+    @Override
+    public String getMachineKey() {
+        return machineKey;
+    }
 
 }

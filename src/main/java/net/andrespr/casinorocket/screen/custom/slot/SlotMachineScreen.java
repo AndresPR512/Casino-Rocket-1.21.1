@@ -419,6 +419,11 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         super.close();
     }
 
+    @Override
+    protected boolean returnToMachineOnEsc() {
+        return false;
+    }
+
     // === UPDATERS ===
     public void updateBalance(long amount) {
         this.balance = amount;

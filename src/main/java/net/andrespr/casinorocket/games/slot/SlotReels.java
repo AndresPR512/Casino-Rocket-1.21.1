@@ -8,37 +8,34 @@ import java.util.Random;
 public class SlotReels {
 
     private static final int REEL_SIZE = 256;
-    private static final Random RANDOM = new Random();
 
-    public static final SlotSymbol[] REEL1;
-    public static final SlotSymbol[] REEL2;
-    public static final SlotSymbol[] REEL3;
+    private static final long SEED_REEL1 = 0xC451F0L;
+    private static final long SEED_REEL2 = 0xC451F0L ^ 0x2222L;
+    private static final long SEED_REEL3 = 0xC451F0L ^ 0x3333L;
 
-    static {
-        REEL1 = buildReel();
-        REEL2 = buildReel();
-        REEL3 = buildReel();
-    }
+    public static final SlotSymbol[] REEL1 = buildReel(SEED_REEL1);
+    public static final SlotSymbol[] REEL2 = buildReel(SEED_REEL2);
+    public static final SlotSymbol[] REEL3 = buildReel(SEED_REEL3);
 
-    private static SlotSymbol[] buildReel() {
+    public static final SlotSymbol[][] STRIPS = { REEL1, REEL2, REEL3 };
 
+    private static SlotSymbol[] buildReel(long seed) {
         List<SlotSymbol> list = new ArrayList<>(REEL_SIZE);
 
-        add(list, SlotSymbol.SEVEN,      10); // ~1/16384
-        add(list, SlotSymbol.ROCKET,     16); // ~1/4096
-        add(list, SlotSymbol.MEW,        22); // ~1/1536
-        add(list, SlotSymbol.PIKACHU,    28); // ~1/768
-        add(list, SlotSymbol.CHARMANDER, 35); // ~1/384
-        add(list, SlotSymbol.SQUIRTLE,   40); // ~1/256
-        add(list, SlotSymbol.BULBASAUR,  51); // ~1/128
+        add(list, SlotSymbol.SEVEN,      10);
+        add(list, SlotSymbol.ROCKET,     16);
+        add(list, SlotSymbol.MEW,        22);
+        add(list, SlotSymbol.PIKACHU,    28);
+        add(list, SlotSymbol.CHARMANDER, 35);
+        add(list, SlotSymbol.SQUIRTLE,   40);
+        add(list, SlotSymbol.BULBASAUR,  51);
 
-        int current = list.size(); // 202
-        int remaining = REEL_SIZE - current; // 54
+        int remaining = REEL_SIZE - list.size();
+        add(list, SlotSymbol.CHERRY, remaining);
 
-        add(list, SlotSymbol.CHERRY, remaining); // 54 cherries
-
-        for(int i = 0; i < 5; i++) {
-            Collections.shuffle(list, RANDOM);
+        Random r = new Random(seed);
+        for (int i = 0; i < 5; i++) {
+            Collections.shuffle(list, r);
         }
 
         return list.toArray(new SlotSymbol[0]);
@@ -51,7 +48,4 @@ public class SlotReels {
     public static SlotSymbol get(SlotSymbol[] reel, int index) {
         return reel[index & (REEL_SIZE - 1)];
     }
-
-    public static final SlotSymbol[][] STRIPS = { REEL1, REEL2, REEL3 };
-
 }
