@@ -1,8 +1,7 @@
 package net.andrespr.casinorocket.games.gachapon;
 
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
+import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.config.PokemonGachaponConfig;
-import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.CobblemonUtils;
 import net.andrespr.casinorocket.util.TextUtils;
 import net.minecraft.text.MutableText;
@@ -33,7 +32,7 @@ public class PokemonGachaponUtils {
             for (PokemonGachaponConfig.GachaEntry entry : entries) {
                 if (CobblemonUtils.tryParse(entry.pokemonId) == null) {
                     if (WARNED_POKEMON.add(entry.pokemonId)) {
-                        CasinoRocketLogger.warn("[Pokémon Gachapon] Invalid Pokémon in pool '{}': '{}'", poolKey, entry.pokemonId);
+                        CasinoRocket.LOGGER.warn("[Pokémon Gachapon] Invalid Pokémon in pool '{}': '{}'", poolKey, entry.pokemonId);
                     }
                     continue;
                 }
@@ -45,7 +44,7 @@ public class PokemonGachaponUtils {
             }
 
             if (valid.isEmpty()) {
-                CasinoRocketLogger.warn("[Pokémon Gachapon] Pool '{}' is empty or contains no valid Pokémon", poolKey);
+                CasinoRocket.LOGGER.warn("[Pokémon Gachapon] Pool '{}' is empty or contains no valid Pokémon", poolKey);
             }
 
             int[] cumulative = new int[valid.size()];
@@ -58,7 +57,7 @@ public class PokemonGachaponUtils {
             CACHE.put(poolKey, new CachedPool(Collections.unmodifiableList(valid), totalWeight, cumulative));
         }
 
-        CasinoRocketLogger.info("[Pokémon Gachapon] Cache built with '{}' pools.", CACHE.size());
+        CasinoRocket.LOGGER.info("[Pokémon Gachapon] Cache built with '{}' pools.", CACHE.size());
     }
 
     public static CachedEntry pickPokemonReward(Random random, String poolKey) {

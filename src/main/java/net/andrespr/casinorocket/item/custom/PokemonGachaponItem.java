@@ -1,6 +1,7 @@
 package net.andrespr.casinorocket.item.custom;
 
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
+import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.sound.ModSounds;
 import net.andrespr.casinorocket.util.CasinoRocketLogger;
@@ -51,11 +52,13 @@ public class PokemonGachaponItem extends Item {
 
                 CobblemonUtils.addPokemon(properties, player);
                 world.playSound(null, user.getBlockPos(), ModSounds.OPEN_PRIZE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                CasinoRocket.LOGGER.info("[Pokémon Gachapon] Player {} opened a {} and got {}",
+                        player.getName().getString(), stack.getName().getString(), CobblemonUtils.getPokemonName(properties));
 
                 stack.decrement(1);
             } else {
                 CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.item_gachapon_empty", true, poolKey);
-                CasinoRocketLogger.warn("[Pokémon Gachapon] All Pokémon in '{}' are invalid or have 0 weight!", poolKey);
+                CasinoRocket.LOGGER.warn("[Pokémon Gachapon] All Pokémon in {} are invalid or have 0 weight!", poolKey);
             }
 
             for (Item item : ModItems.ALL_GACHAPON_ITEMS) {

@@ -1,7 +1,7 @@
 package net.andrespr.casinorocket.games.gachapon;
 
+import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.config.ItemGachaponConfig;
-import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.TextUtils;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -36,7 +36,7 @@ public class GachaponUtils {
                 Identifier id = Identifier.of(entry.itemId);
                 if (!Registries.ITEM.containsId(id)) {
                     if (WARNED_ITEMS.add(entry.itemId)) {
-                        CasinoRocketLogger.warn("[Gachapon] Invalid item in pool '{}': '{}'", poolKey, entry.itemId);
+                        CasinoRocket.LOGGER.warn("[Gachapon] Invalid item in pool '{}': '{}'", poolKey, entry.itemId);
                     }
                     continue;
                 }
@@ -50,7 +50,7 @@ public class GachaponUtils {
             }
 
             if (valid.isEmpty()) {
-                CasinoRocketLogger.warn("[Gachapon] Pool '{}' is empty or contains no valid items", poolKey);
+                CasinoRocket.LOGGER.warn("[Gachapon] Pool '{}' is empty or contains no valid items", poolKey);
             }
 
             int[] cumulative = new int[valid.size()];
@@ -63,7 +63,7 @@ public class GachaponUtils {
             CACHE.put(poolKey, new CachedPool(Collections.unmodifiableList(valid), totalWeight, cumulative));
         }
 
-        CasinoRocketLogger.info("[Gachapon] Cache built with '{}' pools.", CACHE.size());
+        CasinoRocket.LOGGER.info("[Gachapon] Cache built with '{}' pools.", CACHE.size());
     }
 
     public static ItemStack pickItemReward(Random random, String poolKey) {

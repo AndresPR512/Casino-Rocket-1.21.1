@@ -20,7 +20,8 @@ public class CobblemonUtils {
         PokemonProperties properties = tryParse(input);
         if (properties == null) {
             CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.species_not_found", false, input);
-            String messageToOps = String.format("Player '{}' tried to claim '{}' but failed! (species not found)",  player.getName().getString(), input);
+            String messageToOps = String.format("[Cobblemon] Player " + player.getName().getString() +
+                    " tried to claim " + player.getName().getString(), input + " but failed! (species not found)");
             CasinoRocketLogger.toOps(server, CasinoRocketLogger.LogLevel.ERROR, messageToOps);
             return null;
         }
@@ -34,7 +35,7 @@ public class CobblemonUtils {
         PokemonProperties pokemon = PokemonProperties.Companion.parse(propertiesString);
         String species = pokemon.getSpecies();
         if (species == null || !stripNamespace(species).equalsIgnoreCase(expectedSpecies)) {
-            CasinoRocket.LOGGER.warn("Invalid Pokémon string: {}", input);
+            CasinoRocket.LOGGER.warn("[Cobblemon] Invalid Pokémon string: {}", input);
             return null;
         }
         return pokemon;
@@ -58,10 +59,9 @@ public class CobblemonUtils {
         boolean added = party.add(pokemon);
         if (added) {
             CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.pokemon_received_party", true, pokemonName);
-            CasinoRocketLogger.info(player.getName().getString() + " claimed Pokémon (" + pokemonName + ")");
         } else {
             CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.pokemon_box_full", true, pokemonName);
-            CasinoRocketLogger.warn(player.getName().getString() + " tried to claim Pokémon (" + pokemonName + ") but has no space in PC!");
+            CasinoRocket.LOGGER.warn("[Cobblemon] Player {} tried to claim Pokémon ({}) but has no space in PC!", player.getName().getString(), pokemonName);
         }
     }
 
@@ -163,6 +163,12 @@ public class CobblemonUtils {
             return "cherish_ball";
         }
         return "premier_ball";
+    }
+
+    // === POKÉMON NAME ===
+    public static String getPokemonName(PokemonProperties properties) {
+        Pokemon pokemon = properties.create();
+        return pokemon.getSpecies().getTranslatedName().getString();
     }
 
 }

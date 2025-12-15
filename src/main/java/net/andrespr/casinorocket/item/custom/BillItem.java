@@ -1,5 +1,6 @@
 package net.andrespr.casinorocket.item.custom;
 
+import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.TextUtils;
@@ -39,7 +40,7 @@ public class BillItem extends Item {
                 server.getCommandManager().executeWithPrefix(player.getCommandSource().withLevel(4).withSilent(), command);
 
                 CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.money_deposited", true, TextUtils.formatCompact(totalValue));
-                CasinoRocketLogger.info(player.getName().getString() + " deposited $" + TextUtils.formatCompact(totalValue) + " into his wallet.");
+                CasinoRocket.LOGGER.info("[Bill] Player {} deposited ${} into his wallet.", player.getName().getString(), TextUtils.formatCompact(totalValue));
 
                 stack.decrement(count);
             }

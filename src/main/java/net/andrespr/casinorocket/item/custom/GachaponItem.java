@@ -43,12 +43,12 @@ public class GachaponItem extends Item {
                 user.giveItemStack(reward);
                 CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.item_gachapon_received", true, amount, itemName);
                 world.playSound(null, user.getBlockPos(), ModSounds.OPEN_PRIZE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                CasinoRocketLogger.info("Player '{}' opened a '{}' and got '{}'",
+                CasinoRocket.LOGGER.info("[Gachapon] Player {} opened a {} and got {}",
                         player.getName().getString(), stack.getName().getString(), itemName);
                 stack.decrement(1);
             } else {
                 CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.item_gachapon_empty", true);
-                CasinoRocket.LOGGER.warn("Player '{}' tried to open a '{}' but all items in pool '{}' are invalid!",
+                CasinoRocket.LOGGER.warn("[Gachapon] Player {} tried to open a {} but all items in pool {} are invalid!",
                         player.getName().getString(), stack.getName().getString(), poolKey);
             }
 
