@@ -1,10 +1,13 @@
 package net.andrespr.casinorocket.screen;
 
 import net.andrespr.casinorocket.CasinoRocket;
+import net.andrespr.casinorocket.screen.custom.blackjack.BlackjackTableScreenHandler;
 import net.andrespr.casinorocket.screen.custom.common.BetScreenHandler;
 import net.andrespr.casinorocket.screen.custom.common.WithdrawScreenHandler;
 import net.andrespr.casinorocket.screen.custom.slot.SlotMachineMenuScreenHandler;
 import net.andrespr.casinorocket.screen.custom.slot.SlotMachineScreenHandler;
+import net.andrespr.casinorocket.screen.opening.BlackjackTableOpenData;
+import net.andrespr.casinorocket.screen.opening.CommonMachineOpenData;
 import net.andrespr.casinorocket.screen.opening.SlotMachineOpenData;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.registry.Registries;
@@ -24,11 +27,15 @@ public class ModScreenHandlers {
 
     public static final ScreenHandlerType<BetScreenHandler> BET_SCREEN_HANDLER =
             Registry.register(Registries.SCREEN_HANDLER, Identifier.of(CasinoRocket.MOD_ID, "bet_screen_handler"),
-                    new ExtendedScreenHandlerType<>(BetScreenHandler::new, SlotMachineOpenData.CODEC));
+                    new ExtendedScreenHandlerType<>(BetScreenHandler::new, CommonMachineOpenData.CODEC));
 
     public static final ScreenHandlerType<WithdrawScreenHandler> WITHDRAW_SCREEN_HANDLER =
             Registry.register(Registries.SCREEN_HANDLER, Identifier.of(CasinoRocket.MOD_ID, "withdraw_screen_handler"),
-                    new ExtendedScreenHandlerType<>(WithdrawScreenHandler::new, SlotMachineOpenData.CODEC));
+                    new ExtendedScreenHandlerType<>(WithdrawScreenHandler::new, CommonMachineOpenData.CODEC));
+
+    public static final ScreenHandlerType<BlackjackTableScreenHandler> BLACKJACK_TABLE_SCREEN_HANDLER =
+            Registry.register(Registries.SCREEN_HANDLER, Identifier.of(CasinoRocket.MOD_ID, "blackjack_table_screen_handler"),
+                    new ExtendedScreenHandlerType<>(BlackjackTableScreenHandler::new, BlackjackTableOpenData.CODEC));
 
     public static void registerScreenHandlers() {
         CasinoRocket.LOGGER.info("Registering Screen Handlers for " + CasinoRocket.MOD_ID);

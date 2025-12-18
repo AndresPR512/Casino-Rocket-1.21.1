@@ -23,11 +23,15 @@ public final class ModGuiTextures {
             id("textures/gui/common/gui/bet_gui.png");      // 174x166
     public static final Identifier WITHDRAW_GUI =
             id("textures/gui/common/gui/withdraw_gui.png");     // 174x166
+    public static final Identifier BLACKJACK_TABLE_GUI =
+            id("textures/gui/blackjack_table/blackjack_table_gui.png");     // 242x222
 
     // === BUTTONS ===
     // COMMON
     public static final Identifier BTN_SMALL =
             id("textures/gui/common/buttons/cobblemon_small_button.png");       // 29x36 -> 29x12 (x3)
+    public static final Identifier BTN_MEDIUM =
+            id("textures/gui/common/buttons/cobblemon_medium_button.png");      // 59x36 -> 59x12 (x3)
     public static final Identifier BTN_LARGE =
             id("textures/gui/common/buttons/cobblemon_large_button.png");       // 82x36 -> 82x12 (x3)
     // SPECIAL
@@ -91,6 +95,12 @@ public final class ModGuiTextures {
             id("textures/gui/slot_machine/lines/line_three_top.png");
     public static final Identifier SLOT_LINE_THREE_BOTTOM =
             id("textures/gui/slot_machine/lines/line_three_bottom.png");
+
+    // === CARDS (BLACKJACK) ===
+    public static final Identifier CARDS_SPRITESHEET =
+            id("textures/gui/common/cards/cards_spritesheet.png"); // 24x32 each
+    public static final Identifier CARD_BOTTOM =
+            id("textures/gui/common/cards/card_bottom.png"); // 24x32
 
     // === MISC ===
     public static final Identifier LINES_LAYOUT =

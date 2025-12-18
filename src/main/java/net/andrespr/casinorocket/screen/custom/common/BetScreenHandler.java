@@ -2,8 +2,9 @@ package net.andrespr.casinorocket.screen.custom.common;
 
 import net.andrespr.casinorocket.item.custom.BillItem;
 import net.andrespr.casinorocket.item.custom.ChipItem;
-import net.andrespr.casinorocket.network.s2c.sender.SlotBalanceSender;
+import net.andrespr.casinorocket.network.s2c.sender.MachineBalanceSender;
 import net.andrespr.casinorocket.screen.ModScreenHandlers;
+import net.andrespr.casinorocket.screen.opening.CommonMachineOpenData;
 import net.andrespr.casinorocket.screen.opening.SlotMachineOpenData;
 import net.andrespr.casinorocket.screen.widget.BetSlot;
 import net.andrespr.casinorocket.util.IMachineBoundHandler;
@@ -27,7 +28,7 @@ public class BetScreenHandler extends ScreenHandler implements IMachineBoundHand
     private final PlayerEntity player;
     private long totalMoney = 0L;
 
-    public BetScreenHandler(int syncId, PlayerInventory playerInventory, SlotMachineOpenData data) {
+    public BetScreenHandler(int syncId, PlayerInventory playerInventory, CommonMachineOpenData data) {
         this(syncId, playerInventory, data.pos(), data.machineKey());
     }
 
@@ -108,7 +109,7 @@ public class BetScreenHandler extends ScreenHandler implements IMachineBoundHand
         this.totalMoney = total;
 
         if (player instanceof ServerPlayerEntity serverPlayer) {
-            SlotBalanceSender.send(serverPlayer, total);
+            MachineBalanceSender.send(serverPlayer, machineKey, total);
         }
     }
 

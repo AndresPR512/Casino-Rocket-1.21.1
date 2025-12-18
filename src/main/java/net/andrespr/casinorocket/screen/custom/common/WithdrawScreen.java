@@ -1,7 +1,7 @@
 package net.andrespr.casinorocket.screen.custom.common;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.andrespr.casinorocket.network.c2s.DoWithdrawC2SPayload;
+import net.andrespr.casinorocket.network.c2s.common.DoWithdrawC2SPayload;
 import net.andrespr.casinorocket.screen.ModGuiTextures;
 import net.andrespr.casinorocket.screen.custom.CasinoMachineScreen;
 import net.andrespr.casinorocket.screen.widget.CommonButton;

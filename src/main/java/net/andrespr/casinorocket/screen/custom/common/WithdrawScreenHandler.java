@@ -1,12 +1,13 @@
 package net.andrespr.casinorocket.screen.custom.common;
 
+import net.andrespr.casinorocket.data.PlayerBlackjackData;
 import net.andrespr.casinorocket.data.PlayerSlotMachineData;
-import net.andrespr.casinorocket.network.s2c.SendSlotBalanceS2CPayload;
+import net.andrespr.casinorocket.network.s2c.sender.MachineBalanceSender;
 import net.andrespr.casinorocket.screen.ModScreenHandlers;
-import net.andrespr.casinorocket.screen.opening.SlotMachineOpenData;
+import net.andrespr.casinorocket.screen.opening.CommonMachineOpenData;
 import net.andrespr.casinorocket.screen.widget.WithdrawSlot;
 import net.andrespr.casinorocket.util.IMachineBoundHandler;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.andrespr.casinorocket.util.MoneyCalculator;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -18,7 +19,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
-import java.util.Objects;
 
 public class WithdrawScreenHandler extends ScreenHandler implements IMachineBoundHandler {
 
@@ -26,7 +26,7 @@ public class WithdrawScreenHandler extends ScreenHandler implements IMachineBoun
     private final String machineKey;
     private final SimpleInventory inventory = new SimpleInventory(27);
 
-    public WithdrawScreenHandler(int syncId, PlayerInventory playerInventory, SlotMachineOpenData data) {
+    public WithdrawScreenHandler(int syncId, PlayerInventory playerInventory, CommonMachineOpenData data) {
         this(syncId, playerInventory, data.pos(), data.machineKey());
     }
 
@@ -42,10 +42,17 @@ public class WithdrawScreenHandler extends ScreenHandler implements IMachineBoun
         addPlayerHotbar(playerInventory);
 
         PlayerEntity player = playerInventory.player;
-        if (!player.getWorld().isClient) {
-            long balance = PlayerSlotMachineData.get(Objects.requireNonNull(player.getServer())).getBalance(player.getUuid());
-            ServerPlayNetworking.send((ServerPlayerEntity) player, new SendSlotBalanceS2CPayload(balance));
+
+        if (!player.getWorld().isClient && player instanceof ServerPlayerEntity serverPlayer) {
+            long balance = resolveBalance(player);
+            loadStacksIntoSlots(MoneyCalculator.calculateChipWithdraw(balance));
+
+            this.inventory.markDirty();
+            this.sendContentUpdates();
+
+            MachineBalanceSender.send(serverPlayer, machineKey, balance);
         }
+
     }
 
     @Override
@@ -82,6 +89,17 @@ public class WithdrawScreenHandler extends ScreenHandler implements IMachineBoun
         }
     }
 
+    // === HELPER -> BALANCE PER MACHINE ===
+
+    private long resolveBalance(PlayerEntity player) {
+        if (player.getServer() == null) return 0L;
+        return switch (machineKey) {
+            case "slots" -> PlayerSlotMachineData.get(player.getServer()).getBalance(player.getUuid());
+            case "blackjack" -> PlayerBlackjackData.get(player.getServer()).getBalance(player.getUuid());
+            default -> 0L;
+        };
+    }
+
     // === WITHDRAW INVENTORY ===
 
     public void loadStacksIntoSlots(List<ItemStack> stacks) {
@@ -96,15 +114,16 @@ public class WithdrawScreenHandler extends ScreenHandler implements IMachineBoun
             i++;
         }
 
-        this.onContentChanged(inventory);
+        inventory.markDirty();
+        sendContentUpdates();
     }
-
 
     public void clearWithdrawInventory() {
         for (int i = 0; i < inventory.size(); i++) {
             inventory.setStack(i, ItemStack.EMPTY);
-            this.slots.get(i).setStack(ItemStack.EMPTY);
         }
+        inventory.markDirty();
+        sendContentUpdates();
     }
 
     // === GETTERS ===

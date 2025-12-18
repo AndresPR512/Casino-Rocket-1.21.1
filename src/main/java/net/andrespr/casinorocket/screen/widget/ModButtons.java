@@ -56,4 +56,29 @@ public final class ModButtons {
         return new SlotButton(baseX + x, baseY + y, 14, 14, ModGuiTextures.BTN_MODE3, onPress, Text.empty());
     }
 
+    // BLACKJACK
+    public static CommonButton play(int baseX, int baseY, int x, int y, CommonButton.PressAction onPress) {
+        return new CommonButton(baseX + x, baseY + y, 59, 12, ModGuiTextures.BTN_MEDIUM, onPress, Text.translatable("button.casinorocket.play"));
+    }
+
+    public static CommonButton hit(int baseX, int baseY, int x, int y, CommonButton.PressAction onPress) {
+        return new CommonButton(baseX + x, baseY + y, 59, 12, ModGuiTextures.BTN_MEDIUM, onPress, Text.translatable("button.casinorocket.hit"));
+    }
+
+    public static CommonButton stand(int baseX, int baseY, int x, int y, CommonButton.PressAction onPress) {
+        return new CommonButton(baseX + x, baseY + y, 59, 12, ModGuiTextures.BTN_MEDIUM, onPress, Text.translatable("button.casinorocket.stand"));
+    }
+
+    public static CommonButton doubleDown(int baseX, int baseY, int x, int y, CommonButton.PressAction onPress) {
+        return new CommonButton(baseX + x, baseY + y, 59, 12, ModGuiTextures.BTN_MEDIUM, onPress, Text.translatable("button.casinorocket.double_down"));
+    }
+
+    public static CommonButton finish(int baseX, int baseY, int x, int y, CommonButton.PressAction onPress) {
+        return new CommonButton(baseX + x, baseY + y, 59, 12, ModGuiTextures.BTN_MEDIUM, onPress, Text.translatable("button.casinorocket.finish"));
+    }
+
+    public static CommonButton doubleOrNothing(int baseX, int baseY, int x, int y, CommonButton.PressAction onPress) {
+        return new CommonButton(baseX + x, baseY + y, 59, 12, ModGuiTextures.BTN_MEDIUM, onPress, Text.translatable("button.casinorocket.double_or_nothing"));
+    }
+
 }

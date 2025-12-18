@@ -5,6 +5,7 @@ import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.network.CasinoRocketPackets;
 import net.andrespr.casinorocket.network.SuitSync;
 import net.andrespr.casinorocket.screen.ModScreenHandlers;
+import net.andrespr.casinorocket.screen.custom.blackjack.BlackjackTableScreen;
 import net.andrespr.casinorocket.screen.custom.common.BetScreen;
 import net.andrespr.casinorocket.screen.custom.slot.SlotMachineMenuScreen;
 import net.andrespr.casinorocket.screen.custom.slot.SlotMachineScreen;
@@ -26,11 +27,13 @@ public class CasinoRocketClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GACHA_MACHINE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.POKEMON_GACHA_MACHINE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SLOT_MACHINE, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.BLACKJACK_TABLE, RenderLayer.getCutout());
 
         HandledScreens.register(ModScreenHandlers.SLOT_MACHINE_SCREEN_HANDLER, SlotMachineScreen::new);
         HandledScreens.register(ModScreenHandlers.SLOT_MACHINE_MENU_SCREEN_HANDLER, SlotMachineMenuScreen::new);
         HandledScreens.register(ModScreenHandlers.BET_SCREEN_HANDLER, BetScreen::new);
         HandledScreens.register(ModScreenHandlers.WITHDRAW_SCREEN_HANDLER, WithdrawScreen::new);
+        HandledScreens.register(ModScreenHandlers.BLACKJACK_TABLE_SCREEN_HANDLER, BlackjackTableScreen::new);
 
         ModItems.ALL_BILL_ITEMS.forEach(bill -> {
             ModelPredicateProviderRegistry.register(bill, Identifier.of("stacked"),

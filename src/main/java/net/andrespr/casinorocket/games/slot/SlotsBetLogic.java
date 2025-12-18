@@ -2,7 +2,7 @@ package net.andrespr.casinorocket.games.slot;
 
 import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.data.PlayerSlotMachineData;
-import net.andrespr.casinorocket.network.s2c.sender.SlotBalanceSender;
+import net.andrespr.casinorocket.network.s2c.sender.MachineBalanceSender;
 import net.andrespr.casinorocket.screen.custom.common.BetScreenHandler;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
@@ -32,9 +32,9 @@ public final class SlotsBetLogic {
 
         CasinoRocket.LOGGER.info("[SlotMachine] User {} deposited {}", player.getGameProfile().getName(), amount);
 
-        SlotBalanceSender.send(player, data.getBalance(player.getUuid()));
+        MachineBalanceSender.send(player, "slots", data.getBalance(player.getUuid()));
 
         handler.onContentChanged(inventory);
     }
-}
 
+}

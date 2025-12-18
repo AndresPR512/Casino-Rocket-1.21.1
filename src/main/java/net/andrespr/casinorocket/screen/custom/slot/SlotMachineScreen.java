@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.andrespr.casinorocket.games.slot.SlotLineResult;
 import net.andrespr.casinorocket.games.slot.SlotReels;
 import net.andrespr.casinorocket.games.slot.SlotSymbol;
-import net.andrespr.casinorocket.network.c2s.DoSpinC2SPayload;
+import net.andrespr.casinorocket.network.c2s.slots.DoSpinC2SPayload;
 import net.andrespr.casinorocket.screen.ModGuiTextures;
 import net.andrespr.casinorocket.screen.custom.CasinoMachineScreen;
 import net.andrespr.casinorocket.screen.layout.DancingClefairy;
@@ -566,7 +566,7 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         int width = textRenderer.getWidth(formatted);
         int drawX = Math.max(146 - width, 120);
 
-        context.drawText(textRenderer, formatted, drawX, 36, 0x00AA00, true);
+        context.drawText(textRenderer, formatted, drawX, 36, betAmount > balance ? 0xFF5555 : 0x00FF00, true);
         context.drawText(textRenderer, "Bet Amount", 60, 36, 0xFFFFFF, true);
     }
 
@@ -576,7 +576,7 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         int width = textRenderer.getWidth(formatted);
         int drawX = Math.max(64 - width, 17);
 
-        context.drawText(textRenderer, formatted, drawX, 186,0x00AA00, true);
+        context.drawText(textRenderer, formatted, drawX, 186,0x00FF00, true);
     }
 
     private void drawWinAmount(DrawContext context) {
@@ -585,7 +585,7 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         int width = textRenderer.getWidth(formatted);
         int drawX = Math.max(188 - width, 141);
 
-        context.drawText(textRenderer, formatted, drawX, 186, 0x00AA00, true);
+        context.drawText(textRenderer, formatted, drawX, 186, 0x00FF00, true);
     }
 
     // GETTERS

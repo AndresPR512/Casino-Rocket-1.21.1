@@ -1,6 +1,7 @@
 package net.andrespr.casinorocket.block;
 
 import net.andrespr.casinorocket.CasinoRocket;
+import net.andrespr.casinorocket.block.custom.BlackjackTableBlock;
 import net.andrespr.casinorocket.block.custom.GachaMachineBlock;
 import net.andrespr.casinorocket.block.custom.PokemonGachaMachineBlock;
 import net.andrespr.casinorocket.block.custom.SlotMachineBlock;
@@ -180,6 +181,15 @@ public class ModBlocks {
                     .dropsNothing()
                     .allowsSpawning(Blocks::never)
                     .luminance(state -> 14)
+                    .nonOpaque()
+            )
+    );
+
+    public static final Block BLACKJACK_TABLE = registerBlock("blackjack_table",
+            new BlackjackTableBlock(AbstractBlock.Settings.create()
+                    .strength(-1.0F, 3600000.0F)
+                    .dropsNothing()
+                    .allowsSpawning(Blocks::never)
                     .nonOpaque()
             )
     );

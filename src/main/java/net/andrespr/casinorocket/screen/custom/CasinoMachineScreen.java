@@ -1,9 +1,9 @@
 package net.andrespr.casinorocket.screen.custom;
 
-import net.andrespr.casinorocket.network.c2s.OpenBetScreenC2SPayload;
-import net.andrespr.casinorocket.network.c2s.OpenMenuScreenC2SPayload;
-import net.andrespr.casinorocket.network.c2s.OpenWithdrawScreenC2SPayload;
-import net.andrespr.casinorocket.network.c2s.ReturnToMachineScreenC2SPayload;
+import net.andrespr.casinorocket.network.c2s.common.OpenBetScreenC2SPayload;
+import net.andrespr.casinorocket.network.c2s.common.OpenMenuScreenC2SPayload;
+import net.andrespr.casinorocket.network.c2s.common.OpenWithdrawScreenC2SPayload;
+import net.andrespr.casinorocket.network.c2s.common.ReturnToMachineScreenC2SPayload;
 import net.andrespr.casinorocket.screen.opening.MouseRestore;
 import net.andrespr.casinorocket.util.IMachineBoundHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

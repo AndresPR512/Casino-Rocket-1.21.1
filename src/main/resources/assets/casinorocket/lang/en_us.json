@@ -92,6 +92,7 @@
   "block.casinorocket.pokemon_gacha_machine": "Pokemon Gacha Machine",
   "block.casinorocket.gacha_machine": "Item Gacha Machine",
   "block.casinorocket.slot_machine": "Slot Machine",
+  "block.casinorocket.blackjack_table": "Blackjack Table",
 
   "itemgroup.casinorocket.casino_rocket_items": "Casino Rocket",
   "itemgroup.casinorocket.casino_rocket_blocks": "Casino Rocket Blocks",
@@ -146,11 +147,23 @@
 
   "button.casinorocket.bet": "Bet",
   "button.casinorocket.withdraw": "Withdraw",
+  "button.casinorocket.play": "Play game",
+  "button.casinorocket.hit": "Hit",
+  "button.casinorocket.stand": "Stand",
+  "button.casinorocket.double_down": "Double down",
+  "button.casinorocket.finish": "Finish game",
+  "button.casinorocket.double_or_nothing": "Double or nothing",
 
   "gui.casinorocket.slot_machine.settings_bet_amount": "Bet per spin:",
   "gui.casinorocket.slot_machine.settings_lines": "Lines to play:",
   "gui.casinorocket.slot_machine.settings_one_line": "x1 Line",
   "gui.casinorocket.slot_machine.settings_three_lines": "x3 Lines",
-  "gui.casinorocket.slot_machine.settings_five_lines": "x5 Lines"
+  "gui.casinorocket.slot_machine.settings_five_lines": "x5 Lines",
+
+  "gui.casinorocket.blackjack_table.bet_amount": "Bet Amount",
+  "gui.casinorocket.blackjack_table.dealers_hand": "Dealer's Hand: %s",
+  "gui.casinorocket.blackjack_table.players_hand": "Player's Hand: %s",
+  "gui.casinorocket.blackjack_table.balance": "Balance",
+  "gui.casinorocket.blackjack_table.last_win": "Last Win"
 
 }

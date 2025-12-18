@@ -1,8 +1,8 @@
 package net.andrespr.casinorocket.screen.custom.slot;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.andrespr.casinorocket.network.c2s.ChangeBetBaseC2SPayload;
-import net.andrespr.casinorocket.network.c2s.ChangeLinesModeC2SPayload;
+import net.andrespr.casinorocket.network.c2s.slots.ChangeBetBaseC2SPayload;
+import net.andrespr.casinorocket.network.c2s.slots.ChangeLinesModeC2SPayload;
 import net.andrespr.casinorocket.screen.ModGuiTextures;
 import net.andrespr.casinorocket.screen.custom.CasinoMachineScreen;
 import net.andrespr.casinorocket.screen.opening.MouseRestore;

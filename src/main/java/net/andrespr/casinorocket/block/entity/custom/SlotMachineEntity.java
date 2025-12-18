@@ -59,11 +59,13 @@ public class SlotMachineEntity extends BlockEntity implements ExtendedScreenHand
         }
     }
 
+    // === DISPLAY NAME ===
     @Override
     public Text getDisplayName() {
         return Text.translatable("gui.casinorocket.slot_machine");
     }
 
+    // === OPENING DATA ===
     @Override
     public SlotMachineOpenData getScreenOpeningData(ServerPlayerEntity player) {
         MinecraftServer server = Objects.requireNonNull(player.getServer());

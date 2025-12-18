@@ -2,7 +2,7 @@ package net.andrespr.casinorocket.games.slot;
 
 import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.data.PlayerSlotMachineData;
-import net.andrespr.casinorocket.network.s2c.sender.SlotBalanceSender;
+import net.andrespr.casinorocket.network.s2c.sender.MachineBalanceSender;
 import net.andrespr.casinorocket.util.MoneyCalculator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -32,7 +32,7 @@ public final class SlotsWithdrawLogic {
         storage.setBalance(uuid, 0);
         CasinoRocket.LOGGER.info("[SlotMachine] User {} withdrew {}", player.getGameProfile().getName(), balance);
 
-        SlotBalanceSender.send(player, 0);
+        MachineBalanceSender.send(player, "slots", 0);
     }
 
 }
