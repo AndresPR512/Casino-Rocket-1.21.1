@@ -118,6 +118,8 @@ public class ModItemsGroup {
                         entries.add(ModBlocks.GACHA_MACHINE);
                         // SLOT MACHINE
                         entries.add(ModBlocks.SLOT_MACHINE);
+                        // BLACKJACK TABLE
+                        entries.add(ModBlocks.BLACKJACK_TABLE);
                     }).build());
 
     public static void registerItemGroups() {
