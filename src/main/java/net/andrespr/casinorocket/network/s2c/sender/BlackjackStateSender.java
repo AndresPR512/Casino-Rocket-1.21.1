@@ -46,29 +46,13 @@ public final class BlackjackStateSender {
 
         SendBlackjackStateS2CPayload payload =
                 new SendBlackjackStateS2CPayload(
-                        pos,
-                        "blackjack",
-
-                        balance,
-                        betIndex,
-                        round.getCurrentBet(),
-
-                        round.getPhase(),
-                        round.getWinPayout(),
-
-                        !round.isDealerHoleHidden(),
-                        playerCards,
-                        dealerCards,
-
-                        playerValueText,
-                        dealerValueText,
-
-                        canPlay,
-                        canHit,
-                        canStand,
-                        canDoubleDown,
-                        canFinish,
-                        canDoubleOrNothing
+                        pos, "blackjack",
+                        balance, betIndex, round.getCurrentBet(),
+                        round.getPhase(), round.getWinPayout(), round.getResultSeq(),
+                        controller.getResultId(), controller.getLastResolvedBet(), controller.getLastResolvedPayout(),
+                        !round.isDealerHoleHidden(), playerCards, dealerCards,
+                        playerValueText, dealerValueText,
+                        canPlay, canHit, canStand, canDoubleDown, canFinish, canDoubleOrNothing
                 );
 
         ServerPlayNetworking.send(player, payload);

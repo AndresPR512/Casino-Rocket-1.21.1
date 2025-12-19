@@ -2,11 +2,11 @@ package net.andrespr.casinorocket.network;
 
 import net.andrespr.casinorocket.util.SuitData;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public class SuitSync {
@@ -30,9 +30,9 @@ public class SuitSync {
     }
 
     // SERVER
-    public static void sendSuitSync(MinecraftServer server, VillagerEntity villager, int suitValue) {
+    public static void sendSuitSync(VillagerEntity villager, int suitValue) {
         SuitSyncPayload payload = new SuitSyncPayload(villager.getId(), suitValue);
-        for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+        for (ServerPlayerEntity player : PlayerLookup.tracking(villager)) {
             ServerPlayNetworking.send(player, payload);
         }
     }

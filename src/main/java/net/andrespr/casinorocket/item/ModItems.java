@@ -2,6 +2,7 @@ package net.andrespr.casinorocket.item;
 
 import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.item.custom.*;
+import net.andrespr.casinorocket.sound.ModSounds;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -24,10 +25,12 @@ public class ModItems {
     public static final ChipItem DIAMOND_CHIP = registerChipItem("diamond_chip");
     public static final ChipItem NETHERITE_CHIP = registerChipItem("netherite_chip");
 
-    public static final Item COPPER_COIN = registerItem("copper_coin", new Item(new Item.Settings()));
-    public static final Item IRON_COIN = registerItem("iron_coin", new Item(new Item.Settings()));
-    public static final Item GOLD_COIN = registerItem("gold_coin", new Item(new Item.Settings()));
-    public static final Item DIAMOND_COIN = registerItem("diamond_coin", new Item(new Item.Settings()));
+    public static final CoinItem COPPER_COIN = registerCustomItem("copper_coin", new CoinItem(new Item.Settings()));
+    public static final CoinItem IRON_COIN = registerCustomItem("iron_coin", new CoinItem(new Item.Settings()));
+    public static final CoinItem GOLD_COIN = registerCustomItem("gold_coin", new CoinItem(new Item.Settings()));
+    public static final CoinItem DIAMOND_COIN = registerCustomItem("diamond_coin", new CoinItem(new Item.Settings()));
+    public static final CoinItem EVENT_COIN = registerCustomItem("event_coin", new CoinItem(new Item.Settings()));
+    public static final CoinItem PRIMOGEM = registerCustomItem("primogem", new CoinItem(new Item.Settings()));
 
     public static final List<Item> ALL_GACHAPON_ITEMS = new ArrayList<>();
     public static final GachaponItem POKE_GACHAPON = registerCustomItem("poke_gachapon",
@@ -42,6 +45,8 @@ public class ModItems {
             new GachaponItem(new Item.Settings(), "legendary"));
     public static final GachaponItem PREMIER_GACHAPON = registerCustomItem("premier_gachapon",
             new GachaponItem(new Item.Settings(), "bonus"));
+    public static final GachaponItem EVENT_GACHAPON = registerCustomItem("event_gachapon",
+            new GachaponItem(new Item.Settings(), "event"));
     public static final PokemonGachaponItem POKEMON_POKE_GACHAPON = registerCustomItem("pokemon_poke_gachapon",
             new PokemonGachaponItem(new Item.Settings(), "common"));
     public static final PokemonGachaponItem POKEMON_GREAT_GACHAPON = registerCustomItem("pokemon_great_gachapon",
@@ -54,6 +59,8 @@ public class ModItems {
             new PokemonGachaponItem(new Item.Settings(), "legendary"));
     public static final PokemonGachaponItem POKEMON_PREMIER_GACHAPON = registerCustomItem("pokemon_premier_gachapon",
             new PokemonGachaponItem(new Item.Settings(), "bonus"));
+    public static final PokemonGachaponItem POKEMON_EVENT_GACHAPON = registerCustomItem("pokemon_event_gachapon",
+            new PokemonGachaponItem(new Item.Settings(), "event"));
 
     public static final PokemonPinItem LITWICK_PIN = registerCustomItem("litwick_pin",
             new PokemonPinItem(new Item.Settings(), 5, 15, false));
@@ -91,6 +98,17 @@ public class ModItems {
     public static final BillItem BILL_1M = registerCustomItem("bill_1m", new BillItem(new Item.Settings(), 1_000_000));
     public static final BillItem BILL_10M = registerCustomItem("bill_10m", new BillItem(new Item.Settings(), 10_000_000));
     public static final BillItem BILL_100M = registerCustomItem("bill_100m", new BillItem(new Item.Settings(), 100_000_000));
+
+    public static final WalletItem WALLET = registerCustomItem("wallet", new WalletItem(new Item.Settings()));
+
+    public static final Item FIRERED_GC_MUSIC_DISC = registerItem("firered_gc_music_disc",
+            new Item(new Item.Settings().jukeboxPlayable(ModSounds.FIRERED_GC_KEY).maxCount(1)));
+    public static final Item HEARTGOLD_GC_MUSIC_DISC = registerItem("heartgold_gc_music_disc",
+            new Item(new Item.Settings().jukeboxPlayable(ModSounds.HEARTGOLD_GC_KEY).maxCount(1)));
+    public static final Item EMERALD_GC_MUSIC_DISC = registerItem("emerald_gc_music_disc",
+            new Item(new Item.Settings().jukeboxPlayable(ModSounds.EMERALD_GC_KEY).maxCount(1)));
+    public static final Item PLATINUM_GC_MUSIC_DISC = registerItem("platinum_gc_music_disc",
+            new Item(new Item.Settings().jukeboxPlayable(ModSounds.PLATINUM_GC_KEY).maxCount(1)));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(CasinoRocket.MOD_ID, name), item);

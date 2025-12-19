@@ -3,6 +3,7 @@ package net.andrespr.casinorocket.block.entity;
 import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.block.ModBlocks;
 import net.andrespr.casinorocket.block.entity.custom.BlackjackTableEntity;
+import net.andrespr.casinorocket.block.entity.custom.ChipTableEntity;
 import net.andrespr.casinorocket.block.entity.custom.SlotMachineEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
@@ -18,6 +19,10 @@ public class ModBlockEntities {
     public static final BlockEntityType<BlackjackTableEntity> BLACKJACK_TABLE_BE =
             Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(CasinoRocket.MOD_ID, "blackjack_table_be"),
                     BlockEntityType.Builder.create(BlackjackTableEntity::new, ModBlocks.BLACKJACK_TABLE).build(null));
+
+    public static final BlockEntityType<ChipTableEntity> CHIP_TABLE_BE =
+            Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(CasinoRocket.MOD_ID, "chip_table_be"),
+                    BlockEntityType.Builder.create(ChipTableEntity::new, ModBlocks.CHIP_TABLE).build(null));
 
     public static void registerBlockEntities() {
         CasinoRocket.LOGGER.info("Registering Block Entities for " + CasinoRocket.MOD_ID);

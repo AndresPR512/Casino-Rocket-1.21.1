@@ -33,8 +33,12 @@ public class SlotUtils {
         List<Map.Entry<UUID, Long>> rows = new ArrayList<>();
         for (UUID id : data.getAllKnownPlayers()) {
             long v = valueFn.applyAsLong(id);
-            if (!k.equals("total_lost") && v <= 0) continue;
-            if (k.equals("total_lost") && v == 0) continue;
+
+            if (k.equals("total_lost")) {
+                if (v >= 0) continue;
+            } else {
+                if (v <= 0) continue;
+            }
 
             rows.add(new AbstractMap.SimpleEntry<>(id, v));
         }
@@ -107,8 +111,8 @@ public class SlotUtils {
     }
 
     private static String formatSignedMoney(long value) {
-        if (value < 0) return "-" + TextUtils.formatLarge(-value);
-        return TextUtils.formatLarge(value);
+        if (value < 0) return "-" + TextUtils.formatCompactNoDecimal(-value);
+        return TextUtils.formatCompactNoDecimal(value);
     }
 
 }

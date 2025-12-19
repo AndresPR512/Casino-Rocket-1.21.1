@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "facing=north,half=lower": { "model": "casinorocket:block/event_gacha_machine_lower" },
+    "facing=south,half=lower": { "model": "casinorocket:block/event_gacha_machine_lower", "y": 180 },
+    "facing=west,half=lower":  { "model": "casinorocket:block/event_gacha_machine_lower", "y": 270 },
+    "facing=east,half=lower":  { "model": "casinorocket:block/event_gacha_machine_lower", "y": 90 },
+
+    "facing=north,half=upper": { "model": "casinorocket:block/event_gacha_machine_upper" },
+    "facing=south,half=upper": { "model": "casinorocket:block/event_gacha_machine_upper", "y": 180 },
+    "facing=west,half=upper":  { "model": "casinorocket:block/event_gacha_machine_upper", "y": 270 },
+    "facing=east,half=upper":  { "model": "casinorocket:block/event_gacha_machine_upper", "y": 90 }
+  }
+}

@@ -25,6 +25,8 @@ public final class ModGuiTextures {
             id("textures/gui/common/gui/withdraw_gui.png");     // 174x166
     public static final Identifier BLACKJACK_TABLE_GUI =
             id("textures/gui/blackjack_table/blackjack_table_gui.png");     // 242x222
+    public static final Identifier CHIP_TABLE_GUI =
+            id("textures/gui/chip_table/chip_table_gui.png");     // 174x171
 
     // === BUTTONS ===
     // COMMON

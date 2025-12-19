@@ -7,6 +7,7 @@ import net.andrespr.casinorocket.block.ModBlocks;
 import net.andrespr.casinorocket.block.entity.ModBlockEntities;
 import net.andrespr.casinorocket.command.CasinoRocketCommands;
 import net.andrespr.casinorocket.config.CasinoRocketConfig;
+import net.andrespr.casinorocket.games.gachapon.PlushiesGachaponUtils;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.item.ModItemsGroup;
 import net.andrespr.casinorocket.network.CasinoRocketPackets;
@@ -15,6 +16,7 @@ import net.andrespr.casinorocket.screen.ModScreenHandlers;
 import net.andrespr.casinorocket.sound.ModSounds;
 import net.andrespr.casinorocket.games.gachapon.GachaponUtils;
 import net.andrespr.casinorocket.games.gachapon.PokemonGachaponUtils;
+import net.andrespr.casinorocket.villager.ModVillagers;
 import net.andrespr.casinorocket.villager.ShopsRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -40,6 +42,7 @@ public class CasinoRocket implements ModInitializer {
         ModSounds.registerSounds();
         ModBlockEntities.registerBlockEntities();
         ModScreenHandlers.registerScreenHandlers();
+        ModVillagers.registerVillagers();
         CasinoRocketPackets.registerServer();
         CommandRegistrationCallback.EVENT.register(CasinoRocketCommands::register);
 
@@ -49,6 +52,7 @@ public class CasinoRocket implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             GachaponUtils.buildCache(CasinoRocket.CONFIG.itemGachapon.pools);
             PokemonGachaponUtils.buildCache(CasinoRocket.CONFIG.pokemonGachapon.pools);
+            PlushiesGachaponUtils.buildCache(CasinoRocket.CONFIG.plushiesGachapon.plushies);
         });
 
         LOGGER.info("Mod initialized successfully!");

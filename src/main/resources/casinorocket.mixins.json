@@ -4,7 +4,10 @@
 	"compatibilityLevel": "JAVA_21",
     "mixins": [
       "EntityPersistentDataMixin",
-      "EntityStartTrackingMixin"
+      "EntityStartTrackingMixin",
+      "PlayerEntityChipBankMixin",
+      "VillagerSetProfessionMixin",
+      "VillagerLookAtPlayerMixin"
     ],
     "client": [
       "CustomVillagerTextureMixin",

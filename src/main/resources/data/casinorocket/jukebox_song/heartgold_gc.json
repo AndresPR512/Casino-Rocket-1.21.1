@@ -1,0 +1,8 @@
+{
+  "comparator_output": 15,
+  "description": {
+    "translate": "item.casinorocket.heartgold_gc_music_disc.desc"
+  },
+  "length_in_seconds": 151.015,
+  "sound_event": "casinorocket:heartgold_gc"
+}

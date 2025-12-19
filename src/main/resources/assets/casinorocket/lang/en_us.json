@@ -25,6 +25,8 @@
   "item.casinorocket.iron_coin": "Iron Coin",
   "item.casinorocket.gold_coin": "Gold Coin",
   "item.casinorocket.diamond_coin": "Diamond Coin",
+  "item.casinorocket.event_coin": "Event Coin",
+  "item.casinorocket.primogem": "Primogem",
 
   "item.casinorocket.bill_10": "$10 Bill",
   "item.casinorocket.bill_50": "$50 Bill",
@@ -47,6 +49,7 @@
   "item.casinorocket.master_gachapon": "Master Ball Gachapon",
   "item.casinorocket.cherish_gachapon": "Cherish Ball Gachapon",
   "item.casinorocket.premier_gachapon": "Premier Ball Gachapon",
+  "item.casinorocket.event_gachapon": "Event Gachapon",
 
   "item.casinorocket.pokemon_poke_gachapon": "Pokémon Poké Ball Gachapon",
   "item.casinorocket.pokemon_great_gachapon": "Pokémon Great Ball Gachapon",
@@ -54,6 +57,9 @@
   "item.casinorocket.pokemon_master_gachapon": "Pokémon Master Ball Gachapon",
   "item.casinorocket.pokemon_cherish_gachapon": "Pokémon Cherish Ball Gachapon",
   "item.casinorocket.pokemon_premier_gachapon": "Pokémon Premier Ball Gachapon",
+  "item.casinorocket.pokemon_event_gachapon": "Pokémon Event Gachapon",
+
+  "item.casinorocket.wallet": "Wallet",
 
   "block.casinorocket.cut_gold_block": "Cut Gold Block",
   "block.casinorocket.cut_gold_stairs": "Cut Gold Stairs",
@@ -91,24 +97,34 @@
 
   "block.casinorocket.pokemon_gacha_machine": "Pokemon Gacha Machine",
   "block.casinorocket.gacha_machine": "Item Gacha Machine",
+  "block.casinorocket.plushies_gacha_machine": "Plushies Gacha Machine",
+  "block.casinorocket.event_gacha_machine": "Event Gacha Machine",
   "block.casinorocket.slot_machine": "Slot Machine",
   "block.casinorocket.blackjack_table": "Blackjack Table",
+  "block.casinorocket.chip_table": "Chip Table",
 
   "itemgroup.casinorocket.casino_rocket_items": "Casino Rocket",
   "itemgroup.casinorocket.casino_rocket_blocks": "Casino Rocket Blocks",
 
   "tooltip.casinorocket.chip": "§9Value:§r §6$%s§r",
-
   "tooltip.casinorocket.pokemon_pin": "Get this §especial pokémon§r!",
+  "tooltip.casinorocket.bill": "Press >§eRight Click§r< while sneaking to add to your balance!",
+  "tooltip.casinorocket.wallet": "Press >§eRight Click§r< to open!",
 
-  "tooltip.casinorocket.bill": "Press >§eRight Click§r< while sneaking to add to your pocket!",
+  "tooltip.casinorocket.copper_coin": "Use it in a §6Gacha Machine§r for a reward!",
+  "tooltip.casinorocket.iron_coin": "Use it in a §6Gacha Machine§r! Increases the chance of better rewards.",
+  "tooltip.casinorocket.gold_coin": "Use it in a §6Gacha Machine§r! Greatly increases the chance of rare rewards.",
+  "tooltip.casinorocket.diamond_coin": "Use it in a §6Gacha Machine§r! Significantly increases the chance of the best rewards.",
+  "tooltip.casinorocket.event_coin": "Use it in the §6Event Gacha Machine§r to get a prize!",
+  "tooltip.casinorocket.primogem": "Use it in the §6Plushies Gacha Machine§r to get a plushie of a famous character!",
 
   "tooltip.casinorocket.poke_gachapon": "Press >§eRight Click§r< on hand to get a §6common prize§r!",
   "tooltip.casinorocket.great_gachapon": "Press >§eRight Click§r< on hand to get an §6uncommon prize§r!",
   "tooltip.casinorocket.ultra_gachapon": "Press >§eRight Click§r< on hand to get a §6rare prize§r!",
   "tooltip.casinorocket.master_gachapon": "Press >§eRight Click§r< on hand to get an §6ultrarare prize§r!",
   "tooltip.casinorocket.cherish_gachapon": "Press >§eRight Click§r< on hand to get a §6legendary prize§r!",
-  "tooltip.casinorocket.premier_gachapon": "Press >§eRight Click§r< on hand to get a §6bonus prize§r!",
+  "tooltip.casinorocket.premier_gachapon": "Press >§eRight Click§r< on hand to get an §6event prize§r!",
+  "tooltip.casinorocket.event_gachapon": "Press >§eRight Click§r< on hand to get an §6event prize§r!",
 
   "tooltip.casinorocket.pokemon_poke_gachapon": "Press >§eRight Click§r< on hand to get a §6common pokémon§r!",
   "tooltip.casinorocket.pokemon_great_gachapon": "Press >§eRight Click§r< on hand to get an §6uncommon pokémon§r!",
@@ -116,6 +132,7 @@
   "tooltip.casinorocket.pokemon_master_gachapon": "Press >§eRight Click§r< on hand to get an §6ultrarare pokémon§r!",
   "tooltip.casinorocket.pokemon_cherish_gachapon": "Press >§eRight Click§r< on hand to get a §6legendary pokémon§r!",
   "tooltip.casinorocket.pokemon_premier_gachapon": "Press >§eRight Click§r< on hand to get a §6bonus pokémon§r!",
+  "tooltip.casinorocket.pokemon_event_gachapon": "Press >§eRight Click§r< on hand to get an §6event pokémon§r!",
 
   "message.casinorocket.pokemon_received_party": "You received a %s!",
   "message.casinorocket.pokemon_box_full": "Your team and PC are full. %s couldn't be added.",
@@ -126,6 +143,7 @@
   "message.casinorocket.gacha_machines_occupied": "§cYou have to wait a bit before using this machine again!",
   "message.casinorocket.gacha_machines_another_occupied": "§cThis machine is already being used!",
   "message.casinorocket.slot_machine_occupied":  "§cThis slot machine is currently in use.",
+  "message.casinorocket.blackjack_table_occupied": "§cThis blackjack table is currently in use.",
 
   "message.casinorocket.gacha_machines_reward": "You received a %s!",
   "message.casinorocket.gacha_machines_bonus_prize": "Oh! You received a Premier Gachapon bonus!",
@@ -144,6 +162,21 @@
   "sound.casinorocket.legendary_rarity": "Legendary Rarity",
   "sound.casinorocket.reels_spinning": "Reels Spinning...",
   "sound.casinorocket.jackpot": "JACKPOT!",
+  "sound.casinorocket.wallet": "Wallet",
+  "sound.casinorocket.wallet2": "C A R T E R A",
+  "sound.casinorocket.win": "Win",
+  "sound.casinorocket.lose": "Lose",
+  "sound.casinorocket.card": "Card",
+  "sound.casinorocket.button": "Button Pressed",
+
+  "item.casinorocket.firered_gc_music_disc": "Fire Red Game Corner Music Disc",
+  "item.casinorocket.firered_gc_music_disc.desc": "Pokémon Fire Red Game Corner - Game Freak",
+  "item.casinorocket.heartgold_gc_music_disc": "HeartGold Game Corner Music Disc",
+  "item.casinorocket.heartgold_gc_music_disc.desc": "Pokémon HeartGold Game Corner - Game Freak",
+  "item.casinorocket.emerald_gc_music_disc": "Emerald Game Corner Music Disc",
+  "item.casinorocket.emerald_gc_music_disc.desc": "Pokémon Emerald Game Corner - Game Freak",
+  "item.casinorocket.platinum_gc_music_disc": "Platinum Game Corner Music Disc",
+  "item.casinorocket.platinum_gc_music_disc.desc": "Pokémon Platinum Game Corner - Game Freak",
 
   "button.casinorocket.bet": "Bet",
   "button.casinorocket.withdraw": "Withdraw",
@@ -154,16 +187,27 @@
   "button.casinorocket.finish": "Finish game",
   "button.casinorocket.double_or_nothing": "Double or nothing",
 
+  "gui.casinorocket.slot_machine": "Slot Machine",
   "gui.casinorocket.slot_machine.settings_bet_amount": "Bet per spin:",
   "gui.casinorocket.slot_machine.settings_lines": "Lines to play:",
   "gui.casinorocket.slot_machine.settings_one_line": "x1 Line",
   "gui.casinorocket.slot_machine.settings_three_lines": "x3 Lines",
   "gui.casinorocket.slot_machine.settings_five_lines": "x5 Lines",
+  "gui.casinorocket.slot_machine.esc": "§cYou must wait for the current spin to end!",
 
+  "gui.casinorocket.blackjack_table": "Blackjack Table",
   "gui.casinorocket.blackjack_table.bet_amount": "Bet Amount",
   "gui.casinorocket.blackjack_table.dealers_hand": "Dealer's Hand: %s",
   "gui.casinorocket.blackjack_table.players_hand": "Player's Hand: %s",
   "gui.casinorocket.blackjack_table.balance": "Balance",
-  "gui.casinorocket.blackjack_table.last_win": "Last Win"
+  "gui.casinorocket.blackjack_table.last_win": "Last Win",
+  "gui.casinorocket.blackjack.win": "You win!",
+  "gui.casinorocket.blackjack.lose": "You lose",
+  "gui.casinorocket.blackjack.draw": "Draw",
+  "gui.casinorocket.blackjack.esc": "§cYou must finish the current game before closing the GUI!",
+  "gui.casinorocket.chip_table": "Chip Table",
+  "gui.casinorocket.wallet": "Wallet",
+
+  "entity.minecraft.villager.casino_worker": "Casino Worker"
 
 }

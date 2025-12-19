@@ -5,7 +5,7 @@
 	"textures": {
         "0": "casinorocket:block/slot_machine_lower",
         "1": "casinorocket:block/slot_machine_upper",
-        "particle": "casinorocket:block/slot_machine_lower"
+        "particle": "casinorocket:block/slot_machine_particle"
 	},
     "ambientocclusion": false,
 	"elements": [

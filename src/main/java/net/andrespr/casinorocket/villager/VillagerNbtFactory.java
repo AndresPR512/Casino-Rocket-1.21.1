@@ -34,6 +34,10 @@ public final class VillagerNbtFactory {
         root.putBoolean("NoAI", true);
         root.putBoolean("PersistenceRequired", true);
 
+        // CasinoRocket
+        root.putInt("casinorocket.LookPlayer", 1);
+        root.putFloat("casinorocket.IdleYaw", 0f);
+
         // JobPos Memories
         if (jobPos != null) {
             NbtCompound brain = new NbtCompound();

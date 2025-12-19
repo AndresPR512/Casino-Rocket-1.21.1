@@ -125,4 +125,9 @@ public class GachaponUtils {
         return CACHE.keySet();
     }
 
+    public static boolean hasValidPool(String poolKey) {
+        CachedPool pool = CACHE.get(poolKey);
+        return pool != null && !pool.entries().isEmpty() && pool.totalWeight() > 0;
+    }
+
 }

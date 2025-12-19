@@ -1,8 +1,11 @@
 package net.andrespr.casinorocket.screen.widget;
 
+import net.andrespr.casinorocket.sound.ModSounds;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.sound.SoundManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -44,6 +47,11 @@ public class CommonButton extends ButtonWidget {
         context.drawCenteredTextWithShadow(MinecraftClient.getInstance().textRenderer,
                 this.getMessage(), centerX, centerY, color);
 
+    }
+
+    @Override
+    public void playDownSound(SoundManager soundManager) {
+        soundManager.play(PositionedSoundInstance.master(ModSounds.BUTTON, 1.0F));
     }
 
 }

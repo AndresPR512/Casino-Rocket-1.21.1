@@ -3,10 +3,9 @@ package net.andrespr.casinorocket.command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import net.andrespr.casinorocket.data.GachaDataStorage;
-import net.andrespr.casinorocket.data.GachaStats;
 import net.andrespr.casinorocket.games.gachapon.GachaMachinesUtils;
 import net.andrespr.casinorocket.games.gachapon.GachaponUtils;
+import net.andrespr.casinorocket.games.gachapon.PlushiesGachaponUtils;
 import net.andrespr.casinorocket.games.gachapon.PokemonGachaponUtils;
 import net.andrespr.casinorocket.util.CommandUtils;
 import net.minecraft.server.MinecraftServer;
@@ -41,6 +40,9 @@ public final class GachaponCommands {
                                         })
                                         .executes(GachaponCommands::executeRatesForPokemon)
                                 )
+                        )
+                        .then(CommandManager.literal("plushies")
+                                .executes(GachaponCommands::executeRatesForPlushies)
                         )
                         .then(CommandManager.literal("machine")
                                 .then(CommandManager.literal("base")
@@ -180,6 +182,13 @@ public final class GachaponCommands {
         if (sender == null) return 0;
         Text response = GachaMachinesUtils.clearAllGachaData(Objects.requireNonNull(sender.getServer()), true, sender);
         sender.sendMessage(response, false);
+        return 1;
+    }
+
+    private static int executeRatesForPlushies(CommandContext<ServerCommandSource> context) {
+        ServerPlayerEntity player = getPlayer(context);
+        if (player == null) return 0;
+        player.sendMessage(PlushiesGachaponUtils.getRates(), false);
         return 1;
     }
 

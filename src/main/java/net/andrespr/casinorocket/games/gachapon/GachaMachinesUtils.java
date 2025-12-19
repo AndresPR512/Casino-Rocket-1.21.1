@@ -460,6 +460,122 @@ public class GachaMachinesUtils {
         };
     }
 
+    // === EVENT GACHAPON ===
+    public static ActionResult handleEventUse(World world, BlockPos pos, PlayerEntity player) {
+        if (world.isClient) return ActionResult.SUCCESS;
+
+        final long currentTick = world.getTime();
+
+        PLAYER_COOLDOWNS.object2LongEntrySet().removeIf(e -> currentTick > e.getLongValue());
+
+        long playerCooldownEnd = PLAYER_COOLDOWNS.getLong(player.getUuid());
+        if (currentTick < playerCooldownEnd) {
+            CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.gacha_machines_occupied", true);
+            return ActionResult.FAIL;
+        }
+
+        PLAYER_COOLDOWNS.put(player.getUuid(), currentTick + DELAY_TICKS);
+        LAST_PLAYER_USED.put(pos, player.getUuid());
+
+        world.playSound(null, pos, ModSounds.INSERTING_COIN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        world.scheduleBlockTick(pos, world.getBlockState(pos).getBlock(), DELAY_TICKS);
+        CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.gacha_machines_coin_inserted", false);
+
+        return ActionResult.SUCCESS;
+    }
+
+    public static void finishEventDispense(ServerWorld world, BlockPos pos, Direction facing) {
+        UUID uuid = LAST_PLAYER_USED.remove(pos);
+        PlayerEntity user = uuid != null ? world.getPlayerByUuid(uuid) : null;
+
+        if (user == null) return;
+
+        boolean pokemon = world.random.nextBoolean();
+        boolean hasItems = GachaponUtils.hasValidPool("event");
+        boolean hasPokemon = PokemonGachaponUtils.hasValidPool("event");
+
+        if (pokemon && !hasPokemon) pokemon = false;
+        if (!pokemon && !hasItems) pokemon = true;
+
+        ItemStack reward = pokemon ? new ItemStack(ModItems.POKEMON_EVENT_GACHAPON) : new ItemStack(ModItems.EVENT_GACHAPON);
+
+        // === FORCE RARE EFFECTS ===
+        spawnRarityParticles(world, pos, "rare");
+        playRaritySound(world, pos, "rare");
+        spawnFireworkByRarity(world, pos, "rare");
+        dropFromFront(world, pos, facing, reward);
+
+        CasinoRocketLogger.toPlayerTranslated(user, "message.casinorocket.gacha_machines_reward", true, reward.getName());
+
+        long nextAvailable = world.getTime() + getRarityDelayTicks("rare");
+        PLAYER_COOLDOWNS.put(user.getUuid(), nextAvailable);
+    }
+
+    // === PLUSHIES ===
+    public static ActionResult handlePlushiesUse(World world, BlockPos pos, PlayerEntity player) {
+        if (world.isClient) return ActionResult.SUCCESS;
+
+        final long currentTick = world.getTime();
+
+        PLAYER_COOLDOWNS.object2LongEntrySet().removeIf(e -> currentTick > e.getLongValue());
+
+        UUID currentUser = LAST_PLAYER_USED.get(pos);
+        if (currentUser != null && !currentUser.equals(player.getUuid())) {
+            CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.gacha_machines_another_occupied", true);
+            return ActionResult.FAIL;
+        }
+
+        LAST_MACHINE_USED.put(player.getUuid(), pos);
+
+        long playerCooldownEnd = PLAYER_COOLDOWNS.getLong(player.getUuid());
+        if (currentTick < playerCooldownEnd) {
+            BlockPos lastUsed = LAST_MACHINE_USED.get(player.getUuid());
+            if (lastUsed != null && lastUsed.equals(pos)) {
+                CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.gacha_machines_occupied", true);
+            } else {
+                CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.gacha_machines_another_occupied", true);
+            }
+            return ActionResult.FAIL;
+        }
+
+        PLAYER_COOLDOWNS.put(player.getUuid(), currentTick + DELAY_TICKS);
+        LAST_PLAYER_USED.put(pos, player.getUuid());
+
+        world.playSound(null, pos, ModSounds.INSERTING_COIN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        world.scheduleBlockTick(pos, world.getBlockState(pos).getBlock(), DELAY_TICKS);
+        CasinoRocketLogger.toPlayerTranslated(player, "message.casinorocket.gacha_machines_coin_inserted", false);
+
+        return ActionResult.SUCCESS;
+    }
+
+    public static void finishPlushiesDispense(ServerWorld world, BlockPos pos, Direction facing) {
+
+        final long currentTick = world.getTime();
+
+        UUID uuid = LAST_PLAYER_USED.remove(pos);
+        PlayerEntity user = uuid != null ? world.getPlayerByUuid(uuid) : null;
+        if (user == null) return;
+
+        ItemStack reward = PlushiesGachaponUtils.pickPlushie(world.getRandom());
+        if (reward.isEmpty()) {
+            CasinoRocketLogger.toPlayerTranslated(user, "message.casinorocket.item_gachapon_empty", true);
+            CasinoRocket.LOGGER.warn("[PlushiesMachine] No valid plushies in config (or total weight 0).");
+            return;
+        }
+
+        spawnRarityParticles(world, pos, "rare");
+        playRaritySound(world, pos, "rare");
+        spawnFireworkByRarity(world, pos, "rare");
+        dropFromFront(world, pos, facing, reward);
+
+        CasinoRocketLogger.toPlayerTranslated(user, "message.casinorocket.gacha_machines_reward", true, reward.getName());
+
+        long nextAvailable = currentTick + getRarityDelayTicks("rare");
+        PLAYER_COOLDOWNS.put(user.getUuid(), nextAvailable);
+        LAST_MACHINE_USED.put(user.getUuid(), pos);
+
+    }
+
     // ===== HELPERS =====
 
     public static void dropFromFront(World world, BlockPos pos, Direction facing, ItemStack stack) {

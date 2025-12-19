@@ -1,10 +1,7 @@
 package net.andrespr.casinorocket.block;
 
 import net.andrespr.casinorocket.CasinoRocket;
-import net.andrespr.casinorocket.block.custom.BlackjackTableBlock;
-import net.andrespr.casinorocket.block.custom.GachaMachineBlock;
-import net.andrespr.casinorocket.block.custom.PokemonGachaMachineBlock;
-import net.andrespr.casinorocket.block.custom.SlotMachineBlock;
+import net.andrespr.casinorocket.block.custom.*;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.item.BlockItem;
@@ -175,6 +172,24 @@ public class ModBlocks {
             )
     );
 
+    public static final Block PLUSHIES_GACHA_MACHINE = registerBlock("plushies_gacha_machine",
+            new PlushiesGachaMachineBlock(AbstractBlock.Settings.create()
+                    .strength(-1.0F, 3600000.0F)
+                    .dropsNothing()
+                    .allowsSpawning(Blocks::never)
+                    .nonOpaque()
+            )
+    );
+
+    public static final Block EVENT_GACHA_MACHINE = registerBlock("event_gacha_machine",
+            new EventGachaMachineBlock(AbstractBlock.Settings.create()
+                    .strength(-1.0F, 3600000.0F)
+                    .dropsNothing()
+                    .allowsSpawning(Blocks::never)
+                    .nonOpaque()
+            )
+    );
+
     public static final Block SLOT_MACHINE = registerBlock("slot_machine",
             new SlotMachineBlock(AbstractBlock.Settings.create()
                     .strength(-1.0F, 3600000.0F)
@@ -187,6 +202,15 @@ public class ModBlocks {
 
     public static final Block BLACKJACK_TABLE = registerBlock("blackjack_table",
             new BlackjackTableBlock(AbstractBlock.Settings.create()
+                    .strength(-1.0F, 3600000.0F)
+                    .dropsNothing()
+                    .allowsSpawning(Blocks::never)
+                    .nonOpaque()
+            )
+    );
+
+    public static final Block CHIP_TABLE = registerBlock("chip_table",
+            new ChipTableBlock(AbstractBlock.Settings.create()
                     .strength(-1.0F, 3600000.0F)
                     .dropsNothing()
                     .allowsSpawning(Blocks::never)

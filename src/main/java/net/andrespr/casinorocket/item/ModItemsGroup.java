@@ -33,6 +33,8 @@ public class ModItemsGroup {
                         entries.add(ModItems.IRON_COIN);
                         entries.add(ModItems.GOLD_COIN);
                         entries.add(ModItems.DIAMOND_COIN);
+                        entries.add(ModItems.EVENT_COIN);
+                        entries.add(ModItems.PRIMOGEM);
                         // GACHAPON
                         entries.add(ModItems.POKE_GACHAPON);
                         entries.add(ModItems.GREAT_GACHAPON);
@@ -40,12 +42,13 @@ public class ModItemsGroup {
                         entries.add(ModItems.MASTER_GACHAPON);
                         entries.add(ModItems.CHERISH_GACHAPON);
                         entries.add(ModItems.PREMIER_GACHAPON);
+                        entries.add(ModItems.EVENT_GACHAPON);
                         entries.add(ModItems.POKEMON_POKE_GACHAPON);
                         entries.add(ModItems.POKEMON_GREAT_GACHAPON);
                         entries.add(ModItems.POKEMON_ULTRA_GACHAPON);
                         entries.add(ModItems.POKEMON_MASTER_GACHAPON);
                         entries.add(ModItems.POKEMON_CHERISH_GACHAPON);
-                        entries.add(ModItems.POKEMON_PREMIER_GACHAPON);
+                        entries.add(ModItems.POKEMON_EVENT_GACHAPON);
                         // BILLS
                         entries.add(ModItems.BILL_10);
                         entries.add(ModItems.BILL_50);
@@ -61,17 +64,13 @@ public class ModItemsGroup {
                         entries.add(ModItems.BILL_1M);
                         entries.add(ModItems.BILL_10M);
                         entries.add(ModItems.BILL_100M);
-                        // POKEMON PINS
-                        entries.add(ModItems.LITWICK_PIN);
-                        entries.add(ModItems.STARYU_PIN);
-                        entries.add(ModItems.BELLSPROUT_PIN);
-                        entries.add(ModItems.TYROGUE_PIN);
-                        entries.add(ModItems.SCYTHER_PIN);
-                        entries.add(ModItems.EEVEE_PIN);
-                        entries.add(ModItems.DRATINI_PIN);
-                        entries.add(ModItems.ROTOM_PIN);
-                        entries.add(ModItems.DITTO_PIN);
-                        entries.add(ModItems.PORYGON_PIN);
+                        // WALLET
+                        entries.add(ModItems.WALLET);
+                        // DISCS
+                        entries.add(ModItems.FIRERED_GC_MUSIC_DISC);
+                        entries.add(ModItems.HEARTGOLD_GC_MUSIC_DISC);
+                        entries.add(ModItems.EMERALD_GC_MUSIC_DISC);
+                        entries.add(ModItems.PLATINUM_GC_MUSIC_DISC);
                     }).build());
 
     public static final ItemGroup CASINO_ROCKET_BLOCKS_GROUP = Registry.register(Registries.ITEM_GROUP,
@@ -116,10 +115,14 @@ public class ModItemsGroup {
                         // GACHA MACHINES
                         entries.add(ModBlocks.POKEMON_GACHA_MACHINE);
                         entries.add(ModBlocks.GACHA_MACHINE);
+                        entries.add(ModBlocks.PLUSHIES_GACHA_MACHINE);
+                        entries.add(ModBlocks.EVENT_GACHA_MACHINE);
                         // SLOT MACHINE
                         entries.add(ModBlocks.SLOT_MACHINE);
                         // BLACKJACK TABLE
                         entries.add(ModBlocks.BLACKJACK_TABLE);
+                        // CHIP TABLE
+                        entries.add(ModBlocks.CHIP_TABLE);
                     }).build());
 
     public static void registerItemGroups() {

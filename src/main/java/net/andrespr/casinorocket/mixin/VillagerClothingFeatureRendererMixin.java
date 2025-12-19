@@ -1,7 +1,6 @@
 package net.andrespr.casinorocket.mixin;
 
 import net.andrespr.casinorocket.CasinoRocket;
-import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.SuitData;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.VillagerClothingFeatureRenderer;

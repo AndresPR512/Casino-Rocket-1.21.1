@@ -1,0 +1,8 @@
+{
+  "comparator_output": 15,
+  "description": {
+    "translate": "item.casinorocket.platinum_gc_music_disc.desc"
+  },
+  "length_in_seconds": 84.440,
+  "sound_event": "casinorocket:platinum_gc"
+}

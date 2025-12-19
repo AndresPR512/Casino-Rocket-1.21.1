@@ -2,6 +2,7 @@ package net.andrespr.casinorocket.util;
 
 import net.minecraft.util.Formatting;
 
+import java.text.NumberFormat;
 import java.util.Locale;
 
 public class TextUtils {
@@ -97,15 +98,27 @@ public class TextUtils {
         return null;
     }
 
-
     public static String formatCompactNoDecimal(long number) {
-        if (number >= 1_000_000_000_000_000_000L) return number / 1_000_000_000_000_000_000L + "Qi";
-        if (number >= 1_000_000_000_000_000L) return number / 1_000_000_000_000_000L + "Q";
-        if (number >= 1_000_000_000_000L) return number / 1_000_000_000_000L + "T";
-        if (number >= 1_000_000_000) return number / 1_000_000_000 + "B";
-        if (number >= 1_000_000) return number / 1_000_000 + "M";
-        if (number >= 1_000) return number / 1_000 + "K";
-        return String.valueOf(number);
+        NumberFormat nf = NumberFormat.getInstance(Locale.US);
+        nf.setGroupingUsed(true);
+        nf.setMaximumFractionDigits(0);
+
+        if (number >= 1_000_000_000_000_000_000L)
+            return nf.format(number / 1_000_000_000_000_000L) + "Q";
+
+        if (number >= 1_000_000_000_000_000L)
+            return nf.format(number / 1_000_000_000_000L) + "T";
+
+        if (number >= 1_000_000_000_000L)
+            return nf.format(number / 1_000_000_000L) + "B";
+
+        if (number >= 1_000_000_000)
+            return nf.format(number / 1_000_000L) + "M";
+
+        if (number >= 1_000_000)
+            return nf.format(number / 1_000L) + "K";
+
+        return nf.format(number);
     }
 
     public static Formatting percentagesColor(double percentage) {

@@ -18,6 +18,8 @@ public final class GachaDealerShops implements IShop {
         VillagerTradeHelper.makeCoinOffer(coinOffers, ModItems.IRON_COIN);
         VillagerTradeHelper.makeCoinOffer(coinOffers, ModItems.GOLD_COIN);
         VillagerTradeHelper.makeCoinOffer(coinOffers, ModItems.DIAMOND_COIN);
+        VillagerTradeHelper.makeCoinOffer(coinOffers, ModItems.EVENT_COIN);
+        VillagerTradeHelper.makeCoinOffer(coinOffers, ModItems.PRIMOGEM);
         shops.add(VillagerTradeHelper.makeShopCompound("Gacha Coins", coinOffers));
 
         if (CasinoRocket.CONFIG.gachaMachines.gacha_store.gachapon_store.enableItemGachaponStore) {

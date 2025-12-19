@@ -177,6 +177,7 @@ public class ItemGachaponConfig implements ConfigData {
                     new GachaEntry("cobblemon:choice_band", 1, 7),
                     new GachaEntry("cobblemon:choice_scarf", 1, 7),
                     new GachaEntry("cobblemon:choice_specs", 1, 7),
+                    new GachaEntry("obc:bottle_cap", 1, 7),
                     new GachaEntry("cobblemon:leftovers", 2, 8),
                     new GachaEntry("cobblemon:focus_sash", 2, 8),
                     new GachaEntry("cobblemon:assault_vest", 1, 8),
@@ -205,7 +206,8 @@ public class ItemGachaponConfig implements ConfigData {
                     new GachaEntry("minecraft:nether_star", 2, 3),
                     new GachaEntry("minecraft:netherite_ingot", 2, 3),
                     new GachaEntry("minecraft:diamond", 8, 6),
-                    new GachaEntry("brendons_bottlecaps:goldencap", 1, 4),
+                    new GachaEntry("obc:bottle_cap", 3, 6),
+                    new GachaEntry("obc:bottle_cap_gold", 1, 4),
                     new GachaEntry("minecraft:heavy_core", 1, 2),
                     new GachaEntry("minecraft:trident", 1, 2)
             ));
@@ -245,6 +247,10 @@ public class ItemGachaponConfig implements ConfigData {
                     new GachaEntry("casinorocket:iron_coin", 2, 8),
                     new GachaEntry("casinorocket:gold_coin", 1, 2),
                     new GachaEntry("casinorocket:diamond_coin", 1, 1)
+            ));
+
+            pools.put("event", List.of(
+                    // ONLY FOR EVENTS
             ));
 
         }

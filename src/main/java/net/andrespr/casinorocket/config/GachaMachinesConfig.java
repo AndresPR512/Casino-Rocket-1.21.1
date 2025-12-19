@@ -101,7 +101,7 @@ public class GachaMachinesConfig implements ConfigData {
     public static class GachaStore implements ConfigData {
 
         @CollapsibleObject
-        public CoinPrices coin_prices = new CoinPrices(1_000, 10_000, 100_000, 500_000);
+        public CoinPrices coin_prices = new CoinPrices(1_000, 10_000, 100_000, 500_000, 50_000, 50_000);
         @CollapsibleObject
         public GachaponStoreConfig gachapon_store = new GachaponStoreConfig();
 
@@ -110,13 +110,17 @@ public class GachaMachinesConfig implements ConfigData {
             public int iron;
             public int gold;
             public int diamond;
+            public int event;
+            public int primogem;
 
             public CoinPrices() {}
-            public CoinPrices(int copper, int iron, int gold, int diamond) {
+            public CoinPrices(int copper, int iron, int gold, int diamond, int event, int primogem) {
                 this.copper = copper;
                 this.iron = iron;
                 this.gold = gold;
                 this.diamond = diamond;
+                this.event = event;
+                this.primogem = primogem;
             }
         }
 
@@ -196,6 +200,8 @@ public class GachaMachinesConfig implements ConfigData {
             case "casinorocket:iron_coin" -> gacha_store.coin_prices.iron;
             case "casinorocket:gold_coin" -> gacha_store.coin_prices.gold;
             case "casinorocket:diamond_coin" -> gacha_store.coin_prices.diamond;
+            case "casinorocket:event_coin" -> gacha_store.coin_prices.event;
+            case "casinorocket:primogem" -> gacha_store.coin_prices.primogem;
             default -> 1_000;
         };
         return String.valueOf(coinValue);

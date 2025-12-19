@@ -17,14 +17,14 @@ public final class CasinoRocketCommands {
 
         LiteralArgumentBuilder<ServerCommandSource> root = CommandManager.literal("casinorocket");
 
-        // Registering SpawnCasinoWorkersCommand
-        root.then(SpawnWorkersCommand.buildSubcommand(registryAccess));
-        // Registering SetSuitCommand
-        root.then(SetSuitCommand.buildSubcommand());
+        // Registering VillagerCommands
+        root.then(VillagerCommands.buildSubcommand());
         // Registering GachaponCommands
         root.then(GachaponCommands.buildSubcommand());
         // Registering SlotsCommands
         root.then(SlotMachineCommands.buildSubcommand());
+        // Registering BlackjackCommands
+        root.then(BlackjackCommands.buildSubcommand());
 
         dispatcher.register(root);
     }

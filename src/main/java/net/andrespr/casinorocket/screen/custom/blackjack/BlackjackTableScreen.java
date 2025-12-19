@@ -12,6 +12,8 @@ import net.andrespr.casinorocket.screen.custom.CasinoMachineScreen;
 import net.andrespr.casinorocket.screen.widget.CommonButton;
 import net.andrespr.casinorocket.screen.widget.ModButtons;
 import net.andrespr.casinorocket.screen.widget.SlotButton;
+import net.andrespr.casinorocket.sound.ModSounds;
+import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.TextUtils;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
@@ -44,6 +46,12 @@ public class BlackjackTableScreen extends CasinoMachineScreen<BlackjackTableScre
     private String dealerValueText = "";
 
     private boolean canPlay, canHit, canStand, canDoubleDown, canFinish, canDoubleOrNothing;
+
+    // --- RESULT CONTROL ---
+    private int lastSeenResultId = -1;
+    private Text resultText = null;
+    private int resultColor = 0xFFFFFF;
+    private int resultTicks = 0;
 
     public BlackjackTableScreen(BlackjackTableScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -91,6 +99,9 @@ public class BlackjackTableScreen extends CasinoMachineScreen<BlackjackTableScre
     // === BUTTONS ===
     private void sendAction(BlackjackAction action) {
         if (client == null || client.player == null) return;
+
+        if (action == BlackjackAction.HIT) client.player.playSound(ModSounds.CARD, 1.0f, 1.0f);
+
         ClientPlayNetworking.send(new BlackjackActionC2SPayload(
                 this.handler.getMachinePos(), this.handler.getMachineKey(), action));
     }
@@ -107,8 +118,8 @@ public class BlackjackTableScreen extends CasinoMachineScreen<BlackjackTableScre
         }
     }
 
-    // === APPLY STATE (S2C) ===
     public void applyState(SendBlackjackStateS2CPayload p) {
+
         this.balance = p.balance();
         this.betIndex = p.betIndex();
         this.currentBet = p.currentBet();
@@ -130,6 +141,25 @@ public class BlackjackTableScreen extends CasinoMachineScreen<BlackjackTableScre
         this.canDoubleOrNothing = p.canDoubleOrNothing();
 
         updateButtons();
+
+        if (lastSeenResultId == -1) {
+            lastSeenResultId = p.resultId();
+        } else if (p.resultId() != lastSeenResultId) {
+            lastSeenResultId = p.resultId();
+            showResultText(p.resolvedBet(), p.resolvedPayout());
+            playResultSound(p.resolvedBet(), p.resolvedPayout());
+        }
+
+    }
+
+    // === TICK ===
+    @Override
+    public void handledScreenTick() {
+        super.handledScreenTick();
+        if (resultTicks > 0) {
+            resultTicks--;
+            if (resultTicks == 0) resultText = null;
+        }
     }
 
     // === DRAW BACKGROUND ===
@@ -166,8 +196,11 @@ public class BlackjackTableScreen extends CasinoMachineScreen<BlackjackTableScre
                 15, 209, 64, 216, 0xFFFFFF);
         // Last Win
         drawCenteredTextInBox(ctx, Text.translatable("gui.casinorocket.blackjack_table.last_win").getString(),
-                130, 209, 179, 216, 0xFFFFFF
-        );
+                130, 209, 179, 216, 0xFFFFFF);
+        // Result text
+        if (resultText != null && resultTicks > 0) {
+            drawCenteredTextInBox(ctx, resultText.getString(), 49, 131, 116, 138, resultColor);
+        }
 
         // ===== VALUES =====
         drawNumericValues(ctx);
@@ -190,11 +223,12 @@ public class BlackjackTableScreen extends CasinoMachineScreen<BlackjackTableScre
     // === BLOCK ESC / CLOSE SCREEN ===
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (isBusy()) {
+        if (isBusy() && client != null && client.player != null) {
             if (keyCode == 256 /* GLFW.GLFW_KEY_ESCAPE */) {
+                CasinoRocketLogger.toPlayerTranslated(client.player, "gui.casinorocket.blackjack.esc", true);
                 return true;
             }
-            if (client != null && client.options != null && client.options.inventoryKey.matchesKey(keyCode, scanCode)) {
+            if (client.options != null && client.options.inventoryKey.matchesKey(keyCode, scanCode)) {
                 return true;
             }
         }
@@ -203,7 +237,9 @@ public class BlackjackTableScreen extends CasinoMachineScreen<BlackjackTableScre
 
     @Override
     public void close() {
-        if (isBusy()) return;
+        if (isBusy()) {
+            return;
+        }
         super.close();
     }
 
@@ -360,6 +396,23 @@ public class BlackjackTableScreen extends CasinoMachineScreen<BlackjackTableScre
         plusButton.setForcedPressed(betIndex == max);
     }
 
+    // === SOUND ===
+    private void playResultSound(long resolvedBet, long resolvedPayout) {
+        if (client == null || client.player == null) return;
+
+        if (resolvedPayout > resolvedBet) {
+            client.player.playSound(ModSounds.WIN, 1.0f, 1.0f);
+            return;
+        }
+
+        if (resolvedPayout == resolvedBet && resolvedBet > 0) {
+            client.player.playSound(ModSounds.DRAW, 1.0f, 1.0f);
+            return;
+        }
+
+        client.player.playSound(ModSounds.LOSE, 1.0f, 1.0f);
+    }
+
     // === TEXT ===
     private void drawCenteredTextInBox(DrawContext ctx, String text,
                                        int x1, int y1, int x2, int y2, int color) {
@@ -387,6 +440,21 @@ public class BlackjackTableScreen extends CasinoMachineScreen<BlackjackTableScre
         long betAmount = BlackjackRules.BET_VALUES.get(betIndex);
         boolean insufficientBalance = betAmount > balance;
         return insufficientBalance ? 0xFF5555 : 0x00FF00;
+    }
+
+    private void showResultText(long bet, long payout) {
+        if (payout > bet) {
+            resultText = Text.translatable("gui.casinorocket.blackjack.win");
+            resultColor = 0xFFFFFF;
+        } else if (payout == bet && bet > 0) {
+            resultText = Text.translatable("gui.casinorocket.blackjack.draw");
+            resultColor = 0xAAAAAA;
+        } else {
+            resultText = Text.translatable("gui.casinorocket.blackjack.lose");
+            resultColor = 0xFF5555;
+        }
+
+        resultTicks = 40;
     }
 
 }

@@ -329,6 +329,10 @@ public class PokemonGachaponConfig implements ConfigData {
                     new GachaEntry("spheal", 10, 15,"default", 3),
                     new GachaEntry("spiritomb", 10, 15,"default", 1)
             ));
+
+            pools.put("event", List.of(
+                    // ONLY FOR EVENTS
+            ));
         }
 
         for (List<GachaEntry> entries : pools.values()) {

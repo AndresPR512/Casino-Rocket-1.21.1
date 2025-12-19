@@ -24,7 +24,7 @@ public final class CashierShops implements IShop {
         VillagerTradeHelper.makeChipToMoneyOffer(chipOffers, ModItems.NETHERITE_CHIP);
         NbtCompound offers = VillagerTradeHelper.makeVanillaShopCompound(chipOffers);
 
-        return new VillagerTradeHelper.ShopData(new NbtList(), "minecraft:librarian", 2, "minecraft:lectern").withOffers(offers);
+        return new VillagerTradeHelper.ShopData(new NbtList(), "casinorocket:casino_worker", 2, "casinorocket:chip_table").withOffers(offers);
 
     }
 

@@ -19,6 +19,11 @@ public record SendBlackjackStateS2CPayload(
 
         BlackjackPhase phase,
         long winPayout,
+        int resultSeq,
+
+        int resultId,
+        long resolvedBet,
+        long resolvedPayout,
 
         boolean dealerHoleRevealed,
         int[] playerCards,
@@ -52,9 +57,13 @@ public record SendBlackjackStateS2CPayload(
 
         buf.writeEnumConstant(p.phase());
         buf.writeLong(p.winPayout());
+        buf.writeVarInt(p.resultSeq());
+
+        buf.writeVarInt(p.resultId());
+        buf.writeLong(p.resolvedBet());
+        buf.writeLong(p.resolvedPayout());
 
         buf.writeBoolean(p.dealerHoleRevealed());
-
         writeIntArray(buf, p.playerCards());
         writeIntArray(buf, p.dealerCards());
 
@@ -79,9 +88,13 @@ public record SendBlackjackStateS2CPayload(
 
         BlackjackPhase phase = buf.readEnumConstant(BlackjackPhase.class);
         long winPayout = buf.readLong();
+        int resultSeq = buf.readVarInt();
+
+        int resultId = buf.readVarInt();
+        long resolvedBet = buf.readLong();
+        long resolvedPayout = buf.readLong();
 
         boolean revealed = buf.readBoolean();
-
         int[] playerCards = readIntArray(buf);
         int[] dealerCards = readIntArray(buf);
 
@@ -98,7 +111,8 @@ public record SendBlackjackStateS2CPayload(
         return new SendBlackjackStateS2CPayload(
                 pos, key,
                 balance, betIndex, currentBet,
-                phase, winPayout,
+                phase, winPayout, resultSeq,
+                resultId, resolvedBet, resolvedPayout,
                 revealed, playerCards, dealerCards,
                 playerText, dealerText,
                 canPlay, canHit, canStand, canDoubleDown, canFinish, canDoN

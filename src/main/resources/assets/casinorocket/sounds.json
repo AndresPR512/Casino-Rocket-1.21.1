@@ -58,5 +58,79 @@
       "sounds": [
           "casinorocket:jackpot"
       ]
+    },
+    "wallet": {
+      "subtitle": "sounds.casinorocket.wallet",
+      "sounds": [
+          "casinorocket:wallet"
+      ]
+    },
+    "wallet2": {
+      "subtitle": "sounds.casinorocket.wallet2",
+      "sounds": [
+          "casinorocket:wallet2"
+      ]
+    },
+    "win": {
+      "subtitle": "sounds.casinorocket.win",
+      "sounds": [
+          "casinorocket:win"
+      ]
+    },
+    "draw": {
+      "subtitle": "sounds.casinorocket.draw",
+      "sounds": [
+          "casinorocket:draw"
+      ]
+    },
+    "lose": {
+      "subtitle": "sounds.casinorocket.lose",
+      "sounds": [
+          "casinorocket:lose"
+      ]
+    },
+    "card": {
+      "subtitle": "sounds.casinorocket.card",
+      "sounds": [
+          "casinorocket:card"
+      ]
+    },
+    "button": {
+      "subtitle": "sounds.casinorocket.button",
+      "sounds": [
+          "casinorocket:button"
+      ]
+    },
+    "firered_gc": {
+      "sounds": [
+        {
+          "name": "casinorocket:firered_gc",
+          "stream": true
+        }
+      ]
+    },
+    "heartgold_gc": {
+      "sounds": [
+        {
+          "name": "casinorocket:heartgold_gc",
+          "stream": true
+        }
+      ]
+    },
+    "emerald_gc": {
+      "sounds": [
+        {
+          "name": "casinorocket:emerald_gc",
+          "stream": true
+        }
+      ]
+    },
+    "platinum_gc": {
+      "sounds": [
+        {
+          "name": "casinorocket:platinum_gc",
+          "stream": true
+        }
+      ]
     }
 }

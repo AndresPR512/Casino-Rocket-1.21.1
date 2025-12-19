@@ -15,7 +15,9 @@ public abstract class EntityPersistentDataMixin implements IEntityDataSaver {
 
     private NbtCompound casinorocket$persistentData;
 
-    private static final String CASINO_KEY = "casinorocket.CustomSuit";
+    private static final String SUIT_KEY = "casinorocket.CustomSuit";
+    private static final String LOOK_KEY = "casinorocket.LookPlayer";
+    private static final String IDLE_YAW_KEY = "casinorocket.IdleYaw";
 
     @Override
     public NbtCompound getPersistentData() {
@@ -27,16 +29,29 @@ public abstract class EntityPersistentDataMixin implements IEntityDataSaver {
 
     @Inject(method = "writeNbt", at = @At("HEAD"))
     private void casinorocket$write(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
-        if (casinorocket$persistentData != null && casinorocket$persistentData.contains(CASINO_KEY)) {
-            nbt.putInt(CASINO_KEY, casinorocket$persistentData.getInt(CASINO_KEY));
+        if (casinorocket$persistentData == null) return;
+        if (casinorocket$persistentData.contains(SUIT_KEY)) {
+            nbt.putInt(SUIT_KEY, casinorocket$persistentData.getInt(SUIT_KEY));
+        }
+        if (casinorocket$persistentData.contains(LOOK_KEY)) {
+            nbt.putInt(LOOK_KEY, casinorocket$persistentData.getInt(LOOK_KEY));
+        }
+        if (casinorocket$persistentData.contains(IDLE_YAW_KEY)) {
+            nbt.putFloat(IDLE_YAW_KEY, casinorocket$persistentData.getFloat(IDLE_YAW_KEY));
         }
     }
 
     @Inject(method = "readNbt", at = @At("HEAD"))
     private void casinorocket$read(NbtCompound nbt, CallbackInfo ci) {
         casinorocket$persistentData = new NbtCompound();
-        if (nbt.contains(CASINO_KEY)) {
-            casinorocket$persistentData.putInt(CASINO_KEY, nbt.getInt(CASINO_KEY));
+        if (nbt.contains(SUIT_KEY)) {
+            casinorocket$persistentData.putInt(SUIT_KEY, nbt.getInt(SUIT_KEY));
+        }
+        if (nbt.contains(LOOK_KEY)) {
+            casinorocket$persistentData.putInt(LOOK_KEY, nbt.getInt(LOOK_KEY));
+        }
+        if (nbt.contains(IDLE_YAW_KEY)) {
+            casinorocket$persistentData.putFloat(IDLE_YAW_KEY, nbt.getFloat(IDLE_YAW_KEY));
         }
     }
 

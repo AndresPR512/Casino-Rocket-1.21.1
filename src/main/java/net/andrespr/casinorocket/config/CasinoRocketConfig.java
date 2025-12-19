@@ -23,4 +23,8 @@ public class CasinoRocketConfig extends PartitioningSerializer.GlobalData {
     @ConfigEntry.Gui.TransitiveObject
     public CasinoChipsConfig casinoChips = new CasinoChipsConfig();
 
+    @ConfigEntry.Category("plushies_gachapon")
+    @ConfigEntry.Gui.TransitiveObject
+    public PlushiesGachaponConfig plushiesGachapon = new PlushiesGachaponConfig();
+
 }

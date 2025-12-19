@@ -1,7 +1,7 @@
 {
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
-	"parent": "gacha_machine",
+	"parent": "casinorocket:gacha_machine",
 	"textures": {
 		"0": "casinorocket:block/pokemon_gacha_machine_ball_top",
 		"1": "casinorocket:block/gacha_machine_ball_middle",
@@ -10,7 +10,7 @@
 		"4": "casinorocket:block/gacha_machine_pokeball_prize",
 		"5": "casinorocket:block/gacha_machine_superball_prize",
 		"6": "casinorocket:block/gacha_machine_ultraball_prize",
-		"particle": "casinorocket:block/pokemon_gacha_machine_ball_top"
+		"particle": "casinorocket:block/pokemon_gacha_machine_particle"
 	},
 	"elements": [
 		{

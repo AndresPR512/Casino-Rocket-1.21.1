@@ -31,6 +31,7 @@ public final class ShopsRegistry {
         register(new BattleGearShops());
         register(new SnackmasterShops());
         register(new GachaDealerShops());
+        register(new BankerShops());
     }
 
 }

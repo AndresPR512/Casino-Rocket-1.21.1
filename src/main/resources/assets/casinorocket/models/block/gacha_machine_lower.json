@@ -1,10 +1,10 @@
 {
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
-	"parent": "gacha_machine",
+	"parent": "casinorocket:gacha_machine",
 	"textures": {
         "3": "casinorocket:block/gacha_machine_base",
-        "particle": "casinorocket:block/gacha_machine_ball_top"
+        "particle": "casinorocket:block/gacha_machine_particle"
 	},
 	"elements": [
 		{

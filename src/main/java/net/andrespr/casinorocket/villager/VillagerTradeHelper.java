@@ -1,6 +1,7 @@
 package net.andrespr.casinorocket.villager;
 
 import net.andrespr.casinorocket.CasinoRocket;
+import net.andrespr.casinorocket.item.custom.BillItem;
 import net.andrespr.casinorocket.item.custom.ChipItem;
 import net.andrespr.casinorocket.util.MoneyCalculator;
 import net.minecraft.item.Item;
@@ -106,6 +107,12 @@ public class VillagerTradeHelper {
         MoneyCalculator.MoneyResult result = MoneyCalculator.calculateDenomination(chip.getValue());
         String billId = Registries.ITEM.getId(result.billType()).toString();
         trades.add(makeVanillaOffer(chipId, 1, billId, result.amount()));
+    }
+
+    public static void makeInCashOffer(NbtList trades, BillItem bill) {
+        String billId = Registries.ITEM.getId(bill).toString();
+        String value = String.valueOf(bill.getValue());
+        trades.add(makeOffer(billId,value));
     }
 
     public static void makeListOffer(NbtList trades, List<String> entries, String modID, String price) {

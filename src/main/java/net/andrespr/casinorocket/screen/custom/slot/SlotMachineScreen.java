@@ -13,6 +13,7 @@ import net.andrespr.casinorocket.screen.opening.MouseRestore;
 import net.andrespr.casinorocket.screen.widget.ModButtons;
 import net.andrespr.casinorocket.screen.widget.SlotButton;
 import net.andrespr.casinorocket.sound.ModSounds;
+import net.andrespr.casinorocket.util.CasinoRocketLogger;
 import net.andrespr.casinorocket.util.TextUtils;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
@@ -402,11 +403,12 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
     // === BLOCK ESC / CLOSE SCREEN ===
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (isBusy()) {
+        if (isBusy() && client != null && client.player != null) {
             if (keyCode == 256 /* GLFW.GLFW_KEY_ESCAPE */) {
+                CasinoRocketLogger.toPlayerTranslated(client.player, "gui.casinorocket.slot_machine.esc", true);
                 return true;
             }
-            if (client != null && client.options != null && client.options.inventoryKey.matchesKey(keyCode, scanCode)) {
+            if (client.options != null && client.options.inventoryKey.matchesKey(keyCode, scanCode)) {
                 return true;
             }
         }

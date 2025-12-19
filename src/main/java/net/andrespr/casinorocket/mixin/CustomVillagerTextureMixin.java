@@ -3,16 +3,12 @@ package net.andrespr.casinorocket.mixin;
 import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.util.SuitData;
 import net.minecraft.client.render.entity.VillagerEntityRenderer;
-import net.minecraft.client.render.entity.feature.VillagerClothingFeatureRenderer;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.List;
 
 @Mixin(VillagerEntityRenderer.class)
 @SuppressWarnings("unused")

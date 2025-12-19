@@ -60,8 +60,7 @@ public class BlackjackTableBlock extends BlockWithEntity implements BlockEntityP
 
     // === INTERACTION ===
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos,
-                                 PlayerEntity player, BlockHitResult hit) {
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
 
             BlockEntity be = world.getBlockEntity(pos);
