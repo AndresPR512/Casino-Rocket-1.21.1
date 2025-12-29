@@ -8,6 +8,7 @@ import net.andrespr.casinorocket.block.entity.ModBlockEntities;
 import net.andrespr.casinorocket.command.CasinoRocketCommands;
 import net.andrespr.casinorocket.config.CasinoRocketConfig;
 import net.andrespr.casinorocket.games.gachapon.PlushiesGachaponUtils;
+import net.andrespr.casinorocket.games.slot.SlotReels;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.item.ModItemsGroup;
 import net.andrespr.casinorocket.network.CasinoRocketPackets;
@@ -35,6 +36,7 @@ public class CasinoRocket implements ModInitializer {
     public void onInitialize() {
         AutoConfig.register(CasinoRocketConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
         CONFIG = AutoConfig.getConfigHolder(CasinoRocketConfig.class).getConfig();
+        SlotReels.reloadFromConfig(CasinoRocket.CONFIG.slotMachine);
 
         ModItemsGroup.registerItemGroups();
         ModBlocks.registerModBlocks();

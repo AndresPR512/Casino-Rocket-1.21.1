@@ -1,12 +1,56 @@
 package net.andrespr.casinorocket.games.slot;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import net.andrespr.casinorocket.config.CasinoRocketConfig;
+import net.andrespr.casinorocket.config.SlotMachineConfig;
+
 import java.util.List;
 
 public final class SlotMachineConstants {
 
-    public static final List<Integer> BET_VALUES =
-            List.of(10, 20, 50, 100, 200, 500, 1_000, 5_000, 10_000, 25_000, 50_000, 100_000, 500_000, 1_000_000);
+    private static final List<Integer> FALLBACK_BET_VALUES =
+            List.of(10, 25, 50, 100, 250, 500, 1_000, 5_000, 10_000, 25_000, 50_000, 100_000, 250_000, 500_000, 1_000_000, 5_000_000);
 
     private SlotMachineConstants() {}
+
+    private static SlotMachineConfig cfg() {
+        CasinoRocketConfig root = AutoConfig.getConfigHolder(CasinoRocketConfig.class).getConfig();
+        return root.slotMachine;
+    }
+
+    public static List<Integer> betValues() {
+        try {
+            List<Integer> v = cfg().betValues;
+            return (v == null || v.isEmpty()) ? FALLBACK_BET_VALUES : v;
+        } catch (Exception e) {
+            return FALLBACK_BET_VALUES;
+        }
+    }
+
+    public static int defaultBetBase() {
+        List<Integer> v = betValues();
+        return v.isEmpty() ? 10 : v.getFirst();
+    }
+
+    public static int defaultLinesMode() {
+        return 1;
+    }
+
+    public static int getBetMultiplierForMode(int mode) {
+        try {
+            SlotMachineConfig c = cfg();
+            return switch (mode) {
+                case 2 -> Math.max(1, c.betMultipliers.mode2);
+                case 3 -> Math.max(1, c.betMultipliers.mode3);
+                default -> Math.max(1, c.betMultipliers.mode1);
+            };
+        } catch (Exception e) {
+            return switch (mode) {
+                case 2 -> 3;
+                case 3 -> 5;
+                default -> 1;
+            };
+        }
+    }
 
 }

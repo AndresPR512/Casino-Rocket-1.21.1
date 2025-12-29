@@ -1,5 +1,7 @@
 package net.andrespr.casinorocket.data;
 
+import net.andrespr.casinorocket.CasinoRocket;
+import net.andrespr.casinorocket.games.slot.SlotMachineConstants;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.RegistryWrapper;
@@ -29,6 +31,9 @@ public class PlayerSlotMachineData extends PersistentState {
     private final Map<UUID, Long> lastWin = new HashMap<>();
     private final Map<UUID, Long> totalSpent = new HashMap<>();
 
+    private static final int DATA_VERSION_CURRENT = 2; // súbelo cuando quieras forzar reset
+    private int dataVersion = DATA_VERSION_CURRENT;
+
     public static PlayerSlotMachineData get(MinecraftServer server) {
         PersistentStateManager manager = Objects.requireNonNull(server.getWorld(World.OVERWORLD)).getPersistentStateManager();
         PersistentState.Type<PlayerSlotMachineData> type = new PersistentState.Type<>(
@@ -38,6 +43,9 @@ public class PlayerSlotMachineData extends PersistentState {
 
     @Override
     public NbtCompound writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+
+        nbt.putInt("dataVersion", dataVersion);
+
         NbtCompound balTag = new NbtCompound();
         balances.forEach((uuid, val) -> balTag.putLong(uuid.toString(), val));
         nbt.put("balances", balTag);
@@ -75,6 +83,9 @@ public class PlayerSlotMachineData extends PersistentState {
 
     private static PlayerSlotMachineData readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         PlayerSlotMachineData data = new PlayerSlotMachineData();
+
+        int version = nbt.contains("dataVersion", NbtElement.INT_TYPE) ? nbt.getInt("dataVersion") : 0;
+        data.dataVersion = version;
 
         if (nbt.contains("balances", NbtElement.COMPOUND_TYPE)) {
             NbtCompound bal = nbt.getCompound("balances");
@@ -122,11 +133,30 @@ public class PlayerSlotMachineData extends PersistentState {
             t.getKeys().forEach(k -> { try { data.totalSpent.put(UUID.fromString(k), t.getLong(k)); } catch (Exception ignored) {}});
         }
 
+        if (version < DATA_VERSION_CURRENT) {
+            data.migrate(version);
+            data.dataVersion = DATA_VERSION_CURRENT;
+            data.markDirty();
+        }
+
         return data;
     }
 
-    @Override
-    public boolean isDirty() { return true; }
+    private void migrate(int fromVersion) {
+        resetSettingsToDefault();
+    }
+
+    private void resetSettingsToDefault() {
+        int defaultBet = SlotMachineConstants.defaultBetBase();
+        int defaultMode = SlotMachineConstants.defaultLinesMode();
+
+        Set<UUID> players = getAllKnownPlayers();
+
+        for (UUID id : players) {
+            betBase.put(id, defaultBet);
+            linesMode.put(id, defaultMode);
+        }
+    }
 
     // === GETTERS ===
     public long getBalance(UUID id) {
@@ -134,11 +164,11 @@ public class PlayerSlotMachineData extends PersistentState {
     }
 
     public int getBetBase(UUID id) {
-        return betBase.getOrDefault(id, 10);
+        return betBase.getOrDefault(id, SlotMachineConstants.defaultBetBase());
     }
 
     public int getLinesMode(UUID id) {
-        return linesMode.getOrDefault(id, 1);
+        return linesMode.getOrDefault(id, SlotMachineConstants.defaultLinesMode());
     }
 
     public long getTotalDeposited(UUID id) {
@@ -162,7 +192,7 @@ public class PlayerSlotMachineData extends PersistentState {
     }
 
     public long getTotalLost(UUID id) {
-        return getTotalWon(id) - getTotalSpent(id); // EJ: 4k - 10k = -6k
+        return getTotalWon(id) - getTotalSpent(id);
     }
 
     public Set<UUID> getAllKnownPlayers() {
@@ -173,6 +203,8 @@ public class PlayerSlotMachineData extends PersistentState {
         s.addAll(highestWin.keySet());
         s.addAll(lastWin.keySet());
         s.addAll(totalSpent.keySet());
+        s.addAll(betBase.keySet());
+        s.addAll(linesMode.keySet());
         return s;
     }
 

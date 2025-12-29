@@ -1,5 +1,7 @@
 package net.andrespr.casinorocket.games.slot;
 
+import net.andrespr.casinorocket.config.SlotMachineConfig;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,45 +9,53 @@ import java.util.Random;
 
 public class SlotReels {
 
-    private static final int REEL_SIZE = 256;
+    private static int REEL_SIZE = 256;
 
-    private static final long SEED_REEL1 = 0xC451F0L;
-    private static final long SEED_REEL2 = 0xC451F0L ^ 0x2222L;
-    private static final long SEED_REEL3 = 0xC451F0L ^ 0x3333L;
+    private static SlotSymbol[] REEL1;
+    private static SlotSymbol[] REEL2;
+    private static SlotSymbol[] REEL3;
 
-    public static final SlotSymbol[] REEL1 = buildReel(SEED_REEL1);
-    public static final SlotSymbol[] REEL2 = buildReel(SEED_REEL2);
-    public static final SlotSymbol[] REEL3 = buildReel(SEED_REEL3);
+    public static SlotSymbol[][] STRIPS;
 
-    public static final SlotSymbol[][] STRIPS = { REEL1, REEL2, REEL3 };
+    public static int reelSize() {
+        return REEL_SIZE;
+    }
 
-    private static SlotSymbol[] buildReel(long seed) {
-        List<SlotSymbol> list = new ArrayList<>(REEL_SIZE);
+    public static void reloadFromConfig(SlotMachineConfig cfg) {
+        REEL_SIZE = Math.max(16, Math.min(cfg.reels.reelSize, 4096));
 
-        add(list, SlotSymbol.SEVEN,      10);
-        add(list, SlotSymbol.ROCKET,     16);
-        add(list, SlotSymbol.MEW,        22);
-        add(list, SlotSymbol.PIKACHU,    28);
-        add(list, SlotSymbol.CHARMANDER, 35);
-        add(list, SlotSymbol.SQUIRTLE,   40);
-        add(list, SlotSymbol.BULBASAUR,  51);
+        REEL1 = buildReel(cfg.reels.reel1, REEL_SIZE, 0xC451F0L);
+        REEL2 = buildReel(cfg.reels.reel2, REEL_SIZE, 0xC451F0L ^ 0x2222L);
+        REEL3 = buildReel(cfg.reels.reel3, REEL_SIZE, 0xC451F0L ^ 0x3333L);
 
-        int remaining = REEL_SIZE - list.size();
-        add(list, SlotSymbol.CHERRY, remaining);
+        STRIPS = new SlotSymbol[][] { REEL1, REEL2, REEL3 };
+    }
+
+    public static SlotSymbol get(SlotSymbol[] reel, int index) {
+        int i = Math.floorMod(index, REEL_SIZE);
+        return reel[i];
+    }
+
+    private static SlotSymbol[] buildReel(SlotMachineConfig.ReelStrip strip, int reelSize, long seed) {
+        List<SlotSymbol> list = new ArrayList<>(reelSize);
+
+        // agrega counts
+        for (var e : strip.counts.entrySet()) {
+            int count = Math.max(0, e.getValue());
+            for (int i = 0; i < count; i++) list.add(e.getKey());
+        }
+
+        if (list.size() > reelSize) {
+            list = list.subList(0, reelSize);
+        } else if (list.size() < reelSize) {
+            int remaining = reelSize - list.size();
+            for (int i = 0; i < remaining; i++) list.add(strip.fillSymbol);
+        }
 
         Random r = new Random(seed);
-        for (int i = 0; i < 5; i++) {
-            Collections.shuffle(list, r);
-        }
+        for (int i = 0; i < 5; i++) Collections.shuffle(list, r);
 
         return list.toArray(new SlotSymbol[0]);
     }
 
-    private static void add(List<SlotSymbol> list, SlotSymbol s, int count) {
-        for (int i = 0; i < count; i++) list.add(s);
-    }
-
-    public static SlotSymbol get(SlotSymbol[] reel, int index) {
-        return reel[index & (REEL_SIZE - 1)];
-    }
 }

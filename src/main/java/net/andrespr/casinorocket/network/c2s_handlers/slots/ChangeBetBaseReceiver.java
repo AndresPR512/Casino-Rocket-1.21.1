@@ -23,16 +23,16 @@ public class ChangeBetBaseReceiver {
 
         int current = storage.getBetBase(uuid);
 
-        int index = SlotMachineConstants.BET_VALUES.indexOf(current);
+        int index = SlotMachineConstants.betValues().indexOf(current);
         if (index == -1) index = 0;
 
         if (payload.increase()) {
-            if (index < SlotMachineConstants.BET_VALUES.size() - 1) index++;
+            if (index < SlotMachineConstants.betValues().size() - 1) index++;
         } else {
             if (index > 0) index--;
         }
 
-        int newBase = SlotMachineConstants.BET_VALUES.get(index);
+        int newBase = SlotMachineConstants.betValues().get(index);
         storage.setBetBase(uuid, newBase);
 
         long balance = storage.getBalance(uuid);

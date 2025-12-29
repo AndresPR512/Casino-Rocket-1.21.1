@@ -2,6 +2,7 @@ package net.andrespr.casinorocket.screen.custom.slot;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.andrespr.casinorocket.games.slot.SlotLineResult;
+import net.andrespr.casinorocket.games.slot.SlotMachineConstants;
 import net.andrespr.casinorocket.games.slot.SlotReels;
 import net.andrespr.casinorocket.games.slot.SlotSymbol;
 import net.andrespr.casinorocket.network.c2s.slots.DoSpinC2SPayload;
@@ -434,7 +435,9 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
     public void updateDisplay(long balance, int betBase, int linesMode) {
         this.balance = balance;
         this.linesMode = linesMode;
-        this.betAmount = betBase * linesMode;
+
+        int mult = SlotMachineConstants.getBetMultiplierForMode(linesMode);
+        this.betAmount = betBase * mult;
     }
 
     private void updateSpinButtonState() {

@@ -125,7 +125,8 @@ public class SlotMachineMenuScreen extends CasinoMachineScreen<SlotMachineMenuSc
         context.drawText(textRenderer, Text.translatable("gui.casinorocket.slot_machine.settings_five_lines"),
                 23, 100, 0xFFFFFF, true);
 
-        int finalBet = betBase * linesMode;
+        int mult = SlotMachineConstants.getBetMultiplierForMode(linesMode);
+        int finalBet = betBase * mult;
         String formatted = TextUtils.formatCompact(finalBet);
         context.drawText(textRenderer, formatted, 23, 38, 0x00AA00, true);
 
@@ -146,13 +147,13 @@ public class SlotMachineMenuScreen extends CasinoMachineScreen<SlotMachineMenuSc
     }
 
     private void updateButtonStates() {
-        int index = SlotMachineConstants.BET_VALUES.indexOf(betBase);
+        int index = SlotMachineConstants.betValues().indexOf(betBase);
 
         subtractButton.active = index > 0;
-        plusButton.active = index < SlotMachineConstants.BET_VALUES.size() - 1;
+        plusButton.active = index < SlotMachineConstants.betValues().size() - 1;
 
         subtractButton.setForcedPressed(index == 0);
-        plusButton.setForcedPressed(index == SlotMachineConstants.BET_VALUES.size() - 1);
+        plusButton.setForcedPressed(index == SlotMachineConstants.betValues().size() - 1);
     }
 
     private void updateModeButtons() {

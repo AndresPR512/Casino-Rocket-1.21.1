@@ -1,6 +1,7 @@
 package net.andrespr.casinorocket.network.c2s_handlers.slots;
 
 import net.andrespr.casinorocket.data.PlayerSlotMachineData;
+import net.andrespr.casinorocket.games.slot.SlotMachineConstants;
 import net.andrespr.casinorocket.games.slot.SlotSpinEngine;
 import net.andrespr.casinorocket.games.slot.SlotSpinResult;
 import net.andrespr.casinorocket.network.c2s.slots.DoSpinC2SPayload;
@@ -33,7 +34,9 @@ public class DoSpinReceiver {
 
         if (betBase <= 0 || linesMode <= 0) return;
 
-        long cost = (long) betBase * linesMode;
+        int betMultiplier = SlotMachineConstants.getBetMultiplierForMode(linesMode);
+        long cost = (long) betBase * betMultiplier;
+
         if (balance < cost) return;
         storage.addTotalSpent(uuid, cost);
 
@@ -50,7 +53,6 @@ public class DoSpinReceiver {
         storage.setBalance(uuid, newBalance);
 
         ServerPlayNetworking.send(player, SendSpinResultS2CPayload.from(newBalance, linesMode, spinResult));
-
     }
 
 }

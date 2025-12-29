@@ -40,19 +40,17 @@ public class SlotLines {
     }
 
     // === EVALUATE A SINGLE LINE ===
-
     private static SlotLineResult evaluateLine(SlotSymbol[][] matrix, int[][] coords, int baseBet, int lineIndex) {
 
         SlotSymbol a = matrix[ coords[0][0] ][ coords[0][1] ];
         SlotSymbol b = matrix[ coords[1][0] ][ coords[1][1] ];
         SlotSymbol c = matrix[ coords[2][0] ][ coords[2][1] ];
 
-        SlotSymbol[] array = {a,b,c};
+        SlotSymbol target = a;
+        boolean allSame = (a == b && b == c);
 
         int multiplier;
         int cherryCount;
-        SlotSymbol target = array[0];
-        boolean allSame = (a == b && b == c);
 
         if (target == SlotSymbol.CHERRY) {
             if (a == SlotSymbol.CHERRY && b != SlotSymbol.CHERRY) {
@@ -72,18 +70,19 @@ public class SlotLines {
                     multiplier, baseBet * multiplier, lineIndex);
         }
 
-        // OTHER SYMBOLS (only pay for triple)
-        if (allSame && target != SlotSymbol.CHERRY) {
+        if (target == SlotSymbol.HAUNTER) {
+            return new SlotLineResult(false, null, 0, 0, 0, lineIndex);
+        }
+
+        if (allSame) {
             multiplier = target.getTripleMultiplier();
             return new SlotLineResult(true, target, 3, multiplier, baseBet * multiplier, lineIndex);
         }
 
-        // No win
         return new SlotLineResult(false, null, 0, 0, 0, lineIndex);
     }
 
     // === EVALUATE THE FULL SPIN ===
-
     public static SlotSpinResult evaluateSpin(SlotSymbol[][] matrix, int baseBet, int mode) {
         int[][][] lines = getLines(mode);
 

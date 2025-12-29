@@ -58,6 +58,8 @@ public final class ModGuiTextures {
             id("textures/gui/common/buttons/mode3_button.png");     // 14x42 -> 14x14 (x3)
 
     // === SLOT MACHINE SYMBOLS ===
+    public static final Identifier HAUNTER =
+            id("textures/gui/slot_machine/symbols/haunter.png");
     public static final Identifier CHERRY =
             id("textures/gui/slot_machine/symbols/cherry.png");
     public static final Identifier BULBASAUR =
@@ -77,6 +79,7 @@ public final class ModGuiTextures {
 
     public static class SlotTextures {
         public static final Map<SlotSymbol, Identifier> SYMBOL_TEXTURES = Map.of(
+                SlotSymbol.HAUNTER,    HAUNTER,
                 SlotSymbol.CHERRY,     CHERRY,
                 SlotSymbol.BULBASAUR,  BULBASAUR,
                 SlotSymbol.SQUIRTLE,   SQUIRTLE,

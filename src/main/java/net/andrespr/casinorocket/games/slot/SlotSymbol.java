@@ -2,6 +2,7 @@ package net.andrespr.casinorocket.games.slot;
 
 public enum SlotSymbol {
 
+    HAUNTER(0),
     CHERRY(5),
     BULBASAUR(6),
     SQUIRTLE(8),

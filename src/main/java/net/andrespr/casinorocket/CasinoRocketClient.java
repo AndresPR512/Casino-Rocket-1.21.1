@@ -1,6 +1,7 @@
 package net.andrespr.casinorocket;
 
 import net.andrespr.casinorocket.block.ModBlocks;
+import net.andrespr.casinorocket.games.slot.SlotReels;
 import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.network.CasinoRocketPackets;
 import net.andrespr.casinorocket.network.SuitSync;
@@ -22,6 +23,8 @@ public class CasinoRocketClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+
+        SlotReels.reloadFromConfig(CasinoRocket.CONFIG.slotMachine);
 
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GOLD_DOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.GOLD_TRAPDOOR, RenderLayer.getCutout());
