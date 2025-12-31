@@ -5,13 +5,9 @@
 	"name": "Casino Rocket",
 	"description": "Gambling to Cobblemon!",
 	"authors": [
-		"AndresPR"
+		"AndrésPR"
 	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
-	"license": "CC0-1.0",
+	"license": "MIT License",
 	"icon": "assets/casinorocket/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -33,7 +29,8 @@
 		"minecraft": "~1.21.1",
 		"java": ">=21",
 		"fabric-api": "*",
-        "cobblemon": ">=1.6.1"
+        "cobblemon": ">=1.6.1",
+        "cobbledollars": ">=2.0.0+Beta-5.1"
 	},
 	"suggests": {
 	}
