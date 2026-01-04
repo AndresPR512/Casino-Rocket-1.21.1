@@ -67,7 +67,7 @@ public class SlotLines {
                 cherryCount = 0;
             }
             return new SlotLineResult(multiplier > 0, SlotSymbol.CHERRY, cherryCount,
-                    multiplier, baseBet * multiplier, lineIndex);
+                    multiplier, (long) baseBet * multiplier, lineIndex);
         }
 
         if (target == SlotSymbol.HAUNTER) {
@@ -76,7 +76,7 @@ public class SlotLines {
 
         if (allSame) {
             multiplier = target.getTripleMultiplier();
-            return new SlotLineResult(true, target, 3, multiplier, baseBet * multiplier, lineIndex);
+            return new SlotLineResult(true, target, 3, multiplier, (long) baseBet * multiplier, lineIndex);
         }
 
         return new SlotLineResult(false, null, 0, 0, 0, lineIndex);
@@ -87,7 +87,7 @@ public class SlotLines {
         int[][][] lines = getLines(mode);
 
         List<SlotLineResult> results = new ArrayList<>();
-        int total = 0;
+        long total = 0;
 
         for (int i = 0; i < lines.length; i++) {
             int[][] line = lines[i];

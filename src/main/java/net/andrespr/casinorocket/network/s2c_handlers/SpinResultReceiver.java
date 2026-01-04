@@ -18,8 +18,13 @@ public class SpinResultReceiver {
                 (payload, context) -> {
 
                     long newBalance = payload.newBalance();
-                    int totalWin = payload.totalWin();
+                    long totalWin = payload.totalWin();
                     int modeUsed = payload.modeUsed();
+
+                    int stop1 = payload.stop1();
+                    int stop2 = payload.stop2();
+                    int stop3 = payload.stop3();
+
                     int[] flatMatrix = payload.matrix();
                     List<SendSpinResultS2CPayload.LineWin> netWins = payload.wins();
 
@@ -43,7 +48,7 @@ public class SpinResultReceiver {
                     MinecraftClient client = MinecraftClient.getInstance();
                     client.execute(() -> {
                         if (client.currentScreen instanceof SlotMachineScreen screen) {
-                            screen.onSpinResult(matrix, wins, modeUsed, totalWin, newBalance);
+                            screen.onSpinResult(matrix, wins, modeUsed, totalWin, newBalance, stop1, stop2, stop3);
                         }
                     });
 

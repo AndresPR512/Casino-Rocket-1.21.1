@@ -4,6 +4,6 @@ import java.util.List;
 
 public record SlotSpinResult(
         SlotSymbol[][] matrix,
-        int totalWin,
+        long totalWin,
         List<SlotLineResult> lines
 ) { }

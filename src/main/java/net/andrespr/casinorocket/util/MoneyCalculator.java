@@ -68,4 +68,11 @@ public class MoneyCalculator {
         return result;
     }
 
+    public static long safeAdd(long a, long b, long max) {
+        if (b > 0 && a > max - b) {
+            return max;
+        }
+        return a + b;
+    }
+
 }

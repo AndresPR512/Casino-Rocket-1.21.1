@@ -39,7 +39,6 @@ public class SlotReels {
     private static SlotSymbol[] buildReel(SlotMachineConfig.ReelStrip strip, int reelSize, long seed) {
         List<SlotSymbol> list = new ArrayList<>(reelSize);
 
-        // agrega counts
         for (var e : strip.counts.entrySet()) {
             int count = Math.max(0, e.getValue());
             for (int i = 0; i < count; i++) list.add(e.getKey());
@@ -56,6 +55,14 @@ public class SlotReels {
         for (int i = 0; i < 5; i++) Collections.shuffle(list, r);
 
         return list.toArray(new SlotSymbol[0]);
+    }
+
+    public static void applySyncedStrips(int reelSize, SlotSymbol[] r1, SlotSymbol[] r2, SlotSymbol[] r3) {
+        REEL_SIZE = Math.max(16, Math.min(reelSize, 4096));
+        REEL1 = r1;
+        REEL2 = r2;
+        REEL3 = r3;
+        STRIPS = new SlotSymbol[][]{ REEL1, REEL2, REEL3 };
     }
 
 }

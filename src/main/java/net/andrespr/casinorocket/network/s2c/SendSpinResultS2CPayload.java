@@ -12,7 +12,9 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public record SendSpinResultS2CPayload(long newBalance, int totalWin, int modeUsed, int[] matrix, List<LineWin> wins) implements CustomPayload {
+public record SendSpinResultS2CPayload(long newBalance, long totalWin, int modeUsed,
+                                       int stop1, int stop2, int stop3, int[] matrix,
+                                       List<LineWin> wins) implements CustomPayload {
 
     public static final Identifier ID_RAW = Identifier.of(CasinoRocket.MOD_ID, "spin_result");
     public static final Id<SendSpinResultS2CPayload> ID = new Id<>(ID_RAW);
@@ -20,9 +22,9 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int modeUs
     public static final PacketCodec<RegistryByteBuf, SendSpinResultS2CPayload> CODEC =
             PacketCodec.of(SendSpinResultS2CPayload::write, SendSpinResultS2CPayload::read);
 
-    public static record LineWin(int symbolOrdinal, int count, int multiplier, int winAmount, int lineIndex) { }
+    public record LineWin(int symbolOrdinal, int count, int multiplier, long winAmount, int lineIndex) { }
 
-    public static SendSpinResultS2CPayload from(long newBalance, int modeUsed, SlotSpinResult result) {
+    public static SendSpinResultS2CPayload from(long newBalance, int modeUsed, int stop1, int stop2, int stop3, SlotSpinResult result) {
         SlotSymbol[][] matrixSymbols = result.matrix();
         int[] flat = new int[9];
         int idx = 0;
@@ -38,13 +40,17 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int modeUs
             wins.add(new LineWin(line.symbol().ordinal(), line.count(), line.multiplier(), line.lineWin(), line.lineIndex()));
         }
 
-        return new SendSpinResultS2CPayload(newBalance, result.totalWin(), modeUsed, flat, wins);
+        return new SendSpinResultS2CPayload(newBalance, result.totalWin(), modeUsed, stop1, stop2, stop3, flat, wins);
     }
 
     private static void write(SendSpinResultS2CPayload payload, RegistryByteBuf buf) {
         buf.writeLong(payload.newBalance());
-        buf.writeInt(payload.totalWin());
+        buf.writeLong(payload.totalWin());
         buf.writeInt(payload.modeUsed());
+
+        buf.writeInt(payload.stop1());
+        buf.writeInt(payload.stop2());
+        buf.writeInt(payload.stop3());
 
         int[] m = payload.matrix();
         for (int i = 0; i < 9; i++) {
@@ -57,15 +63,19 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int modeUs
             buf.writeInt(w.symbolOrdinal());
             buf.writeInt(w.count());
             buf.writeInt(w.multiplier());
-            buf.writeInt(w.winAmount());
+            buf.writeLong(w.winAmount());
             buf.writeInt(w.lineIndex());
         }
     }
 
     private static SendSpinResultS2CPayload read(RegistryByteBuf buf) {
         long newBalance = buf.readLong();
-        int totalWin = buf.readInt();
+        long totalWin = buf.readLong();
         int modeUsed = buf.readInt();
+
+        int stop1 = buf.readInt();
+        int stop2 = buf.readInt();
+        int stop3 = buf.readInt();
 
         int[] matrix = new int[9];
         for (int i = 0; i < 9; i++) {
@@ -78,13 +88,13 @@ public record SendSpinResultS2CPayload(long newBalance, int totalWin, int modeUs
             int symbolOrdinal = buf.readInt();
             int count = buf.readInt();
             int multiplier = buf.readInt();
-            int winAmount = buf.readInt();
+            long winAmount = buf.readLong();
             int lineIndex = buf.readInt();
 
             wins.add(new LineWin(symbolOrdinal, count, multiplier, winAmount, lineIndex));
         }
 
-        return new SendSpinResultS2CPayload(newBalance, totalWin, modeUsed, matrix, wins);
+        return new SendSpinResultS2CPayload(newBalance, totalWin, modeUsed, stop1, stop2, stop3, matrix, wins);
     }
 
     @Override

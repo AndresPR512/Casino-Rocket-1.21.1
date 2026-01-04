@@ -13,6 +13,7 @@ import net.andrespr.casinorocket.item.ModItems;
 import net.andrespr.casinorocket.item.ModItemsGroup;
 import net.andrespr.casinorocket.network.CasinoRocketPackets;
 import net.andrespr.casinorocket.network.SuitSyncPayload;
+import net.andrespr.casinorocket.network.s2c.SlotConfigSyncS2CPayload;
 import net.andrespr.casinorocket.screen.ModScreenHandlers;
 import net.andrespr.casinorocket.sound.ModSounds;
 import net.andrespr.casinorocket.games.gachapon.GachaponUtils;
@@ -23,6 +24,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +40,11 @@ public class CasinoRocket implements ModInitializer {
         AutoConfig.register(CasinoRocketConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
         CONFIG = AutoConfig.getConfigHolder(CasinoRocketConfig.class).getConfig();
         SlotReels.reloadFromConfig(CasinoRocket.CONFIG.slotMachine);
+
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            SlotConfigSyncS2CPayload payload = SlotConfigSyncS2CPayload.fromServer();
+            ServerPlayNetworking.send(handler.player, payload);
+        });
 
         ModItemsGroup.registerItemGroups();
         ModBlocks.registerModBlocks();

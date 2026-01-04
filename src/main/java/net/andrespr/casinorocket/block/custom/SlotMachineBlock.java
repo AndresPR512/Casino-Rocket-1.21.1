@@ -3,7 +3,10 @@ package net.andrespr.casinorocket.block.custom;
 import com.mojang.serialization.MapCodec;
 import net.andrespr.casinorocket.CasinoRocket;
 import net.andrespr.casinorocket.block.entity.custom.SlotMachineEntity;
+import net.andrespr.casinorocket.network.s2c.SlotConfigSyncS2CPayload;
 import net.andrespr.casinorocket.util.CasinoRocketLogger;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.DoubleBlockHalf;
@@ -97,6 +100,10 @@ public class SlotMachineBlock extends BlockWithEntity implements BlockEntityProv
                 }
 
                 player.openHandledScreen(slotMachineEntity);
+                ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+                    SlotConfigSyncS2CPayload payload = SlotConfigSyncS2CPayload.fromServer();
+                    ServerPlayNetworking.send(handler.player, payload);
+                });
                 return ActionResult.CONSUME;
 
             }

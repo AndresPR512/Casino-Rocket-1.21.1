@@ -25,6 +25,7 @@ public class CasinoRocketPackets {
         PayloadTypeRegistry.playS2C().register(SendMenuSettingsS2CPayload.ID, SendMenuSettingsS2CPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(SendSpinResultS2CPayload.ID, SendSpinResultS2CPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(SendBlackjackStateS2CPayload.ID, SendBlackjackStateS2CPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(SlotConfigSyncS2CPayload.ID, SlotConfigSyncS2CPayload.CODEC);
 
     }
 
@@ -37,6 +38,7 @@ public class CasinoRocketPackets {
         MenuScreenSettingsReceiver.register();
         SpinResultReceiver.register();
         BlackjackStateReceiver.register();
+        SlotConfigSyncReceiver.register();
 
     }
 

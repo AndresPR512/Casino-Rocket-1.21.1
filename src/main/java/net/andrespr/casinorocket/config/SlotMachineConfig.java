@@ -14,6 +14,8 @@ import net.andrespr.casinorocket.games.slot.SlotSymbol;
 @Config(name = "slot_machine")
 public class SlotMachineConfig implements ConfigData {
 
+    public boolean debug = false;
+
     public List<Integer> betValues = new ArrayList<>(List.of(
             10, 25, 50, 100, 250, 500, 1_000, 5_000, 10_000, 25_000, 50_000, 100_000, 250_000, 500_000, 1_000_000, 5_000_000
     ));

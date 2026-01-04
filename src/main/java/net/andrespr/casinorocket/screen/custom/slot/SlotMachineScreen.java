@@ -35,8 +35,8 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
     private int betAmount = 10;
 
     private List<SlotLineResult> lastWins = List.of();
-    private int lastWinAmount = 0;
-    private int pendingWinAmount = -1;
+    private long lastWinAmount = 0;
+    private long pendingWinAmount = -1;
     private int linesMode = 1;
 
     // --- BUTTONS ---
@@ -149,13 +149,13 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
 
     // === SERVER RESULT ===
     public void onSpinResult(SlotSymbol[][] matrix, List<SlotLineResult> wins, int modeUsed,
-                             int totalWin, long newBalance) {
-
+                             long totalWin, long newBalance, int stop1, int stop2, int stop3) {
         this.lastWins = wins;
         this.linesMode = modeUsed;
         this.pendingWinAmount = totalWin;
         this.pendingBalance = newBalance;
 
+        debugCheckSpin(matrix, stop1, stop2, stop3);
         pendingFlashingLines.clear();
         pendingFlashTicks = 0;
 
@@ -176,26 +176,16 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         }
 
         for (int col = 0; col < 3; col++) {
-            SlotSymbol top    = matrix[0][col];
-            SlotSymbol middle = matrix[1][col];
-            SlotSymbol bottom = matrix[2][col];
-
             SlotSymbol[] strip = SlotReels.STRIPS[col];
             int len = strip.length;
 
-            int found = reelIndex[col];
-            for (int i = 0; i < len; i++) {
-                SlotSymbol a = strip[(i + 1) % len];
-                SlotSymbol b = strip[(i + 2) % len];
-                SlotSymbol c = strip[(i + 3) % len];
+            int stop = switch (col) {
+                case 0 -> stop1;
+                case 1 -> stop2;
+                default -> stop3;
+            };
 
-                if (a == top && b == middle && c == bottom) {
-                    found = i;
-                    break;
-                }
-            }
-
-            targetTopIndex[col] = found;
+            targetTopIndex[col] = Math.floorMod(stop - 2, len);
         }
 
         startSpinAnimation();
@@ -591,6 +581,49 @@ public class SlotMachineScreen extends CasinoMachineScreen<SlotMachineScreenHand
         int drawX = Math.max(188 - width, 141);
 
         context.drawText(textRenderer, formatted, drawX, 186, 0x00FF00, true);
+    }
+
+    private void debugCheckSpin(SlotSymbol[][] matrix, int stop1, int stop2, int stop3) {
+        if (!net.andrespr.casinorocket.games.slot.SlotClientSynced.DEBUG) return;
+        if (client == null || client.player == null) return;
+
+        int[] stops = { stop1, stop2, stop3 };
+
+        boolean ok = true;
+        StringBuilder sb = new StringBuilder();
+
+        for (int col = 0; col < 3; col++) {
+            SlotSymbol[] strip = SlotReels.STRIPS[col];
+            int len = strip.length;
+
+            int stop = stops[col];
+
+            // What should be according to the client strip (synced)
+            SlotSymbol expTop = strip[Math.floorMod(stop - 1, len)];
+            SlotSymbol expMid = strip[Math.floorMod(stop, len)];
+            SlotSymbol expBot = strip[Math.floorMod(stop + 1, len)];
+
+            // What the server claimed came out (payload matrix)
+            SlotSymbol srvTop = matrix[0][col];
+            SlotSymbol srvMid = matrix[1][col];
+            SlotSymbol srvBot = matrix[2][col];
+
+            boolean colOk = (expTop == srvTop && expMid == srvMid && expBot == srvBot);
+            ok &= colOk;
+
+            if (!colOk) {
+                sb.append("Col ").append(col)
+                        .append(" stop=").append(stop)
+                        .append(" expected=[").append(expTop).append(",").append(expMid).append(",").append(expBot).append("]")
+                        .append(" server=[").append(srvTop).append(",").append(srvMid).append(",").append(srvBot).append("]  ");
+            }
+        }
+
+        if (ok) {
+            client.player.sendMessage(net.minecraft.text.Text.literal("§a[SlotDebug] OK (no desync)"), true); // actionbar
+        } else {
+            client.player.sendMessage(net.minecraft.text.Text.literal("§c[SlotDebug] DESYNC! " + sb), false); // chat
+        }
     }
 
     // GETTERS

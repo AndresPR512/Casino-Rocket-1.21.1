@@ -5,6 +5,6 @@ public record SlotLineResult(
         SlotSymbol symbol,
         int count,
         int multiplier,
-        int lineWin,
+        long lineWin,
         int lineIndex
 ) {}

@@ -43,4 +43,12 @@ public class SlotSpinEngine {
         return SlotLines.evaluateSpin(matrix, baseBet, linesMode);
     }
 
+    public record SpinOutcome(SpinStop stop, SlotSpinResult result) {}
+
+    public static SpinOutcome spinOutcome(int baseBet, int linesMode) {
+        SpinStop stop = spin();
+        SlotSpinResult result = SlotLines.evaluateSpin(stop.finalMatrix(), baseBet, linesMode);
+        return new SpinOutcome(stop, result);
+    }
+
 }
